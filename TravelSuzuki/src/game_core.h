@@ -3,8 +3,8 @@
 
 #include <memory>
 #include "Dxlib.h"
-#include "fps_controller.h"
-#include "scene_manager.h"
+#include "fps/fps_controller.h"
+#include "scene/scene_manager.h"
 
 namespace game
 {

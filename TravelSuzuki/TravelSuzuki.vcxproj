@@ -18,6 +18,38 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\effect\effect_maker.cpp" />
+    <ClCompile Include="src\fps\fps_controller.cpp" />
+    <ClCompile Include="src\game_core.cpp" />
+    <ClCompile Include="src\input\input_receiver.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\music\music_player.cpp" />
+    <ClCompile Include="src\scene\achievement_scene.cpp" />
+    <ClCompile Include="src\scene\base_scene.cpp" />
+    <ClCompile Include="src\scene\game_scene.cpp" />
+    <ClCompile Include="src\scene\result_scene.cpp" />
+    <ClCompile Include="src\scene\scene_factory.cpp" />
+    <ClCompile Include="src\scene\scene_manager.cpp" />
+    <ClCompile Include="src\scene\scene_mover.cpp" />
+    <ClCompile Include="src\scene\title_scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\effect\effect_maker.h" />
+    <ClInclude Include="src\fps\fps_controller.h" />
+    <ClInclude Include="src\game_core.h" />
+    <ClInclude Include="src\input\input_receiver.h" />
+    <ClInclude Include="src\music\music_player.h" />
+    <ClInclude Include="src\scene\achievement_scene.h" />
+    <ClInclude Include="src\scene\base_scene.h" />
+    <ClInclude Include="src\scene\game_scene.h" />
+    <ClInclude Include="src\scene\result_scene.h" />
+    <ClInclude Include="src\scene\scene_enum.h" />
+    <ClInclude Include="src\scene\scene_factory.h" />
+    <ClInclude Include="src\scene\scene_manager.h" />
+    <ClInclude Include="src\scene\scene_mover.h" />
+    <ClInclude Include="src\scene\title_scene.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <ProjectGuid>{1B42E66B-1052-4A39-BE94-D26D939987B9}</ProjectGuid>
@@ -152,38 +184,6 @@
       <AdditionalLibraryDirectories>C:\DxLib_VC\プロジェクトに追加すべきファイル_VC用;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="achievement_scene.cpp" />
-    <ClCompile Include="effect_maker.cpp" />
-    <ClCompile Include="game_core.cpp" />
-    <ClCompile Include="game_scene.cpp" />
-    <ClCompile Include="input_receiver.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="music_player.cpp" />
-    <ClCompile Include="fps_controller.cpp" />
-    <ClCompile Include="base_scene.cpp" />
-    <ClCompile Include="result_scene.cpp" />
-    <ClCompile Include="scene_factory.cpp" />
-    <ClCompile Include="scene_manager.cpp" />
-    <ClCompile Include="scene_mover.cpp" />
-    <ClCompile Include="title_scene.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="achievement_scene.h" />
-    <ClInclude Include="effect_maker.h" />
-    <ClInclude Include="scene_enum.h" />
-    <ClInclude Include="game_core.h" />
-    <ClInclude Include="game_scene.h" />
-    <ClInclude Include="input_receiver.h" />
-    <ClInclude Include="music_player.h" />
-    <ClInclude Include="fps_controller.h" />
-    <ClInclude Include="base_scene.h" />
-    <ClInclude Include="result_scene.h" />
-    <ClInclude Include="scene_factory.h" />
-    <ClInclude Include="scene_manager.h" />
-    <ClInclude Include="scene_mover.h" />
-    <ClInclude Include="title_scene.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
