@@ -7,6 +7,8 @@ namespace game::effect
 {
 	class EffectMaker : public Singleton<EffectMaker>
 	{
+		friend class Singleton<EffectMaker>; // Singleton でのインスタンス作成は許可
+
 	public:
 		void test();
 

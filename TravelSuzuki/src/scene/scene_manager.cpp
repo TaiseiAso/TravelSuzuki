@@ -1,5 +1,4 @@
 #include "scene_manager.h"
-#include "../input/input_receiver.h"
 
 namespace game::scene
 {
@@ -19,20 +18,17 @@ namespace game::scene
 	}
 
 	SceneManager::SceneManager()
-		: sceneFactory_(std::make_unique<SceneFactory>()),
-		  currentScene_(sceneFactory_->create(SceneID::TITLE))
 	{
-		input::InputReceiver::instance().create();
+		sceneFactory_ = std::make_unique<SceneFactory>();
+		currentScene_ = sceneFactory_->create(SceneID::TITLE);
 	}
 
 	SceneManager::~SceneManager()
 	{
-		input::InputReceiver::instance().destroy();
 	}
 
 	void SceneManager::step()
 	{
-		input::InputReceiver::instance().update();
 		action();
 		update();
 		draw();
