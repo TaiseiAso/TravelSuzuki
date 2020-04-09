@@ -3,7 +3,7 @@
 
 #include "base_scene.h"
 
-namespace game:: scene
+namespace game::scene
 {
 	class GameScene : public BaseScene
 	{

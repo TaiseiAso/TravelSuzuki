@@ -2,7 +2,6 @@
 #define game_core_h
 
 #include <memory>
-#include "Dxlib.h"
 #include "fps/fps_controller.h"
 #include "scene/scene_manager.h"
 
@@ -12,7 +11,7 @@ namespace game
 	class GameCore
 	{
 	private:
-		std::unique_ptr<FPSController> fpsController_; // FPSŒÅ’è
+		std::unique_ptr<fps::FPSController> fpsController_; // FPSŒÅ’è
 		std::unique_ptr<scene::SceneManager> sceneManager_; // ƒV[ƒ“ŠÇ—
 
 	public:

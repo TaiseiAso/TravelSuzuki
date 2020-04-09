@@ -1,7 +1,6 @@
 #ifndef scene_manager_h
 #define scene_manager_h
 
-//#include "SceneMover.h"
 #include "scene_factory.h"
 
 namespace game::scene

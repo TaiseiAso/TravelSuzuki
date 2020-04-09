@@ -1,4 +1,8 @@
 #include "scene_factory.h"
+#include "title_scene.h"
+#include "game_scene.h"
+#include "result_scene.h"
+#include "achievement_scene.h"
 
 namespace game::scene
 {

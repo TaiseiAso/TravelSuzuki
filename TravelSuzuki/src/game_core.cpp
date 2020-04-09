@@ -1,12 +1,14 @@
 #include "game_core.h"
+#include "DxLib.h"
 
 namespace game
 {
 	GameCore::GameCore()
-		:	fpsController_(std::make_unique<FPSController>()),
-			sceneManager_(std::make_unique<scene::SceneManager>())
+		: fpsController_(std::make_unique<fps::FPSController>()),
+		  sceneManager_(std::make_unique<scene::SceneManager>())
 	{
 		SetOutApplicationLogValidFlag(FALSE); //Log.txtを生成しないように設定
+		SetMainWindowText("Travel Suzuki"); // タイトルを設定
 		ChangeWindowMode(TRUE); // ウィンドウモードに設定
 		SetGraphMode(800, 640, 32); //画面サイズ指定
 

@@ -1,9 +1,6 @@
 #ifndef base_scene_h
 #define base_scene_h
 
-#include "Dxlib.h"
-//#include "SceneMover.h"
-
 namespace game::scene
 {
 	class BaseScene
