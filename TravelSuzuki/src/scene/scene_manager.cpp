@@ -25,6 +25,8 @@ namespace game::scene
 
 	SceneManager::~SceneManager()
 	{
+		currentScene_.reset();
+		sceneFactory_.reset();
 	}
 
 	void SceneManager::step()

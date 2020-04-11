@@ -9,11 +9,27 @@ namespace game::scene
 	{
 		if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_P) == 1)
 		{
-			audio::MusicPlayer::instance().playMusic("test", true, false);
+			audio::MusicPlayer::instance().playMusic("test", "test1", 255, true, true);
 		}
 		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_S) == 1)
 		{
-			audio::MusicPlayer::instance().stopMusic("test");
+			audio::MusicPlayer::instance().stopMusic("test1");
+		}
+		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_Q) == 1)
+		{
+			audio::MusicPlayer::instance().setPlayMusicVolume("test1", 120);
+		}
+		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_W) == 1)
+		{
+			audio::MusicPlayer::instance().setPlayMusicVolume("test1", 255);
+		}
+		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_E) == 1)
+		{
+			audio::MusicPlayer::instance().setMasterVolume(0.5f);
+		}
+		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_R) == 1)
+		{
+			audio::MusicPlayer::instance().setMasterVolume(1.f);
 		}
 	}
 
@@ -35,7 +51,7 @@ namespace game::scene
 
 	TitleScene::TitleScene()
 	{
-		audio::MusicPlayer::instance().loadMusic("test", "./resource/music/test.wav");
+		audio::MusicPlayer::instance().loadMusic("test");
 	}
 
 	TitleScene::~TitleScene()

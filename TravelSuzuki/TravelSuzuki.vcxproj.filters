@@ -22,6 +22,9 @@
     <Filter Include="game\singleton">
       <UniqueIdentifier>{0ef40f81-873d-444c-b67d-30bffcb5b725}</UniqueIdentifier>
     </Filter>
+    <Filter Include="game\utils">
+      <UniqueIdentifier>{4f43163a-2c2f-47e0-98c2-a4452e96a13f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\scene\achievement_scene.cpp">
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utils\string_util.cpp">
+      <Filter>game\utils</Filter>
     </ClCompile>
     <ClCompile Include="src\audio\music_player.cpp">
       <Filter>game\audio</Filter>
@@ -107,11 +113,14 @@
     <ClInclude Include="src\game_core.h">
       <Filter>game</Filter>
     </ClInclude>
-    <ClInclude Include="src\audio\music_player.h">
-      <Filter>game\audio</Filter>
-    </ClInclude>
     <ClInclude Include="src\singleton\singleton.h">
       <Filter>game\singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utils\string_util.h">
+      <Filter>game\utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\audio\music_player.h">
+      <Filter>game\audio</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

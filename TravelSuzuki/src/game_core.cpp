@@ -18,6 +18,7 @@ namespace game
 	
 		input::InputReceiver::create();
 		audio::MusicPlayer::create();
+		audio::MusicPlayer::instance().loadDatabase("resource/database/music.csv");
 
 		fpsController_ = std::make_unique<fps::FPSController>();
 		sceneManager_ = std::make_unique<scene::SceneManager>();
@@ -40,10 +41,14 @@ namespace game
 		{
 			fpsController_->update();
 			input::InputReceiver::instance().update();
+
 			ClearDrawScreen();
+			
 			sceneManager_->step();
 			fpsController_->draw(); // テスト用
+			
 			ScreenFlip();
+			
 			fpsController_->wait();
 		}
 	}

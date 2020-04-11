@@ -33,6 +33,7 @@
     <ClCompile Include="src\scene\scene_manager.cpp" />
     <ClCompile Include="src\scene\scene_mover.cpp" />
     <ClCompile Include="src\scene\title_scene.cpp" />
+    <ClCompile Include="src\utils\string_util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\audio\music_player.h" />
@@ -50,6 +51,7 @@
     <ClInclude Include="src\scene\scene_mover.h" />
     <ClInclude Include="src\scene\title_scene.h" />
     <ClInclude Include="src\singleton\singleton.h" />
+    <ClInclude Include="src\utils\string_util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
