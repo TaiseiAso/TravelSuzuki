@@ -12,7 +12,7 @@ namespace game::scene
 
 	}
 
-	void ResultScene::draw() const
+	void ResultScene::draw()
 	{
 
 	}

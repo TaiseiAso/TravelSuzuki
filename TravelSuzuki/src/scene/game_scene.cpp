@@ -12,7 +12,7 @@ namespace game::scene
 
 	}
 
-	void GameScene::draw() const
+	void GameScene::draw()
 	{
 
 	}

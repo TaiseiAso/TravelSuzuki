@@ -8,12 +8,15 @@ namespace game::scene
 	class TitleScene : public BaseScene
 	{
 	private:
+		int testElapsedFrame;
+		int testElapsedSheet;
+
 		// 入力による変化
 		void action() override;
 		// ステップごとに進む処理
 		void update() override;
 		// 状態の描画
-		void draw() const override;
+		void draw() override;
 
 	public:
 		// コンストラクタ

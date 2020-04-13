@@ -6,15 +6,15 @@
 
 namespace game::audio
 {
-	void MusicPlayer::setPlayMusicVolume(int playMusicHandle, int volume)
+	void MusicPlayer::setPlayMusicVolume(int playMusicHandle, int playMusicVolume) const
 	{
-		int volumePal = (int)(masterVolume_ * volume);
+		int volumePal = static_cast<int>(masterVolume_ * playMusicVolume);
 		if (volumePal < 0) volumePal = 0;
 		else if (volumePal > 255) volumePal = 255;
 		ChangeVolumeSoundMem(volumePal, playMusicHandle);
 	}
 
-	void MusicPlayer::loadDatabase(std::string databaseFilePath, bool pathFirstLine)
+	void MusicPlayer::loadMusicNameToPathDatabase(std::string databaseFilePath, bool pathFirstLine)
 	{
 		loadMusicNameToPath_.clear();
 
@@ -42,7 +42,11 @@ namespace game::audio
 		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
 		if (itrLoad == loadMusicNameToHandle_.end())
 		{
-			loadMusicNameToHandle_[loadMusicName] = LoadSoundMem(loadMusicFilePath.c_str());
+			int loadMusicHandle = LoadSoundMem(loadMusicFilePath.c_str());
+			if (loadMusicHandle != -1)
+			{
+				loadMusicNameToHandle_[loadMusicName] = loadMusicHandle;
+			}
 		}
 	}
 
@@ -56,62 +60,52 @@ namespace game::audio
 		}
 	}
 
-	void MusicPlayer::playSE(std::string loadMusicName, int volume)
+	void MusicPlayer::playSE(std::string loadMusicName, int playMusicVolume) const
 	{
 		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
 		if (itrLoad != loadMusicNameToHandle_.end())
 		{
 			int playMusicHandle = DuplicateSoundMem(itrLoad->second);
-			SetPlayFinishDeleteSoundMem(true, playMusicHandle);
-			setPlayMusicVolume(playMusicHandle, volume);
-			PlaySoundMem(playMusicHandle, DX_PLAYTYPE_BACK, false);
+			if (playMusicHandle != -1)
+			{
+				SetPlayFinishDeleteSoundMem(TRUE, playMusicHandle);
+				setPlayMusicVolume(playMusicHandle, playMusicVolume);
+				PlaySoundMem(playMusicHandle, DX_PLAYTYPE_BACK, FALSE);
+			}
 		}
 	}
 
-	void MusicPlayer::playSE(std::string loadMusicName, std::string playMusicName, int volume)
+	void MusicPlayer::playMusic(std::string loadMusicName, std::string playMusicName, int playMusicVolume, bool isLoop, bool topPositionFlag)
 	{
 		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
 		if (itrLoad != loadMusicNameToHandle_.end())
 		{
-			auto itrPlay = playMusicNameToHandle_.find(playMusicName);
-			if (itrPlay == playMusicNameToHandle_.end())
+			auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
+			if (itrPlay == playMusicNameToHandleAndVolume_.end())
 			{
-				playMusicNameToHandle_[playMusicName] = DuplicateSoundMem(itrLoad->second);
+				int playMusicHandle = DuplicateSoundMem(itrLoad->second);
+				if (playMusicHandle != -1)
+				{
+					playMusicNameToHandleAndVolume_[playMusicName] = MusicHandleAndVolume{ playMusicHandle, playMusicVolume };;
+					setPlayMusicVolume(playMusicHandle, playMusicVolume);
+					PlaySoundMem(
+						playMusicHandle,
+						isLoop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK,
+						topPositionFlag
+					);
+				}
 			}
-
-			setPlayMusicVolume(playMusicNameToHandle_[playMusicName], volume);
-			PlaySoundMem(playMusicNameToHandle_[playMusicName], DX_PLAYTYPE_BACK, false);
-		}
-	}
-
-	void MusicPlayer::playMusic(std::string loadMusicName, std::string playMusicName, int volume, bool isLoop, bool topPositionFlag)
-	{
-		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
-		if (itrLoad != loadMusicNameToHandle_.end())
-		{
-			auto itrPlay = playMusicNameToHandle_.find(playMusicName);
-			if (itrPlay == playMusicNameToHandle_.end())
-			{
-				playMusicNameToHandle_[playMusicName] = DuplicateSoundMem(itrLoad->second);
-			}
-
-			setPlayMusicVolume(playMusicNameToHandle_[playMusicName], volume);
-			PlaySoundMem(
-				playMusicNameToHandle_[playMusicName],
-				isLoop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK,
-				topPositionFlag
-			);
 		}
 	}
 
 	void MusicPlayer::stopMusic(std::string playMusicName)
 	{
-		auto itrPlay = playMusicNameToHandle_.find(playMusicName);
-		if (itrPlay != playMusicNameToHandle_.end())
+		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
+		if (itrPlay != playMusicNameToHandleAndVolume_.end())
 		{
-			StopSoundMem(itrPlay->second);
-			DeleteSoundMem(itrPlay->second);
-			playMusicNameToHandle_.erase(itrPlay);
+			StopSoundMem(itrPlay->second.handle);
+			DeleteSoundMem(itrPlay->second.handle);
+			playMusicNameToHandleAndVolume_.erase(itrPlay);
 		}
 	}
 
@@ -119,47 +113,47 @@ namespace game::audio
 	{
 		InitSoundMem();
 		loadMusicNameToHandle_.clear();
-		playMusicNameToHandle_.clear();
+		playMusicNameToHandleAndVolume_.clear();
 	}
 
 	void MusicPlayer::stopAllMusic()
 	{
-		for (auto itrPlay = playMusicNameToHandle_.begin(); itrPlay != playMusicNameToHandle_.end(); itrPlay++)
+		for (const auto& itrPlay : playMusicNameToHandleAndVolume_)
 		{
-			StopSoundMem(itrPlay->second);
-			DeleteSoundMem(itrPlay->second);
+			StopSoundMem(itrPlay.second.handle);
+			DeleteSoundMem(itrPlay.second.handle);
 		}
-		playMusicNameToHandle_.clear();
+		playMusicNameToHandleAndVolume_.clear();
 	}
 
-	void MusicPlayer::setPlayMusicVolume(std::string playMusicName, int volume)
+	void MusicPlayer::setPlayMusicVolume(std::string playMusicName, int playMusicVolume)
 	{
-		auto itrPlay = playMusicNameToHandle_.find(playMusicName);
-		if (itrPlay != playMusicNameToHandle_.end())
+		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
+		if (itrPlay != playMusicNameToHandleAndVolume_.end())
 		{
-			setPlayMusicVolume(itrPlay->second, volume);
+			itrPlay->second.volume = playMusicVolume;
+			setPlayMusicVolume(itrPlay->second.handle, playMusicVolume);
 		}
 	}
 
 	void MusicPlayer::setMasterVolume(float masterVolume)
 	{
-		float befMasterVolume = masterVolume_;
 		masterVolume_ = masterVolume;
-		for (auto itrPlay = playMusicNameToHandle_.begin(); itrPlay != playMusicNameToHandle_.end(); itrPlay++)
+		for (const auto& itrPlay : playMusicNameToHandleAndVolume_)
 		{
-			setPlayMusicVolume(itrPlay->second, (int)(GetVolumeSoundMem2(itrPlay->second) / befMasterVolume));
+			setPlayMusicVolume(itrPlay.second.handle, itrPlay.second.volume);
 		}
 	}
-
+	
 	bool MusicPlayer::deleteStoppingMusic(std::string playMusicName)
 	{
-		auto itrPlay = playMusicNameToHandle_.find(playMusicName);
-		if (itrPlay != playMusicNameToHandle_.end())
+		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
+		if (itrPlay != playMusicNameToHandleAndVolume_.end())
 		{
-			if (CheckSoundMem(itrPlay->second) == 0)
+			if (CheckSoundMem(itrPlay->second.handle) == 0)
 			{
-				DeleteSoundMem(itrPlay->second);
-				playMusicNameToHandle_.erase(itrPlay);
+				DeleteSoundMem(itrPlay->second.handle);
+				playMusicNameToHandleAndVolume_.erase(itrPlay);
 				return true;
 			}
 		}
@@ -174,5 +168,6 @@ namespace game::audio
 	MusicPlayer::~MusicPlayer()
 	{
 		deleteAllMusic();
+		loadMusicNameToPath_.clear();
 	}
 }

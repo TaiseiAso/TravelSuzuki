@@ -1,6 +1,7 @@
 #include "title_scene.h"
 #include "../input/input_receiver.h"
 #include "../audio/music_player.h"
+#include "../graphic/image_drawer.h"
 #include "DxLib.h"
 
 namespace game::scene
@@ -31,6 +32,10 @@ namespace game::scene
 		{
 			audio::MusicPlayer::instance().setMasterVolume(1.f);
 		}
+		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_T) == 1)
+		{
+			audio::MusicPlayer::instance().deleteAllMusic();
+		}
 	}
 
 	void TitleScene::update()
@@ -38,7 +43,7 @@ namespace game::scene
 
 	}
 
-	void TitleScene::draw() const
+	void TitleScene::draw()
 	{
 		DrawCircle(100, 100, 100, GetColor(255, 255, 255), 1, 1);
 		DrawBox(200, 200, 230, 230, GetColor(0, 0, 0), TRUE);
@@ -47,15 +52,32 @@ namespace game::scene
 			200, 200, GetColor(255, 255, 255),
 			"%d", input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_SPACE)
 		);
+
+		int handle;
+		handle = graphic::ImageDrawer::instance().getImageHandle("test");
+		DrawGraph(300, 300, handle, TRUE);
+
+		handle = graphic::ImageDrawer::instance().getImageHandleInGroup("test", 2);
+		DrawGraph(300, 000, handle, TRUE);
+
+		handle = graphic::ImageDrawer::instance().getImageHandleInAnime("test", testElapsedFrame, testElapsedSheet);
+		DrawGraph(0, 300, handle, TRUE);
 	}
 
 	TitleScene::TitleScene()
 	{
 		audio::MusicPlayer::instance().loadMusic("test");
+		graphic::ImageDrawer::instance().loadImage("test");
+		graphic::ImageDrawer::instance().loadGroup("test");
+
+		testElapsedFrame = 0;
+		testElapsedSheet = 0;
 	}
 
 	TitleScene::~TitleScene()
 	{
 		audio::MusicPlayer::instance().deleteMusic("test");
+		graphic::ImageDrawer::instance().deleteImage("test");
+		graphic::ImageDrawer::instance().deleteGroup("test");
 	}
 }

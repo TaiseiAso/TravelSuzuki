@@ -23,6 +23,7 @@
     <ClCompile Include="src\effect\effect_maker.cpp" />
     <ClCompile Include="src\fps\fps_controller.cpp" />
     <ClCompile Include="src\game_core.cpp" />
+    <ClCompile Include="src\graphic\image_drawer.cpp" />
     <ClCompile Include="src\input\input_receiver.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\scene\achievement_scene.cpp" />
@@ -40,6 +41,7 @@
     <ClInclude Include="src\effect\effect_maker.h" />
     <ClInclude Include="src\fps\fps_controller.h" />
     <ClInclude Include="src\game_core.h" />
+    <ClInclude Include="src\graphic\image_drawer.h" />
     <ClInclude Include="src\input\input_receiver.h" />
     <ClInclude Include="src\scene\achievement_scene.h" />
     <ClInclude Include="src\scene\base_scene.h" />

@@ -13,7 +13,7 @@ namespace game::scene
 		// ステップごとに進む処理
 		void update() override;
 		// 状態の描画
-		void draw() const override;
+		void draw() override;
 
 	public:
 		// コンストラクタ

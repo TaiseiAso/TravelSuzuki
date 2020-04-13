@@ -25,6 +25,9 @@
     <Filter Include="game\utils">
       <UniqueIdentifier>{4f43163a-2c2f-47e0-98c2-a4452e96a13f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="game\graphic">
+      <UniqueIdentifier>{70abd3f8-c67a-4fe0-b9db-7248694e064c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\scene\achievement_scene.cpp">
@@ -71,6 +74,9 @@
     </ClCompile>
     <ClCompile Include="src\audio\music_player.cpp">
       <Filter>game\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\graphic\image_drawer.cpp">
+      <Filter>game\graphic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,6 +127,9 @@
     </ClInclude>
     <ClInclude Include="src\audio\music_player.h">
       <Filter>game\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="src\graphic\image_drawer.h">
+      <Filter>game\graphic</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

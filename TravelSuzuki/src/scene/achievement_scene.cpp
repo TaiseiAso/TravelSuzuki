@@ -12,7 +12,7 @@ namespace game::scene
 
 	}
 
-	void AchievementScene::draw() const
+	void AchievementScene::draw()
 	{
 
 	}

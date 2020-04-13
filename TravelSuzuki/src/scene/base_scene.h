@@ -16,7 +16,7 @@ namespace game::scene
 		// ステップごとに進む処理
 		virtual void update() = 0;
 		// 状態の描画
-		virtual void draw() const = 0;
+		virtual void draw() = 0;
 	};
 }
 

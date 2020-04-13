@@ -11,24 +11,29 @@ namespace game::audio
 		friend class Singleton<MusicPlayer>; // Singleton でのインスタンス作成は許可
 
 	private:
-		// メモリに読み込んだ音楽の名前とファイルパスのマップ
+		typedef struct {
+			int handle; // 再生する音楽のハンドル
+			int volume; // 音楽の再生音量
+		} MusicHandleAndVolume;
+
+		// メモリに読み込む音楽の名前とファイルパスのマップ
 		std::unordered_map<std::string, std::string> loadMusicNameToPath_;
 
 		// メモリに読み込んだ音楽の名前とハンドルのマップ
 		std::unordered_map<std::string, int> loadMusicNameToHandle_;
 
-		// 再生している音楽の識別名と複製されたハンドルのマップ
-		std::unordered_map<std::string, int> playMusicNameToHandle_;
+		// 再生している音楽の識別名と<複製されたハンドル, 再生音量>の構造体のマップ
+		std::unordered_map<std::string, MusicHandleAndVolume> playMusicNameToHandleAndVolume_;
 
 		// 全体の音量比率
 		float masterVolume_;
 
 		// 再生中の音楽の音量を変更する
-		void setPlayMusicVolume(int playMusicHandle, int volume);
+		void setPlayMusicVolume(int playMusicHandle, int playMusicVolume) const;
 
 	public:
 		// 音楽の名前とファイルパスが対応付けられたデータベースを読み込む
-		void loadDatabase(std::string databaseFilePath, bool pathFirstLine = true);
+		void loadMusicNameToPathDatabase(std::string databaseFilePath, bool pathFirstLine = true);
 		
 		// 音楽をメモリに読み込む
 		void loadMusic(std::string loadMusicName);
@@ -38,9 +43,8 @@ namespace game::audio
 		void deleteMusic(std::string loadMusicName);
 
 		// メモリに読み込んだ音楽を再生する
-		void playSE(std::string loadMusicName, int volume);
-		void playSE(std::string loadMusicName, std::string playMusicName, int volume);
-		void playMusic(std::string loadMusicName, std::string playMusicName, int volume, bool isLoop, bool topPositionFlag);
+		void playSE(std::string loadMusicName, int playMusicVolume) const;
+		void playMusic(std::string loadMusicName, std::string playMusicName, int playMusicVolume, bool isLoop = false, bool topPositionFlag = false);
 
 		// 再生中の音楽を停止する
 		void stopMusic(std::string playMusicName);
@@ -52,7 +56,7 @@ namespace game::audio
 		void stopAllMusic();
 
 		// 再生中の音楽の音量を変更する
-		void setPlayMusicVolume(std::string playMusicName, int volume);
+		void setPlayMusicVolume(std::string playMusicName, int playMusicVolume);
 
 		// マスター音量を変更する
 		void setMasterVolume(float masterVolume);
