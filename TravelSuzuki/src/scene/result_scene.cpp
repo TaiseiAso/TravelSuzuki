@@ -2,6 +2,11 @@
 
 namespace game::scene
 {
+	void ResultScene::init()
+	{
+
+	}
+
 	void ResultScene::action()
 	{
 
@@ -12,12 +17,12 @@ namespace game::scene
 
 	}
 
-	void ResultScene::draw()
+	void ResultScene::draw() const
 	{
 
 	}
 
-	ResultScene::ResultScene()
+	ResultScene::ResultScene(std::shared_ptr<SceneMediator> sceneMediator) : BaseScene(sceneMediator)
 	{
 
 	}

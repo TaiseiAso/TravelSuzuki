@@ -168,6 +168,5 @@ namespace game::audio
 	MusicPlayer::~MusicPlayer()
 	{
 		deleteAllMusic();
-		loadMusicNameToPath_.clear();
 	}
 }

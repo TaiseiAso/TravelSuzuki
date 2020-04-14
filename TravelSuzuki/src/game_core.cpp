@@ -2,7 +2,7 @@
 #include "DxLib.h"
 #include "input/input_receiver.h"
 #include "audio/music_player.h"
-#include "graphic/image_drawer.h"
+#include "graphic/image_manager.h"
 
 namespace game
 {
@@ -20,10 +20,10 @@ namespace game
 		input::InputReceiver::create();
 		audio::MusicPlayer::create();
 		audio::MusicPlayer::instance().loadMusicNameToPathDatabase("resource/database/music_name_to_path.csv");
-		graphic::ImageDrawer::create();
-		graphic::ImageDrawer::instance().loadImageNameToPathDatabase("resource/database/image_name_to_path.csv");
-		graphic::ImageDrawer::instance().loadGroupNameToDivDataDatabase("resource/database/group_name_to_divdata.csv");
-		graphic::ImageDrawer::instance().loadGroupNameToFramesDatabase("resource/database/group_name_to_frames.csv");
+		graphic::ImageManager::create();
+		graphic::ImageManager::instance().loadImageNameToPathDatabase("resource/database/image_name_to_path.csv");
+		graphic::ImageManager::instance().loadGroupNameToDivDataDatabase("resource/database/group_name_to_divdata.csv");
+		graphic::ImageManager::instance().loadGroupNameToFramesDatabase("resource/database/group_name_to_frames.csv");
 
 		fpsController_ = std::make_unique<fps::FPSController>();
 		sceneManager_ = std::make_unique<scene::SceneManager>();
@@ -32,9 +32,8 @@ namespace game
 	GameCore::~GameCore()
 	{
 		sceneManager_.reset();
-		fpsController_.reset();
 
-		graphic::ImageDrawer::destroy();
+		graphic::ImageManager::destroy();
 		audio::MusicPlayer::destroy();
 		input::InputReceiver::destroy();
 

@@ -45,12 +45,6 @@
     <ClCompile Include="src\scene\title_scene.cpp">
       <Filter>game\scene</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene\scene_factory.cpp">
-      <Filter>game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scene\scene_mover.cpp">
-      <Filter>game\scene</Filter>
-    </ClCompile>
     <ClCompile Include="src\scene\scene_manager.cpp">
       <Filter>game\scene</Filter>
     </ClCompile>
@@ -75,8 +69,11 @@
     <ClCompile Include="src\audio\music_player.cpp">
       <Filter>game\audio</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphic\image_drawer.cpp">
+    <ClCompile Include="src\graphic\image_manager.cpp">
       <Filter>game\graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\scene_mediator.cpp">
+      <Filter>game\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -95,13 +92,7 @@
     <ClInclude Include="src\scene\scene_enum.h">
       <Filter>game\scene</Filter>
     </ClInclude>
-    <ClInclude Include="src\scene\scene_factory.h">
-      <Filter>game\scene</Filter>
-    </ClInclude>
     <ClInclude Include="src\scene\scene_manager.h">
-      <Filter>game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\scene\scene_mover.h">
       <Filter>game\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\title_scene.h">
@@ -128,8 +119,11 @@
     <ClInclude Include="src\audio\music_player.h">
       <Filter>game\audio</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphic\image_drawer.h">
+    <ClInclude Include="src\graphic\image_manager.h">
       <Filter>game\graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\scene_mediator.h">
+      <Filter>game\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

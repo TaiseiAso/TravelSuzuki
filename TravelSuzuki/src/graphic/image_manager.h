@@ -1,14 +1,14 @@
-#ifndef image_drawer_h
-#define image_drawer_h
+#ifndef image_manager_h
+#define image_manager_h
 
 #include <unordered_map>
 #include "../singleton/singleton.h"
 
 namespace game::graphic
 {
-	class ImageDrawer : public Singleton<ImageDrawer>
+	class ImageManager : public Singleton<ImageManager>
 	{
-		friend class Singleton<ImageDrawer>; // Singleton でのインスタンス作成は許可
+		friend class Singleton<ImageManager>; // Singleton でのインスタンス作成は許可
 
 	private:
 		typedef struct {
@@ -67,9 +67,9 @@ namespace game::graphic
 		int getImageHandleInAnime(std::string groupName, int& elapsedFrame, int& elapsedSheet, std::vector<int> frameVector) const;
 
 	protected:
-		ImageDrawer(); // 外部でのインスタンス作成は禁止
-		virtual ~ImageDrawer();
+		ImageManager(); // 外部でのインスタンス作成は禁止
+		virtual ~ImageManager();
 	};
 }
 
-#endif // !image_drawer_h
+#endif // !image_manager_h

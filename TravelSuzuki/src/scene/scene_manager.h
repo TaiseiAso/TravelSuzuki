@@ -1,22 +1,35 @@
 #ifndef scene_manager_h
 #define scene_manager_h
 
-#include "scene_factory.h"
+#include <unordered_map>
+#include <memory>
+#include "scene_enum.h"
+#include "scene_mediator.h"
+#include "title_scene.h"
+#include "game_scene.h"
+#include "result_scene.h"
+#include "achievement_scene.h"
 
 namespace game::scene
 {
 	class SceneManager
 	{
 	private:
-		std::unique_ptr<SceneFactory> sceneFactory_; // シーンファクトリ
-		std::unique_ptr<BaseScene> currentScene_; // 現在のシーン
+		// シーンIDと作成したシーンのマップ
+		std::unordered_map<SceneID, std::unique_ptr<BaseScene>> idToCreatedScene_;
+		// シーン仲介者
+		std::shared_ptr<SceneMediator> sceneMediator_;
+		// 現在のシーンID
+		SceneID currentSceneID_;
 
-		// 入力による変化
-		void action();
-		// ステップごとに進む処理
-		void update();
-		// 状態の描画
-		void draw() const;
+		// シーンを作成する
+		void createScene(SceneID sceneID);
+		// シーンを初期化する
+		void initScene(SceneID sceneID);
+		// シーンを破棄する
+		void deleteScene(SceneID sceneID);
+		// シーン移動の処理
+		void moveScene();
 
 	public:
 		// コンストラクタ
@@ -30,4 +43,3 @@ namespace game::scene
 }
 
 #endif // !scene_manager_h
-

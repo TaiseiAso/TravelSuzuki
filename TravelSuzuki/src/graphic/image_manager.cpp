@@ -1,13 +1,13 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "image_drawer.h"
+#include "image_manager.h"
 #include "../utils/string_util.h"
 #include "DxLib.h"
 
 namespace game::graphic
 {
-	void ImageDrawer::loadImageNameToPathDatabase(std::string databaseFilePath, bool passFirstLine)
+	void ImageManager::loadImageNameToPathDatabase(std::string databaseFilePath, bool passFirstLine)
 	{
 		imageNameToPath_.clear();
 
@@ -21,7 +21,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageDrawer::loadGroupNameToDivDataDatabase(std::string databaseFilePath, bool passFirstLine)
+	void ImageManager::loadGroupNameToDivDataDatabase(std::string databaseFilePath, bool passFirstLine)
 	{
 		groupNameToDivData_.clear();
 
@@ -41,7 +41,7 @@ namespace game::graphic
 		}
 	}
 
-	void ImageDrawer::loadGroupNameToFramesDatabase(std::string databaseFilePath, bool passFirstLine)
+	void ImageManager::loadGroupNameToFramesDatabase(std::string databaseFilePath, bool passFirstLine)
 	{
 		for (auto& itrGroup : groupNameToFrameVector_)
 		{
@@ -65,7 +65,7 @@ namespace game::graphic
 		}
 	}
 
-	void ImageDrawer::loadImage(std::string imageName)
+	void ImageManager::loadImage(std::string imageName)
 	{
 		auto itrImage = imageNameToPath_.find(imageName);
 		if (itrImage != imageNameToPath_.end())
@@ -74,7 +74,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageDrawer::loadImage(std::string imageName, std::string imageFilePath)
+	void ImageManager::loadImage(std::string imageName, std::string imageFilePath)
 	{
 		auto itrImage = imageNameToHandle_.find(imageName);
 		if (itrImage == imageNameToHandle_.end())
@@ -87,7 +87,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageDrawer::loadGroup(std::string groupName)
+	void ImageManager::loadGroup(std::string groupName)
 	{
 		auto itrImage = imageNameToPath_.find(groupName);
 		if (itrImage != imageNameToPath_.end())
@@ -104,7 +104,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageDrawer::loadGroup(std::string groupName, std::string imageFilePath, int allNum, int xNum, int yNum, int sizeX, int sizeY)
+	void ImageManager::loadGroup(std::string groupName, std::string imageFilePath, int allNum, int xNum, int yNum, int sizeX, int sizeY)
 	{
 		auto itrGroup = groupNameToHandleVector_.find(groupName);
 		if (itrGroup == groupNameToHandleVector_.end())
@@ -120,7 +120,7 @@ namespace game::graphic
 		}
 	}
 
-	void ImageDrawer::deleteImage(std::string imageName)
+	void ImageManager::deleteImage(std::string imageName)
 	{
 		auto itrImage = imageNameToHandle_.find(imageName);
 		if (itrImage != imageNameToHandle_.end())
@@ -130,7 +130,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageDrawer::deleteGroup(std::string groupName)
+	void ImageManager::deleteGroup(std::string groupName)
 	{
 		auto itrGroup = groupNameToHandleVector_.find(groupName);
 		if (itrGroup != groupNameToHandleVector_.end())
@@ -145,7 +145,7 @@ namespace game::graphic
 		}
 	}
 
-	void ImageDrawer::deleteAllImage()
+	void ImageManager::deleteAllImage()
 	{
 		for (const auto& itrImage : imageNameToHandle_)
 		{
@@ -154,7 +154,7 @@ namespace game::graphic
 		imageNameToHandle_.clear();
 	}
 	
-	void ImageDrawer::deleteAllGroup()
+	void ImageManager::deleteAllGroup()
 	{
 		for (auto& itrGroup : groupNameToHandleVector_)
 		{
@@ -168,13 +168,13 @@ namespace game::graphic
 		groupNameToHandleVector_.clear();
 	}
 
-	void ImageDrawer::deleteAllImageAndGroup()
+	void ImageManager::deleteAllImageAndGroup()
 	{
 		deleteAllImage();
 		deleteAllGroup();
 	}
 
-	int ImageDrawer::getImageHandle(std::string imageName) const
+	int ImageManager::getImageHandle(std::string imageName) const
 	{
 		auto itrImage = imageNameToHandle_.find(imageName);
 		if (itrImage != imageNameToHandle_.end())
@@ -184,7 +184,7 @@ namespace game::graphic
 		return -1;
 	}
 
-	int ImageDrawer::getImageHandleInGroup(std::string groupName, int id) const
+	int ImageManager::getImageHandleInGroup(std::string groupName, int id) const
 	{
 		if (id >= 0)
 		{
@@ -200,7 +200,7 @@ namespace game::graphic
 		return -1;
 	}
 	
-	int ImageDrawer::getImageHandleInAnime(std::string groupName, int& elapsedFrame, int& elapsedSheet) const
+	int ImageManager::getImageHandleInAnime(std::string groupName, int& elapsedFrame, int& elapsedSheet) const
 	{
 		auto itrGroup = groupNameToFrameVector_.find(groupName);
 		if (itrGroup != groupNameToFrameVector_.end())
@@ -210,7 +210,7 @@ namespace game::graphic
 		return -1;
 	}
 
-	int ImageDrawer::getImageHandleInAnime(std::string groupName, int& elapsedFrame, int& elapsedSheet, std::vector<int> frameVector) const
+	int ImageManager::getImageHandleInAnime(std::string groupName, int& elapsedFrame, int& elapsedSheet, std::vector<int> frameVector) const
 	{
 		if (elapsedFrame >= 0 && elapsedSheet >= 0)
 		{
@@ -240,17 +240,9 @@ namespace game::graphic
 		return -1;
 	}
 
-	ImageDrawer::ImageDrawer() {}
-	ImageDrawer::~ImageDrawer()
+	ImageManager::ImageManager() {}
+	ImageManager::~ImageManager()
 	{
 		deleteAllImageAndGroup();
-		imageNameToPath_.clear();
-		groupNameToDivData_.clear();
-		for (auto& itrGroup : groupNameToFrameVector_)
-		{
-			itrGroup.second.clear();
-			itrGroup.second.shrink_to_fit();
-		}
-		groupNameToFrameVector_.clear();
 	}
 }

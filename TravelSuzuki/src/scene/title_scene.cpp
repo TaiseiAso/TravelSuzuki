@@ -1,11 +1,16 @@
 #include "title_scene.h"
 #include "../input/input_receiver.h"
 #include "../audio/music_player.h"
-#include "../graphic/image_drawer.h"
+#include "../graphic/image_manager.h"
 #include "DxLib.h"
 
 namespace game::scene
 {
+	void TitleScene::init()
+	{
+
+	}
+
 	void TitleScene::action()
 	{
 		if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_P) == 1)
@@ -36,6 +41,10 @@ namespace game::scene
 		{
 			audio::MusicPlayer::instance().deleteAllMusic();
 		}
+		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_Y) == 1)
+		{
+			sceneMediator_->moveScene(SceneID::GAME, 60, { SceneID::GAME }, { SceneID::TITLE });
+		}
 	}
 
 	void TitleScene::update()
@@ -43,7 +52,7 @@ namespace game::scene
 
 	}
 
-	void TitleScene::draw()
+	void TitleScene::draw() const
 	{
 		DrawCircle(100, 100, 100, GetColor(255, 255, 255), 1, 1);
 		DrawBox(200, 200, 230, 230, GetColor(0, 0, 0), TRUE);
@@ -54,21 +63,21 @@ namespace game::scene
 		);
 
 		int handle;
-		handle = graphic::ImageDrawer::instance().getImageHandle("test");
+		handle = graphic::ImageManager::instance().getImageHandle("test");
 		DrawGraph(300, 300, handle, TRUE);
 
-		handle = graphic::ImageDrawer::instance().getImageHandleInGroup("test", 2);
+		handle = graphic::ImageManager::instance().getImageHandleInGroup("test", 2);
 		DrawGraph(300, 000, handle, TRUE);
 
-		handle = graphic::ImageDrawer::instance().getImageHandleInAnime("test", testElapsedFrame, testElapsedSheet);
+		handle = graphic::ImageManager::instance().getImageHandleInAnime("test", testElapsedFrame, testElapsedSheet);
 		DrawGraph(0, 300, handle, TRUE);
 	}
 
-	TitleScene::TitleScene()
+	TitleScene::TitleScene(std::shared_ptr<SceneMediator> sceneMediator) : BaseScene(sceneMediator)
 	{
 		audio::MusicPlayer::instance().loadMusic("test");
-		graphic::ImageDrawer::instance().loadImage("test");
-		graphic::ImageDrawer::instance().loadGroup("test");
+		graphic::ImageManager::instance().loadImage("test");
+		graphic::ImageManager::instance().loadGroup("test");
 
 		testElapsedFrame = 0;
 		testElapsedSheet = 0;
@@ -77,7 +86,7 @@ namespace game::scene
 	TitleScene::~TitleScene()
 	{
 		audio::MusicPlayer::instance().deleteMusic("test");
-		graphic::ImageDrawer::instance().deleteImage("test");
-		graphic::ImageDrawer::instance().deleteGroup("test");
+		graphic::ImageManager::instance().deleteImage("test");
+		graphic::ImageManager::instance().deleteGroup("test");
 	}
 }

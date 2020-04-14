@@ -2,8 +2,9 @@
 
 namespace game::scene
 {
-	BaseScene::BaseScene()
+	BaseScene::BaseScene(std::shared_ptr<SceneMediator> sceneMediator)
 	{
+		sceneMediator_ = sceneMediator;
 	}
 
 	BaseScene::~BaseScene()
