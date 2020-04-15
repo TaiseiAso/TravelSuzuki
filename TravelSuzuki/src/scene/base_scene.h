@@ -19,7 +19,9 @@ namespace game::scene
 		virtual ~BaseScene();
 
 		// シーンの初期化処理
-		virtual void init() = 0;
+		virtual void initialize() = 0;
+		// シーンの終了処理
+		virtual void finalize() = 0;
 
 		// 入力による変化
 		virtual void action() = 0;

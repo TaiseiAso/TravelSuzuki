@@ -9,7 +9,9 @@ namespace game::scene
 	{
 	private:
 		// シーンの初期化処理
-		void init() override;
+		void initialize() override;
+		// シーンの終了処理
+		void finalize() override;
 
 		// 入力による変化
 		void action() override;

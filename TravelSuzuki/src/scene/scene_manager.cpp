@@ -29,7 +29,16 @@ namespace game::scene
 		auto itr = idToCreatedScene_.find(sceneID);
 		if (itr != idToCreatedScene_.end())
 		{
-			itr->second->init();
+			itr->second->initialize();
+		}
+	}
+
+	void SceneManager::finalScene(SceneID sceneID)
+	{
+		auto itr = idToCreatedScene_.find(sceneID);
+		if (itr != idToCreatedScene_.end())
+		{
+			itr->second->finalize();
 		}
 	}
 
@@ -48,23 +57,29 @@ namespace game::scene
 		std::vector<SceneID> createSceneIDVector = sceneMediator_->getCreateSceneIDVector();
 		std::vector<SceneID> deleteSceneIDVector = sceneMediator_->getDeleteSceneIDVector();
 
+		finalScene(currentSceneID_);
+
 		for (const SceneID& createSceneID : createSceneIDVector)
 		{
 			createScene(createSceneID);
 		}
 
 		currentSceneID_ = nextSceneID;
-		initScene(currentSceneID_);
 
 		for (const SceneID& deleteSceneID : deleteSceneIDVector)
 		{
 			deleteScene(deleteSceneID);
 		}
+
+		initScene(currentSceneID_);
 	}
 
 	SceneManager::SceneManager()
 	{
 		sceneMediator_ = std::make_shared<SceneMediator>();
+		sceneMediator_->setMoveSceneFrame(60); // テスト用
+		sceneMediator_->setAllowChangeMasterVolumeFade(true, true); // テスト用
+
 		createScene(SceneID::TITLE);
 		initScene(SceneID::TITLE);
 		currentSceneID_ = SceneID::TITLE;
@@ -77,7 +92,7 @@ namespace game::scene
 
 	void SceneManager::step()
 	{
-		if (sceneMediator_->update()) moveScene();
+		if (sceneMediator_->updateMoveScene()) moveScene();
 		auto itr = idToCreatedScene_.find(currentSceneID_);
 		if (itr != idToCreatedScene_.end())
 		{

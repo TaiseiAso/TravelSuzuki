@@ -6,9 +6,14 @@
 
 namespace game::scene
 {
-	void TitleScene::init()
+	void TitleScene::initialize()
 	{
 
+	}
+
+	void TitleScene::finalize()
+	{
+		//audio::MusicPlayer::instance().stopMusic("test1");
 	}
 
 	void TitleScene::action()
@@ -43,7 +48,7 @@ namespace game::scene
 		}
 		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_Y) == 1)
 		{
-			sceneMediator_->moveScene(SceneID::GAME, 60, { SceneID::GAME }, { SceneID::TITLE });
+			sceneMediator_->moveScene(SceneID::GAME, { SceneID::GAME }, { SceneID::TITLE });
 		}
 	}
 
@@ -71,6 +76,10 @@ namespace game::scene
 
 		handle = graphic::ImageManager::instance().getImageHandleInAnime("test", testElapsedFrame, testElapsedSheet);
 		DrawGraph(0, 300, handle, TRUE);
+
+		DrawCircle(
+			450 + (int)(sceneMediator_->getFadeRatio() * 450),
+			500, 30, GetColor(255, 255, 255), 1, 1);
 	}
 
 	TitleScene::TitleScene(std::shared_ptr<SceneMediator> sceneMediator) : BaseScene(sceneMediator)

@@ -26,6 +26,8 @@ namespace game::scene
 		void createScene(SceneID sceneID);
 		// シーンを初期化する
 		void initScene(SceneID sceneID);
+		// シーンを終了する
+		void finalScene(SceneID sceneID);
 		// シーンを破棄する
 		void deleteScene(SceneID sceneID);
 		// シーン移動の処理

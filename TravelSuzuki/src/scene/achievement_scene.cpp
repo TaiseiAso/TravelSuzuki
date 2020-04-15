@@ -2,7 +2,12 @@
 
 namespace game::scene
 {
-	void AchievementScene::init()
+	void AchievementScene::initialize()
+	{
+
+	}
+
+	void AchievementScene::finalize()
 	{
 
 	}

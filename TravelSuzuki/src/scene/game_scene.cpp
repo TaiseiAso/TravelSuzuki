@@ -4,7 +4,12 @@
 
 namespace game::scene
 {
-	void GameScene::init()
+	void GameScene::initialize()
+	{
+
+	}
+
+	void GameScene::finalize()
 	{
 
 	}
@@ -13,7 +18,7 @@ namespace game::scene
 	{
 		if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_Y) == 1)
 		{
-		sceneMediator_->moveScene(SceneID::TITLE, 60, { SceneID::TITLE }, { SceneID::GAME });
+		sceneMediator_->moveScene(SceneID::TITLE, { SceneID::TITLE }, { SceneID::GAME });
 		}
 	}
 

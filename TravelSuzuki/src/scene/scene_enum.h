@@ -5,7 +5,6 @@ namespace game::scene
 {
 	enum class SceneID
 	{
-		NONE = -1,
 		TITLE,
 		GAME,
 		RESULT,

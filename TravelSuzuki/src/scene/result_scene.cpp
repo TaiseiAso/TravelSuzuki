@@ -2,7 +2,12 @@
 
 namespace game::scene
 {
-	void ResultScene::init()
+	void ResultScene::initialize()
+	{
+
+	}
+
+	void ResultScene::finalize()
 	{
 
 	}
