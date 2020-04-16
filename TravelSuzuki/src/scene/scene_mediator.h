@@ -58,7 +58,7 @@ namespace game::scene
 
 		// シーン移動を開始する
 		void moveScene(SceneID nextSceneID);
-		void moveScene(SceneID nextSceneID, std::vector<SceneID> createSceneIDVector, std::vector<SceneID> deleteSceneIDVector);
+		void moveScene(SceneID nextSceneID, const std::vector<SceneID>& createSceneIDVector, const std::vector<SceneID>& deleteSceneIDVector);
 		
 		/*
 			シーン移動を更新する

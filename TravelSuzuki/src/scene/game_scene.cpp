@@ -16,10 +16,7 @@ namespace game::scene
 
 	void GameScene::action()
 	{
-		if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Y))
-		{
-			sceneMediator_.lock()->moveScene(SceneID::TITLE, { SceneID::TITLE }, { SceneID::GAME });
-		}
+		
 	}
 
 	void GameScene::update()

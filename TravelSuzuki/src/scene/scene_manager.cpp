@@ -9,6 +9,9 @@ namespace game::scene
 		{
 			switch (sceneID)
 			{
+			case SceneID::TEST:
+				idToCreatedScene_[sceneID] = std::make_unique<TestScene>(sceneMediator_);
+				break;
 			case SceneID::TITLE:
 				idToCreatedScene_[sceneID] = std::make_unique<TitleScene>(sceneMediator_);
 				break;
@@ -81,9 +84,12 @@ namespace game::scene
 		sceneMediator_->setAllowChangeMasterVolumeFade(true, true); // テスト用
 		sceneMediator_->setSceneMoveEffectID(SceneMoveEffectID::WHITE); // テスト用
 
-		createScene(SceneID::TITLE);
-		initScene(SceneID::TITLE);
-		currentSceneID_ = SceneID::TITLE;
+		// 最初のシーン (テスト用)
+		SceneID firstSceneID = SceneID::TEST;
+
+		createScene(firstSceneID);
+		initScene(firstSceneID);
+		currentSceneID_ = firstSceneID;
 	}
 
 	SceneManager::~SceneManager() {}
@@ -95,7 +101,7 @@ namespace game::scene
 		if (itr != idToCreatedScene_.end())
 		{
 			if (!sceneMediator_->isMovingScene()) itr->second->action();
-			itr->second->update();
+			itr->second->baseUpdate();
 			itr->second->draw();
 			sceneMediator_->drawSceneMoveEffect();
 		}

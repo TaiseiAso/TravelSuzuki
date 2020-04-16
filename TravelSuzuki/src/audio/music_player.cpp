@@ -1,5 +1,6 @@
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 #include "music_player.h"
 #include "../utils/string_util.h"
 #include "DxLib.h"
@@ -9,9 +10,7 @@ namespace game::audio
 	void MusicPlayer::setPlayMusicVolume(int playMusicHandle, int playMusicVolume) const
 	{
 		int volumePal = static_cast<int>(masterVolume_ * playMusicVolume);
-		if (volumePal < 0) volumePal = 0;
-		else if (volumePal > 255) volumePal = 255;
-		ChangeVolumeSoundMem(volumePal, playMusicHandle);
+		ChangeVolumeSoundMem(std::clamp<int>(volumePal, 0, 255), playMusicHandle);
 	}
 
 	void MusicPlayer::loadMusicNameToPathDatabase(std::string databaseFilePath, bool pathFirstLine)

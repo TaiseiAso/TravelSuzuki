@@ -1,100 +1,76 @@
 #include "title_scene.h"
+#include "../graphic/image_manager.h"
 #include "../input/input_receiver.h"
 #include "../audio/music_player.h"
-#include "DxLib.h"
 
 namespace game::scene
 {
+	// タイトル画面専用 //////////////////////////////////////
+	void TitleScene::drawBackGround() const
+	{
+		// 背景を白くする
+		DrawBox(0, 0, 800, 640, whiteColor, TRUE);
+
+		int up = 40 + static_cast<int>(10 * std::sin(elapsedFrame_ / 50.f));
+		int down = 640 - up;
+		int divX = 50;
+		int divX2 = divX * 2;
+		int divY = 50;
+		int up2 = up + divY;
+		int down2 = down - divY;
+		int left = elapsedFrame_ % divX2;
+
+		DrawBox(0, 0, 800, up, blueColor, TRUE);
+		DrawBox(0, down, 800, 640, greenColor, TRUE);
+
+		for (int i = -left; i < 800; i += divX2)
+		{
+			DrawTriangle(i, up, i + divX, up2, i + divX2, up, blueColor, TRUE);
+			DrawTriangle(i, down, i + divX, down2, i + divX2, down, greenColor, TRUE);
+		}
+	}
+
+	void TitleScene::drawTitleLogo() const
+	{
+		Imagehandle_ = graphic::ImageManager::instance().getImageHandle("title_logo");
+		DrawGraph(100, 150 + static_cast<int>(20 * std::sin( elapsedFrame_ / 100.f)), Imagehandle_, TRUE);
+	}
+	//////////////////////////////////////////////////////////
+
 	void TitleScene::initialize()
 	{
-
+		elapsedFrame_ = 0;
 	}
 
 	void TitleScene::finalize()
 	{
-		//audio::MusicPlayer::instance().stopMusic("test1");
+
 	}
 
 	void TitleScene::action()
 	{
-		if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_P))
-		{
-			audio::MusicPlayer::instance().playMusic("test", "test1", 255, true, true);
-		}
-		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_S))
-		{
-			audio::MusicPlayer::instance().stopMusic("test1");
-		}
-		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Q))
-		{
-			audio::MusicPlayer::instance().setPlayMusicVolume("test1", 120);
-		}
-		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_W))
-		{
-			audio::MusicPlayer::instance().setPlayMusicVolume("test1", 255);
-		}
-		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_E))
-		{
-			audio::MusicPlayer::instance().setMasterVolume(0.5f);
-		}
-		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_R))
-		{
-			audio::MusicPlayer::instance().setMasterVolume(1.f);
-		}
-		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_T))
-		{
-			audio::MusicPlayer::instance().deleteAllMusic();
-		}
-		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Y))
-		{
-			sceneMediator_.lock()->moveScene(SceneID::GAME, { SceneID::GAME }, { SceneID::TITLE });
-		}
+
 	}
 
 	void TitleScene::update()
 	{
-
+		
 	}
 
 	void TitleScene::draw() const
 	{
-		DrawCircle(100, 100, 100, GetColor(255, 255, 255), 1, 1);
-		DrawBox(200, 200, 230, 230, GetColor(0, 0, 0), TRUE);
-
-		DrawFormatString(
-			200, 200, GetColor(255, 255, 255),
-			"%d", input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_SPACE)
-		);
-
-		int handle;
-		handle = graphic::ImageManager::instance().getImageHandle("test");
-		DrawGraph(300, 300, handle, TRUE);
-
-		handle = graphic::ImageManager::instance().getImageHandleInGroup("test", 2);
-		DrawGraph(300, 000, handle, TRUE);
-
-		handle = graphic::ImageManager::instance().getImageHandleInAnime("test", &testElapsedData_);
-		DrawGraph(0, 300, handle, TRUE);
-
-		DrawCircle(
-			450 + (int)(sceneMediator_.lock()->getFadeRatio() * 450),
-			500, 30, GetColor(255, 255, 255), 1, 1);
+		drawBackGround();
+		drawTitleLogo();
 	}
 
 	TitleScene::TitleScene(std::shared_ptr<SceneMediator>& sceneMediator)
 		: BaseScene(sceneMediator)
 	{
-		audio::MusicPlayer::instance().loadMusic("test");
-		graphic::ImageManager::instance().loadImage("test");
-		graphic::ImageManager::instance().loadGroup("test");
-
-		testElapsedData_ = { 0, 0 };
+		graphic::ImageManager::instance().loadImage("title_logo");
 	}
 
 	TitleScene::~TitleScene()
 	{
-		audio::MusicPlayer::instance().deleteMusic("test");
-		graphic::ImageManager::instance().deleteImage("test");
-		graphic::ImageManager::instance().deleteGroup("test");
+		graphic::ImageManager::instance().deleteImage("title_logo");
 	}
 }

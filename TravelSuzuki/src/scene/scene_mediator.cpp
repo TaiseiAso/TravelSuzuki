@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "scene_mediator.h"
 #include "../audio/music_player.h"
 #include "DxLib.h"
@@ -7,9 +8,7 @@ namespace game::scene
 	void SceneMediator::drawScreenOneColor(unsigned int color) const
 	{
 		int alpha = 255 * moveSceneData_.fadeLevel / moveSceneData_.moveSceneFrame;
-		if (alpha < 0) alpha = 0;
-		else if (alpha > 255) alpha = 255;
-		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, std::clamp<int>(alpha, 0, 255));
 		DrawBox(0, 0, 800, 640, color, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
 	}
@@ -76,7 +75,7 @@ namespace game::scene
 		moveScene(nextSceneID, {}, {});
 	}
 
-	void SceneMediator::moveScene(SceneID nextSceneID, std::vector<SceneID> createSceneIDVector, std::vector<SceneID> deleteSceneIDVector)
+	void SceneMediator::moveScene(SceneID nextSceneID, const std::vector<SceneID>& createSceneIDVector, const std::vector<SceneID>& deleteSceneIDVector)
 	{
 		if (moveSceneData_.moveSceneFrame >= 0 && !moveSceneData_.isMovingScene)
 		{
@@ -89,8 +88,8 @@ namespace game::scene
 			moveSceneData_.nextSceneID = nextSceneID;
 			moveSceneData_.isFadeOut = true;
 			moveSceneData_.fadeLevel = 0;
-			moveSceneData_.createSceneIDVector = std::move(createSceneIDVector);
-			moveSceneData_.deleteSceneIDVector = std::move(deleteSceneIDVector);
+			moveSceneData_.createSceneIDVector = createSceneIDVector;
+			moveSceneData_.deleteSceneIDVector = deleteSceneIDVector;
 		}
 	}
 

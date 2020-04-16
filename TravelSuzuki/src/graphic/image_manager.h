@@ -69,7 +69,7 @@ namespace game::graphic
 		int getImageHandleInGroup(std::string groupName, int id) const;
 		// 集合写真をアニメーションとして描画するために画像のハンドルを取得
 		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData) const;
-		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData, std::vector<int> frameVector) const;
+		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData, const std::vector<int>& frameVector) const;
 
 	protected:
 		ImageManager(); // 外部でのインスタンス作成は禁止

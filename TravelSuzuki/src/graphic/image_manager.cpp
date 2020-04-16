@@ -210,7 +210,7 @@ namespace game::graphic
 		return -1;
 	}
 
-	int ImageManager::getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData, std::vector<int> frameVector) const
+	int ImageManager::getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData, const std::vector<int>& frameVector) const
 	{
 		if (elapsedData && elapsedData->frame >= 0 && elapsedData->sheet >= 0)
 		{

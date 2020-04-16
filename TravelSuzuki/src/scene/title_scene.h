@@ -2,14 +2,24 @@
 #define title_scene_h
 
 #include "base_scene.h"
-#include "../graphic/image_manager.h"
+#include "DxLib.h"
 
 namespace game::scene
 {
 	class TitleScene : public BaseScene
 	{
 	private:
-		mutable graphic::AnimeElapsedData testElapsedData_;
+		// タイトル画面専用 //////////////////////////////////////
+		// 各色
+		const unsigned int whiteColor = GetColor(255, 255, 255);
+		const unsigned int blueColor = GetColor(80, 60, 240);
+		const unsigned int greenColor = GetColor(60, 200, 80);
+
+		// 背景描画
+		void drawBackGround() const;
+		// タイトルロゴ描画
+		void drawTitleLogo() const;
+		//////////////////////////////////////////////////////////
 
 		// シーンの初期化処理
 		void initialize() override;

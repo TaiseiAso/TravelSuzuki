@@ -5,6 +5,7 @@
 #include <memory>
 #include "scene_enum.h"
 #include "scene_mediator.h"
+#include "test_scene.h"
 #include "title_scene.h"
 #include "game_scene.h"
 #include "result_scene.h"

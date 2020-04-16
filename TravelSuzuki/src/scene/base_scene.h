@@ -12,6 +12,12 @@ namespace game::scene
 		// シーン仲介者
 		std::weak_ptr<SceneMediator> sceneMediator_;
 
+		// 画像ハンドル取得用一時変数
+		mutable int Imagehandle_;
+
+		// 経過フレーム数
+		int elapsedFrame_;
+
 	public:
 		// コンストラクタ
 		BaseScene(std::shared_ptr<SceneMediator>& sceneMediator);
@@ -29,6 +35,9 @@ namespace game::scene
 		virtual void update() = 0;
 		// 状態の描画
 		virtual void draw() const = 0;
+
+		// すべての画面に共通する処理も実行する
+		void baseUpdate();
 	};
 }
 
