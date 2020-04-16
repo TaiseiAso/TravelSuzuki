@@ -5,10 +5,17 @@ namespace game::scene
 {
 	enum class SceneID
 	{
+		TEST = -1,
 		TITLE,
 		GAME,
 		RESULT,
 		ACHIEVEMENT
+	};
+
+	enum class SceneMoveEffectID
+	{
+		BLACK,
+		WHITE
 	};
 }
 

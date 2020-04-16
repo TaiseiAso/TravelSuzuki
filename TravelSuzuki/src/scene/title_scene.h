@@ -2,14 +2,14 @@
 #define title_scene_h
 
 #include "base_scene.h"
+#include "../graphic/image_manager.h"
 
 namespace game::scene
 {
 	class TitleScene : public BaseScene
 	{
 	private:
-		mutable int testElapsedFrame;
-		mutable int testElapsedSheet;
+		mutable graphic::AnimeElapsedData testElapsedData_;
 
 		// シーンの初期化処理
 		void initialize() override;
@@ -25,7 +25,7 @@ namespace game::scene
 
 	public:
 		// コンストラクタ
-		TitleScene(std::shared_ptr<SceneMediator> sceneMediator);
+		TitleScene(std::shared_ptr<SceneMediator>& sceneMediator);
 		// デストラクタ
 		~TitleScene();
 	};

@@ -6,7 +6,7 @@ std::vector<std::string> StringUtil::split(std::string str, char del) {
 
     std::vector<std::string> result;
 
-    while (first < str.size()) {
+    while (first < static_cast<int>(str.size())) {
         std::string subStr(str, first, last - first);
 
         result.push_back(subStr);

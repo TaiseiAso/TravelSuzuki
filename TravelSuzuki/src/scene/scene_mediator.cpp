@@ -4,12 +4,23 @@
 
 namespace game::scene
 {
+	void SceneMediator::drawScreenOneColor(unsigned int color) const
+	{
+		int alpha = 255 * moveSceneData_.fadeLevel / moveSceneData_.moveSceneFrame;
+		if (alpha < 0) alpha = 0;
+		else if (alpha > 255) alpha = 255;
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
+		DrawBox(0, 0, 800, 640, color, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+	}
+
 	SceneMediator::SceneMediator()
 	{
 		moveSceneData_.isMovingScene = false;
 		moveSceneData_.moveSceneFrame = 0;
 		moveSceneData_.allowChangeMasterVolumeFadeOut = false;
 		moveSceneData_.allowChangeMasterVolumeFadeIn = false;
+		moveSceneData_.sceneMoveEffectID = SceneMoveEffectID::WHITE;
 	}
 
 	SceneMediator::~SceneMediator() {}
@@ -24,35 +35,40 @@ namespace game::scene
 		return moveSceneData_.nextSceneID;
 	}
 
-	std::vector<SceneID> SceneMediator::getCreateSceneIDVector() const
+	const std::vector<SceneID>& SceneMediator::getCreateSceneIDVector() const
 	{
 		return moveSceneData_.createSceneIDVector;
 	}
 
-	std::vector<SceneID> SceneMediator::getDeleteSceneIDVector() const
+	const std::vector<SceneID>& SceneMediator::getDeleteSceneIDVector() const
 	{
 		return moveSceneData_.deleteSceneIDVector;
 	}
 
 	float SceneMediator::getFadeRatio() const
 	{
-		if (!isMovingScene() || moveSceneData_.moveSceneFrame <= 0) return 0.f;
+		if (!moveSceneData_.isMovingScene || moveSceneData_.moveSceneFrame <= 0) return 0.f;
 		float fadeRatio = (float)moveSceneData_.fadeLevel / moveSceneData_.moveSceneFrame;
 		return moveSceneData_.isFadeOut ? fadeRatio : -fadeRatio;
 	}
 
 	void SceneMediator::setMoveSceneFrame(int moveSceneFrame)
 	{
-		if (!isMovingScene()) moveSceneData_.moveSceneFrame = moveSceneFrame;
+		if (!moveSceneData_.isMovingScene) moveSceneData_.moveSceneFrame = moveSceneFrame;
 	}
 
 	void SceneMediator::setAllowChangeMasterVolumeFade(bool allowChangeMasterVolumeFadeOut, bool allowChangeMasterVolumeFadeIn)
 	{
-		if (!isMovingScene())
+		if (!moveSceneData_.isMovingScene)
 		{
 			moveSceneData_.allowChangeMasterVolumeFadeOut = allowChangeMasterVolumeFadeOut;
 			moveSceneData_.allowChangeMasterVolumeFadeIn = allowChangeMasterVolumeFadeIn;
 		}
+	}
+
+	void SceneMediator::setSceneMoveEffectID(SceneMoveEffectID sceneMoveEffectID)
+	{
+		if (!moveSceneData_.isMovingScene) moveSceneData_.sceneMoveEffectID = sceneMoveEffectID;
 	}
 
 	void SceneMediator::moveScene(SceneID nextSceneID)
@@ -69,16 +85,18 @@ namespace game::scene
 			moveSceneData_.deleteSceneIDVector.clear();
 			moveSceneData_.deleteSceneIDVector.shrink_to_fit();
 
-			moveSceneData_ = {
-				true, nextSceneID, true, moveSceneData_.moveSceneFrame, 0, createSceneIDVector, deleteSceneIDVector,
-				moveSceneData_.allowChangeMasterVolumeFadeOut, moveSceneData_.allowChangeMasterVolumeFadeIn
-			};
+			moveSceneData_.isMovingScene = true;
+			moveSceneData_.nextSceneID = nextSceneID;
+			moveSceneData_.isFadeOut = true;
+			moveSceneData_.fadeLevel = 0;
+			moveSceneData_.createSceneIDVector = std::move(createSceneIDVector);
+			moveSceneData_.deleteSceneIDVector = std::move(deleteSceneIDVector);
 		}
 	}
 
 	bool SceneMediator::updateMoveScene()
 	{
-		if (isMovingScene())
+		if (moveSceneData_.isMovingScene)
 		{
 			if (moveSceneData_.moveSceneFrame == 0)
 			{
@@ -88,7 +106,7 @@ namespace game::scene
 			
 			if (moveSceneData_.isFadeOut)
 			{
-				moveSceneData_.fadeLevel++;
+				++moveSceneData_.fadeLevel;
 				if (moveSceneData_.allowChangeMasterVolumeFadeOut)
 				{
 					audio::MusicPlayer::instance().setMasterVolume(
@@ -107,7 +125,7 @@ namespace game::scene
 			}
 			else
 			{
-				moveSceneData_.fadeLevel--;
+				--moveSceneData_.fadeLevel;
 				if (moveSceneData_.allowChangeMasterVolumeFadeIn)
 				{
 					audio::MusicPlayer::instance().setMasterVolume(
@@ -123,16 +141,19 @@ namespace game::scene
 		return false;
 	}
 
-	void SceneMediator::draw() const
+	void SceneMediator::drawSceneMoveEffect() const
 	{
-		if (isMovingScene() && moveSceneData_.fadeLevel > 0 && moveSceneData_.moveSceneFrame > 0)
+		if (moveSceneData_.isMovingScene && moveSceneData_.fadeLevel > 0 && moveSceneData_.moveSceneFrame > 0)
 		{
-			int alpha = 255 * moveSceneData_.fadeLevel / moveSceneData_.moveSceneFrame;
-			if (alpha < 0) alpha = 0;
-			else if (alpha > 255) alpha = 255;
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha);
-			DrawBox(0, 0, 800, 640, GetColor(255, 255, 255), TRUE);
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+			switch (moveSceneData_.sceneMoveEffectID)
+			{
+			case SceneMoveEffectID::BLACK:
+				drawScreenOneColor(GetColor(0, 0, 0));
+				break;
+			case SceneMoveEffectID::WHITE:
+				drawScreenOneColor(GetColor(255, 255, 255));
+				break;
+			}
 		}
 	}
 }

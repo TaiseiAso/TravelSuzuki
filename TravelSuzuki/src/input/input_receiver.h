@@ -15,8 +15,12 @@ namespace game::input
 	public:
 		// キー入力状態を更新する
 		void update();
+		
 		// 指定したキーが押されているフレーム数を取得する
 		int getPushKeyFrame(int keyID) const;
+		
+		// 指定したキーが直近に押されたかを取得する
+		bool isPushKeyNow(int keyID) const;
 
 	protected:
 		InputReceiver();// 外部でのインスタンス作成は禁止

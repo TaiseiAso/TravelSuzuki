@@ -86,7 +86,7 @@ namespace game::audio
 				int playMusicHandle = DuplicateSoundMem(itrLoad->second);
 				if (playMusicHandle != -1)
 				{
-					playMusicNameToHandleAndVolume_[playMusicName] = MusicHandleAndVolume{ playMusicHandle, playMusicVolume };;
+					playMusicNameToHandleAndVolume_[playMusicName] = MusicHandleAndVolume{ playMusicHandle, playMusicVolume };
 					setPlayMusicVolume(playMusicHandle, playMusicVolume);
 					PlaySoundMem(
 						playMusicHandle,

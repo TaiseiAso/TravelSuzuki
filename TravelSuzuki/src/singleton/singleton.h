@@ -14,8 +14,8 @@ private:
 	Singleton(Singleton&&) = delete;
 
 	// コピー代入演算子を禁止する
-	void operator=(const Singleton&) = delete;
-	void operator=(Singleton&&) = delete;
+	Singleton operator=(const Singleton&) = delete;
+	Singleton operator=(Singleton&&) = delete;
 
 protected:
 	Singleton() {} // 外部でのインスタンス作成は禁止
@@ -23,17 +23,17 @@ protected:
 
 public:
 	// シングルトンインスタンスへの参照を取得する
-	static T& instance()
+	inline static T& instance()
 	{
 		return *instance_;
 	}
 	// シングルトンインスタンスを生成する
-	static void create()
+	inline static void create()
 	{
 		if (!instance_) instance_ = new T();
 	}
 	// シングルトンインスタンスを破棄する
-	static void destroy()
+	inline static void destroy()
 	{
 		delete instance_;
 		instance_ = nullptr;

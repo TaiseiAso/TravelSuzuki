@@ -10,11 +10,11 @@ namespace game::scene
 	{
 	protected:
 		// シーン仲介者
-		std::shared_ptr<SceneMediator> sceneMediator_;
+		std::weak_ptr<SceneMediator> sceneMediator_;
 
 	public:
 		// コンストラクタ
-		BaseScene(std::shared_ptr<SceneMediator> sceneMediator);
+		BaseScene(std::shared_ptr<SceneMediator>& sceneMediator);
 		// デストラクタ
 		virtual ~BaseScene();
 

@@ -22,7 +22,7 @@ namespace game::scene
 
 	public:
 		// コンストラクタ
-		GameScene(std::shared_ptr<SceneMediator> sceneMediator);
+		GameScene(std::shared_ptr<SceneMediator>& sceneMediator);
 		// デストラクタ
 		~GameScene();
 	};

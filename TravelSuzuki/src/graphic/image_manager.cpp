@@ -59,8 +59,8 @@ namespace game::graphic
 			if (strVec.size() >= 2)
 			{
 				std::vector<int> frameVector;
-				for (int i = 1; i < static_cast<int>(strVec.size()); i++) frameVector.push_back(stoi(strVec[i]));
-				groupNameToFrameVector_[strVec[0]] = frameVector;
+				for (int i = 1; i < static_cast<int>(strVec.size()); ++i) frameVector.push_back(stoi(strVec[i]));
+				groupNameToFrameVector_[strVec[0]] = std::move(frameVector);
 			}
 		}
 	}
@@ -95,7 +95,7 @@ namespace game::graphic
 			auto itrGroup = groupNameToDivData_.find(groupName);
 			if (itrGroup != groupNameToDivData_.end())
 			{
-				ImageDivData imageDivData = itrGroup->second;
+				const ImageDivData& imageDivData = itrGroup->second;
 				loadGroup(
 					groupName, itrImage->second,
 					imageDivData.allNum, imageDivData.xNum, imageDivData.yNum, imageDivData.sizeX, imageDivData.sizeY
@@ -113,8 +113,8 @@ namespace game::graphic
 			if (LoadDivGraph(imageFilePath.c_str(), allNum, xNum, yNum, sizeX, sizeY, imageHandleList) == 0)
 			{
 				std::vector<int> imageHandleVector;
-				for (int i = 0; i < allNum; i++) imageHandleVector.push_back(imageHandleList[i]);
-				groupNameToHandleVector_[groupName] = imageHandleVector;
+				for (int i = 0; i < allNum; ++i) imageHandleVector.push_back(imageHandleList[i]);
+				groupNameToHandleVector_[groupName] = std::move(imageHandleVector);
 			}
 			delete[] imageHandleList;
 		}
@@ -200,37 +200,35 @@ namespace game::graphic
 		return -1;
 	}
 	
-	int ImageManager::getImageHandleInAnime(std::string groupName, int& elapsedFrame, int& elapsedSheet) const
+	int ImageManager::getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData) const
 	{
 		auto itrGroup = groupNameToFrameVector_.find(groupName);
 		if (itrGroup != groupNameToFrameVector_.end())
 		{
-			return getImageHandleInAnime(groupName, elapsedFrame, elapsedSheet, itrGroup->second);
+			return getImageHandleInAnime(groupName, elapsedData, itrGroup->second);
 		}
 		return -1;
 	}
 
-	int ImageManager::getImageHandleInAnime(std::string groupName, int& elapsedFrame, int& elapsedSheet, std::vector<int> frameVector) const
+	int ImageManager::getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData, std::vector<int> frameVector) const
 	{
-		if (elapsedFrame >= 0 && elapsedSheet >= 0)
+		if (elapsedData && elapsedData->frame >= 0 && elapsedData->sheet >= 0)
 		{
 			auto itrGroup = groupNameToHandleVector_.find(groupName);
 			if (itrGroup != groupNameToHandleVector_.end())
 			{
-				if (static_cast<int>(itrGroup->second.size()) > elapsedSheet)
+				if (static_cast<int>(itrGroup->second.size()) > elapsedData->sheet)
 				{
-					int imageHandle = itrGroup->second[elapsedSheet];
-					elapsedFrame++;
+					int imageHandle = itrGroup->second[elapsedData->sheet];
 					int frame = 0;
-					if (static_cast<int>(frameVector.size()) > elapsedSheet) frame = frameVector[elapsedSheet];
+					if (static_cast<int>(frameVector.size()) > elapsedData->sheet) frame = frameVector[elapsedData->sheet];
 					else if (!frameVector.empty()) frame = frameVector.back();
-					if (frame <= elapsedFrame)
+					if (frame <= ++elapsedData->frame)
 					{
-						elapsedFrame = 0;
-						elapsedSheet++;
-						if (itrGroup->second.size() == elapsedSheet)
+						elapsedData->frame = 0;
+						if (itrGroup->second.size() == ++elapsedData->sheet)
 						{
-							elapsedSheet = 0;
+							elapsedData->sheet = 0;
 						}
 					}
 					return imageHandle;

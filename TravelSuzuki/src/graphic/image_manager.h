@@ -6,6 +6,11 @@
 
 namespace game::graphic
 {
+	typedef struct {
+		int frame; // ある画像における経過フレーム数
+		int sheet; // アニメの表示画像番号
+	} AnimeElapsedData;
+
 	class ImageManager : public Singleton<ImageManager>
 	{
 		friend class Singleton<ImageManager>; // Singleton でのインスタンス作成は許可
@@ -63,8 +68,8 @@ namespace game::graphic
 		// 集合画像の指定した画像のハンドルを取得
 		int getImageHandleInGroup(std::string groupName, int id) const;
 		// 集合写真をアニメーションとして描画するために画像のハンドルを取得
-		int getImageHandleInAnime(std::string groupName, int& elapsedFrame, int& elapsedSheet) const;
-		int getImageHandleInAnime(std::string groupName, int& elapsedFrame, int& elapsedSheet, std::vector<int> frameVector) const;
+		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData) const;
+		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData, std::vector<int> frameVector) const;
 
 	protected:
 		ImageManager(); // 外部でのインスタンス作成は禁止

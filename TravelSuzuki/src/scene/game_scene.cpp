@@ -16,9 +16,9 @@ namespace game::scene
 
 	void GameScene::action()
 	{
-		if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_Y) == 1)
+		if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Y))
 		{
-		sceneMediator_->moveScene(SceneID::TITLE, { SceneID::TITLE }, { SceneID::GAME });
+			sceneMediator_.lock()->moveScene(SceneID::TITLE, { SceneID::TITLE }, { SceneID::GAME });
 		}
 	}
 
@@ -32,7 +32,8 @@ namespace game::scene
 
 	}
 
-	GameScene::GameScene(std::shared_ptr<SceneMediator> sceneMediator) : BaseScene(sceneMediator)
+	GameScene::GameScene(std::shared_ptr<SceneMediator>& sceneMediator)
+		: BaseScene(sceneMediator)
 	{
 
 	}

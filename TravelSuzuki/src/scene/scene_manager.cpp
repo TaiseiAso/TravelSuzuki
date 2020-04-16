@@ -54,8 +54,8 @@ namespace game::scene
 	void SceneManager::moveScene()
 	{
 		SceneID nextSceneID = sceneMediator_->getNextSceneID();
-		std::vector<SceneID> createSceneIDVector = sceneMediator_->getCreateSceneIDVector();
-		std::vector<SceneID> deleteSceneIDVector = sceneMediator_->getDeleteSceneIDVector();
+		const std::vector<SceneID>& createSceneIDVector = sceneMediator_->getCreateSceneIDVector();
+		const std::vector<SceneID>& deleteSceneIDVector = sceneMediator_->getDeleteSceneIDVector();
 
 		finalScene(currentSceneID_);
 
@@ -79,16 +79,14 @@ namespace game::scene
 		sceneMediator_ = std::make_shared<SceneMediator>();
 		sceneMediator_->setMoveSceneFrame(60); // テスト用
 		sceneMediator_->setAllowChangeMasterVolumeFade(true, true); // テスト用
+		sceneMediator_->setSceneMoveEffectID(SceneMoveEffectID::WHITE); // テスト用
 
 		createScene(SceneID::TITLE);
 		initScene(SceneID::TITLE);
 		currentSceneID_ = SceneID::TITLE;
 	}
 
-	SceneManager::~SceneManager()
-	{
-		sceneMediator_.reset();
-	}
+	SceneManager::~SceneManager() {}
 
 	void SceneManager::step()
 	{
@@ -99,7 +97,7 @@ namespace game::scene
 			if (!sceneMediator_->isMovingScene()) itr->second->action();
 			itr->second->update();
 			itr->second->draw();
-			sceneMediator_->draw();
+			sceneMediator_->drawSceneMoveEffect();
 		}
 	}
 }

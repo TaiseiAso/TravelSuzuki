@@ -1,7 +1,6 @@
 #include "title_scene.h"
 #include "../input/input_receiver.h"
 #include "../audio/music_player.h"
-#include "../graphic/image_manager.h"
 #include "DxLib.h"
 
 namespace game::scene
@@ -18,37 +17,37 @@ namespace game::scene
 
 	void TitleScene::action()
 	{
-		if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_P) == 1)
+		if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_P))
 		{
 			audio::MusicPlayer::instance().playMusic("test", "test1", 255, true, true);
 		}
-		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_S) == 1)
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_S))
 		{
 			audio::MusicPlayer::instance().stopMusic("test1");
 		}
-		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_Q) == 1)
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Q))
 		{
 			audio::MusicPlayer::instance().setPlayMusicVolume("test1", 120);
 		}
-		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_W) == 1)
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_W))
 		{
 			audio::MusicPlayer::instance().setPlayMusicVolume("test1", 255);
 		}
-		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_E) == 1)
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_E))
 		{
 			audio::MusicPlayer::instance().setMasterVolume(0.5f);
 		}
-		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_R) == 1)
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_R))
 		{
 			audio::MusicPlayer::instance().setMasterVolume(1.f);
 		}
-		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_T) == 1)
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_T))
 		{
 			audio::MusicPlayer::instance().deleteAllMusic();
 		}
-		else if (input::InputReceiver::instance().getPushKeyFrame(KEY_INPUT_Y) == 1)
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Y))
 		{
-			sceneMediator_->moveScene(SceneID::GAME, { SceneID::GAME }, { SceneID::TITLE });
+			sceneMediator_.lock()->moveScene(SceneID::GAME, { SceneID::GAME }, { SceneID::TITLE });
 		}
 	}
 
@@ -74,22 +73,22 @@ namespace game::scene
 		handle = graphic::ImageManager::instance().getImageHandleInGroup("test", 2);
 		DrawGraph(300, 000, handle, TRUE);
 
-		handle = graphic::ImageManager::instance().getImageHandleInAnime("test", testElapsedFrame, testElapsedSheet);
+		handle = graphic::ImageManager::instance().getImageHandleInAnime("test", &testElapsedData_);
 		DrawGraph(0, 300, handle, TRUE);
 
 		DrawCircle(
-			450 + (int)(sceneMediator_->getFadeRatio() * 450),
+			450 + (int)(sceneMediator_.lock()->getFadeRatio() * 450),
 			500, 30, GetColor(255, 255, 255), 1, 1);
 	}
 
-	TitleScene::TitleScene(std::shared_ptr<SceneMediator> sceneMediator) : BaseScene(sceneMediator)
+	TitleScene::TitleScene(std::shared_ptr<SceneMediator>& sceneMediator)
+		: BaseScene(sceneMediator)
 	{
 		audio::MusicPlayer::instance().loadMusic("test");
 		graphic::ImageManager::instance().loadImage("test");
 		graphic::ImageManager::instance().loadGroup("test");
 
-		testElapsedFrame = 0;
-		testElapsedSheet = 0;
+		testElapsedData_ = { 0, 0 };
 	}
 
 	TitleScene::~TitleScene()

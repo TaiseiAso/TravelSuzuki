@@ -15,10 +15,10 @@ namespace game::scene
 	class SceneManager
 	{
 	private:
-		// シーンIDと作成したシーンのマップ
-		std::unordered_map<SceneID, std::unique_ptr<BaseScene>> idToCreatedScene_;
 		// シーン仲介者
 		std::shared_ptr<SceneMediator> sceneMediator_;
+		// シーンIDと作成したシーンのマップ
+		std::unordered_map<SceneID, std::unique_ptr<BaseScene>> idToCreatedScene_;
 		// 現在のシーンID
 		SceneID currentSceneID_;
 
@@ -30,6 +30,7 @@ namespace game::scene
 		void finalScene(SceneID sceneID);
 		// シーンを破棄する
 		void deleteScene(SceneID sceneID);
+
 		// シーン移動の処理
 		void moveScene();
 

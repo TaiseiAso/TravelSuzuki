@@ -22,6 +22,11 @@ namespace game::input
 		return pushKeyFrameArray_[keyID];
 	}
 
+	bool InputReceiver::isPushKeyNow(int keyID) const
+	{
+		return getPushKeyFrame(keyID) == 1;
+	}
+
 	InputReceiver::InputReceiver() {}
 	InputReceiver::~InputReceiver() {}
 }
