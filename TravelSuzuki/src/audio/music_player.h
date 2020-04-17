@@ -27,9 +27,13 @@ namespace game::audio
 
 		// 全体の音量比率
 		float masterVolume_;
+		// 主にフェードインアウト中の音量比率
+		float fadeVolume_;
 
 		// 再生中の音楽の音量を変更する
 		void setPlayMusicVolume(int playMusicHandle, int playMusicVolume) const;
+		// 再生中の全ての音楽の音量を更新する
+		void updateAllPlayMusicVolume() const;
 
 	public:
 		// 音楽の名前とファイルパスが対応付けられたデータベースを読み込む
@@ -60,6 +64,8 @@ namespace game::audio
 
 		// マスター音量を変更する
 		void setMasterVolume(float masterVolume);
+		// フェード音量を変更する
+		void setFadeVolume(float fadeVolume);
 
 		/*
 			停止しているのにメモリに残っている音楽とそのハンドルをメモリから破棄する

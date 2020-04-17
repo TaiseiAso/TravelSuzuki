@@ -9,8 +9,16 @@ namespace game::audio
 {
 	void MusicPlayer::setPlayMusicVolume(int playMusicHandle, int playMusicVolume) const
 	{
-		int volumePal = static_cast<int>(masterVolume_ * playMusicVolume);
+		int volumePal = static_cast<int>(masterVolume_ * fadeVolume_ * playMusicVolume);
 		ChangeVolumeSoundMem(std::clamp<int>(volumePal, 0, 255), playMusicHandle);
+	}
+
+	void MusicPlayer::updateAllPlayMusicVolume() const
+	{
+		for (const auto& itrPlay : playMusicNameToHandleAndVolume_)
+		{
+			setPlayMusicVolume(itrPlay.second.handle, itrPlay.second.volume);
+		}
 	}
 
 	void MusicPlayer::loadMusicNameToPathDatabase(std::string databaseFilePath, bool pathFirstLine)
@@ -138,10 +146,13 @@ namespace game::audio
 	void MusicPlayer::setMasterVolume(float masterVolume)
 	{
 		masterVolume_ = masterVolume;
-		for (const auto& itrPlay : playMusicNameToHandleAndVolume_)
-		{
-			setPlayMusicVolume(itrPlay.second.handle, itrPlay.second.volume);
-		}
+		updateAllPlayMusicVolume();
+	}
+
+	void MusicPlayer::setFadeVolume(float fadeVolume)
+	{
+		fadeVolume_ = fadeVolume;
+		updateAllPlayMusicVolume();
 	}
 	
 	bool MusicPlayer::deleteStoppingMusic(std::string playMusicName)
@@ -160,9 +171,9 @@ namespace game::audio
 	}
 
 	MusicPlayer::MusicPlayer()
-	{
-		masterVolume_ = 1.f;
-	}
+		: masterVolume_(1.f),
+		  fadeVolume_(1.f)
+	{}
 
 	MusicPlayer::~MusicPlayer()
 	{

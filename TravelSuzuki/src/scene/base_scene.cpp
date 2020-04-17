@@ -2,17 +2,20 @@
 
 namespace game::scene
 {
-	BaseScene::BaseScene(std::shared_ptr<SceneMediator>& sceneMediator)
-		: sceneMediator_(sceneMediator),
-		  Imagehandle_(-1),
-		  elapsedFrame_(0)
+	void BaseScene::baseInitialize()
 	{
-
+		elapsedFrame_ = 0;
+		initialize();
 	}
 
-	BaseScene::~BaseScene()
+	void BaseScene::baseFinalize()
 	{
+		finalize();
+	}
 
+	void BaseScene::baseAction()
+	{
+		action();
 	}
 
 	void BaseScene::baseUpdate()
@@ -20,4 +23,17 @@ namespace game::scene
 		update();
 		if (++elapsedFrame_ == INT_MAX) elapsedFrame_ = 0;
 	}
+
+	void BaseScene::baseDraw()
+	{
+		draw();
+	}
+
+	BaseScene::BaseScene(std::shared_ptr<SceneMediator>& sceneMediator)
+		: sceneMediator_(sceneMediator),
+		  Imagehandle_(-1),
+		  elapsedFrame_(0)
+	{}
+
+	BaseScene::~BaseScene() {}
 }

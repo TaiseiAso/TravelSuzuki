@@ -3,15 +3,6 @@
 
 namespace game::fps
 {
-	FPSController::FPSController()
-	{
-		startTime_ = 0;
-		count_ = 0;
-		fps_ = 0;
-	}
-
-	FPSController::~FPSController() {}
-
 	void FPSController::update()
 	{
 		if (count_ == 0) startTime_ = GetNowCount();
@@ -36,4 +27,12 @@ namespace game::fps
 		int waitTime = count_ * 1000 / FPS - tookTime;
 		if (waitTime > 0) Sleep(waitTime);
 	}
+
+	FPSController::FPSController()
+		: startTime_(0),
+		  count_(0),
+		  fps_(0)
+	{}
+
+	FPSController::~FPSController() {}
 }

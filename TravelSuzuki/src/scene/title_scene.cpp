@@ -54,7 +54,7 @@ namespace game::scene
 
 	void TitleScene::update()
 	{
-		
+
 	}
 
 	void TitleScene::draw() const

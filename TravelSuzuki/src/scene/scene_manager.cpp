@@ -7,23 +7,8 @@ namespace game::scene
 		auto itr = idToCreatedScene_.find(sceneID);
 		if (itr == idToCreatedScene_.end())
 		{
-			switch (sceneID)
-			{
-			case SceneID::TEST:
-				idToCreatedScene_[sceneID] = std::make_unique<TestScene>(sceneMediator_);
-				break;
-			case SceneID::TITLE:
-				idToCreatedScene_[sceneID] = std::make_unique<TitleScene>(sceneMediator_);
-				break;
-			case SceneID::GAME:
-				idToCreatedScene_[sceneID] = std::make_unique<GameScene>(sceneMediator_);
-				break;
-			case SceneID::RESULT:
-				idToCreatedScene_[sceneID] = std::make_unique<ResultScene>(sceneMediator_);
-				break;
-			case SceneID::ACHIEVEMENT:
-				idToCreatedScene_[sceneID] = std::make_unique<AchievementScene>(sceneMediator_);
-			}
+			std::unique_ptr<BaseScene> createdScene = sceneFactory_.createScene(sceneID, sceneMediator_);
+			if (createdScene) idToCreatedScene_[sceneID] = std::move(createdScene);
 		}
 	}
 
@@ -32,7 +17,7 @@ namespace game::scene
 		auto itr = idToCreatedScene_.find(sceneID);
 		if (itr != idToCreatedScene_.end())
 		{
-			itr->second->initialize();
+			itr->second->baseInitialize();
 		}
 	}
 
@@ -41,7 +26,7 @@ namespace game::scene
 		auto itr = idToCreatedScene_.find(sceneID);
 		if (itr != idToCreatedScene_.end())
 		{
-			itr->second->finalize();
+			itr->second->baseFinalize();
 		}
 	}
 
@@ -81,7 +66,7 @@ namespace game::scene
 	{
 		sceneMediator_ = std::make_shared<SceneMediator>();
 		sceneMediator_->setMoveSceneFrame(60); // テスト用
-		sceneMediator_->setAllowChangeMasterVolumeFade(true, true); // テスト用
+		sceneMediator_->setAllowChangeVolumeFade(true, true); // テスト用
 		sceneMediator_->setSceneMoveEffectID(SceneMoveEffectID::WHITE); // テスト用
 
 		// 最初のシーン (テスト用)
@@ -100,9 +85,9 @@ namespace game::scene
 		auto itr = idToCreatedScene_.find(currentSceneID_);
 		if (itr != idToCreatedScene_.end())
 		{
-			if (!sceneMediator_->isMovingScene()) itr->second->action();
+			if (!sceneMediator_->isMovingScene()) itr->second->baseAction();
 			itr->second->baseUpdate();
-			itr->second->draw();
+			itr->second->baseDraw();
 			sceneMediator_->drawSceneMoveEffect();
 		}
 	}

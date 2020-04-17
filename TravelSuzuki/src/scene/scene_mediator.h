@@ -17,8 +17,8 @@ namespace game::scene
 			int fadeLevel; // フェードのかかり具合 (最大はmoveSceneFrame)
 			std::vector<SceneID> createSceneIDVector; // 移動時に作成するシーンのIDリスト
 			std::vector<SceneID> deleteSceneIDVector; // 移動時に破棄するシーンのIDリスト
-			bool allowChangeMasterVolumeFadeOut; // フェードアウト時にマスター音量を変更するかどうか
-			bool allowChangeMasterVolumeFadeIn; // フェードイン時にマスター音量を変更するかどうか
+			bool allowChangeVolumeFadeOut; // フェードアウト時にマスター音量を変更するかどうか
+			bool allowChangeVolumeFadeIn; // フェードイン時にマスター音量を変更するかどうか
 			SceneMoveEffectID sceneMoveEffectID; // シーン移動時の演出ID
 		} MoveSceneData;
 
@@ -53,17 +53,14 @@ namespace game::scene
 
 		// シーン移動に関する各種パラメータを設定する
 		void setMoveSceneFrame(int moveSceneFrame);
-		void setAllowChangeMasterVolumeFade(bool allowChangeMasterVolumeFadeOut, bool allowChangeMasterVolumeFadeIn);
+		void setAllowChangeVolumeFade(bool allowChangeVolumeFadeOut, bool allowChangeVolumeFadeIn);
 		void setSceneMoveEffectID(SceneMoveEffectID sceneMoveEffectID);
 
 		// シーン移動を開始する
 		void moveScene(SceneID nextSceneID);
 		void moveScene(SceneID nextSceneID, const std::vector<SceneID>& createSceneIDVector, const std::vector<SceneID>& deleteSceneIDVector);
 		
-		/*
-			シーン移動を更新する
-			return: true->シーン移動タイミングである, false->シーン移動タイミングではない
-		*/
+		// シーン移動を更新する
 		bool updateMoveScene();
 		
 		// シーン移動の演出を描画する

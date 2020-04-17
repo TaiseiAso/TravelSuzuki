@@ -47,7 +47,7 @@ namespace game::scene
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Y))
 		{
-			sceneMediator_.lock()->moveScene(SceneID::TITLE, { SceneID::TITLE }, { SceneID::TEST });
+			sceneMediator_->moveScene(SceneID::TITLE, { SceneID::TITLE }, { SceneID::TEST });
 		}
 	}
 
@@ -77,7 +77,7 @@ namespace game::scene
 		DrawGraph(0, 300, handle, TRUE);
 
 		DrawCircle(
-			450 + (int)(sceneMediator_.lock()->getFadeRatio() * 450),
+			450 + (int)(sceneMediator_->getFadeRatio() * 450),
 			500, 30, GetColor(255, 255, 255), 1, 1);
 	}
 

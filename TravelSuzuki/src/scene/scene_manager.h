@@ -2,14 +2,7 @@
 #define scene_manager_h
 
 #include <unordered_map>
-#include <memory>
-#include "scene_enum.h"
-#include "scene_mediator.h"
-#include "test_scene.h"
-#include "title_scene.h"
-#include "game_scene.h"
-#include "result_scene.h"
-#include "achievement_scene.h"
+#include "scene_factory.h"
 
 namespace game::scene
 {
@@ -18,6 +11,10 @@ namespace game::scene
 	private:
 		// シーン仲介者
 		std::shared_ptr<SceneMediator> sceneMediator_;
+		
+		// シーンファクトリ
+		SceneFactory sceneFactory_;
+
 		// シーンIDと作成したシーンのマップ
 		std::unordered_map<SceneID, std::unique_ptr<BaseScene>> idToCreatedScene_;
 		// 現在のシーンID

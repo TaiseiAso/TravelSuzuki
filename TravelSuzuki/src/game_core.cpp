@@ -1,5 +1,6 @@
 #include "game_core.h"
 #include "DxLib.h"
+#include "fps/fps_controller.h"
 #include "input/input_receiver.h"
 #include "audio/music_player.h"
 #include "graphic/image_manager.h"
@@ -16,7 +17,8 @@ namespace game
 		DxLib_Init(); // DXライブラリ初期化処理
 
 		SetDrawScreen(DX_SCREEN_BACK); // 描画先を裏画面にする
-	
+
+		fps::FPSController::create();
 		input::InputReceiver::create();
 		audio::MusicPlayer::create();
 		audio::MusicPlayer::instance().loadMusicNameToPathDatabase("resource/database/music_name_to_path.csv");
@@ -25,7 +27,6 @@ namespace game
 		graphic::ImageManager::instance().loadGroupNameToDivDataDatabase("resource/database/group_name_to_divdata.csv");
 		graphic::ImageManager::instance().loadGroupNameToFramesDatabase("resource/database/group_name_to_frames.csv");
 
-		fpsController_ = std::make_unique<fps::FPSController>();
 		sceneManager_ = std::make_unique<scene::SceneManager>();
 	}
 
@@ -36,6 +37,7 @@ namespace game
 		graphic::ImageManager::destroy();
 		audio::MusicPlayer::destroy();
 		input::InputReceiver::destroy();
+		fps::FPSController::destroy();
 
 		DxLib_End(); // DXライブラリ終了処理
 	}
@@ -44,17 +46,17 @@ namespace game
 	{
 		while (!ProcessMessage())
 		{
-			fpsController_->update();
+			fps::FPSController::instance().update();
 			input::InputReceiver::instance().update();
 
 			ClearDrawScreen();
 			
 			sceneManager_->step();
-			fpsController_->draw(); // テスト用
+			fps::FPSController::instance().draw(); // テスト用
 			
 			ScreenFlip();
 			
-			fpsController_->wait();
+			fps::FPSController::instance().wait();
 		}
 	}
 }

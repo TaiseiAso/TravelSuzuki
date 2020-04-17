@@ -17,8 +17,8 @@ namespace game::scene
 	{
 		moveSceneData_.isMovingScene = false;
 		moveSceneData_.moveSceneFrame = 0;
-		moveSceneData_.allowChangeMasterVolumeFadeOut = false;
-		moveSceneData_.allowChangeMasterVolumeFadeIn = false;
+		moveSceneData_.allowChangeVolumeFadeOut = false;
+		moveSceneData_.allowChangeVolumeFadeIn = false;
 		moveSceneData_.sceneMoveEffectID = SceneMoveEffectID::WHITE;
 	}
 
@@ -56,12 +56,12 @@ namespace game::scene
 		if (!moveSceneData_.isMovingScene) moveSceneData_.moveSceneFrame = moveSceneFrame;
 	}
 
-	void SceneMediator::setAllowChangeMasterVolumeFade(bool allowChangeMasterVolumeFadeOut, bool allowChangeMasterVolumeFadeIn)
+	void SceneMediator::setAllowChangeVolumeFade(bool allowChangeVolumeFadeOut, bool allowChangeVolumeFadeIn)
 	{
 		if (!moveSceneData_.isMovingScene)
 		{
-			moveSceneData_.allowChangeMasterVolumeFadeOut = allowChangeMasterVolumeFadeOut;
-			moveSceneData_.allowChangeMasterVolumeFadeIn = allowChangeMasterVolumeFadeIn;
+			moveSceneData_.allowChangeVolumeFadeOut = allowChangeVolumeFadeOut;
+			moveSceneData_.allowChangeVolumeFadeIn = allowChangeVolumeFadeIn;
 		}
 	}
 
@@ -106,18 +106,18 @@ namespace game::scene
 			if (moveSceneData_.isFadeOut)
 			{
 				++moveSceneData_.fadeLevel;
-				if (moveSceneData_.allowChangeMasterVolumeFadeOut)
+				if (moveSceneData_.allowChangeVolumeFadeOut)
 				{
-					audio::MusicPlayer::instance().setMasterVolume(
+					audio::MusicPlayer::instance().setFadeVolume(
 						1.f - (float)moveSceneData_.fadeLevel / moveSceneData_.moveSceneFrame
 					);
 				}
 				if (moveSceneData_.fadeLevel == moveSceneData_.moveSceneFrame)
 				{
 					moveSceneData_.isFadeOut = false;
-					if (!moveSceneData_.allowChangeMasterVolumeFadeIn)
+					if (!moveSceneData_.allowChangeVolumeFadeIn)
 					{
-						audio::MusicPlayer::instance().setMasterVolume(1.f);
+						audio::MusicPlayer::instance().setFadeVolume(1.f);
 					}
 					return true;
 				}
@@ -125,9 +125,9 @@ namespace game::scene
 			else
 			{
 				--moveSceneData_.fadeLevel;
-				if (moveSceneData_.allowChangeMasterVolumeFadeIn)
+				if (moveSceneData_.allowChangeVolumeFadeIn)
 				{
-					audio::MusicPlayer::instance().setMasterVolume(
+					audio::MusicPlayer::instance().setFadeVolume(
 						1.f - (float)moveSceneData_.fadeLevel / moveSceneData_.moveSceneFrame
 					);
 				}
