@@ -4,7 +4,7 @@
 #include "base_scene.h"
 #include "../graphic/image_manager.h"
 
-namespace game::scene
+namespace game::scene::test
 {
 	class TestScene : public BaseScene
 	{
@@ -25,7 +25,7 @@ namespace game::scene
 
 	public:
 		// コンストラクタ
-		TestScene(std::shared_ptr<SceneMediator>& sceneMediator);
+		TestScene(const std::shared_ptr<SceneMediator>& sceneMediator);
 		// デストラクタ
 		~TestScene();
 	};

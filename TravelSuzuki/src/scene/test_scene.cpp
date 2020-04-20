@@ -3,7 +3,7 @@
 #include "../audio/music_player.h"
 #include "DxLib.h"
 
-namespace game::scene
+namespace game::scene::test
 {
 	void TestScene::initialize()
 	{
@@ -81,7 +81,7 @@ namespace game::scene
 			500, 30, GetColor(255, 255, 255), 1, 1);
 	}
 
-	TestScene::TestScene(std::shared_ptr<SceneMediator>& sceneMediator)
+	TestScene::TestScene(const std::shared_ptr<SceneMediator>& sceneMediator)
 		: BaseScene(sceneMediator)
 	{
 		audio::MusicPlayer::instance().loadMusic("test");

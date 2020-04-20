@@ -17,7 +17,7 @@ namespace game::scene
 		auto itr = idToCreatedScene_.find(sceneID);
 		if (itr != idToCreatedScene_.end())
 		{
-			itr->second->baseInitialize();
+			itr->second->initialize();
 		}
 	}
 
@@ -26,7 +26,7 @@ namespace game::scene
 		auto itr = idToCreatedScene_.find(sceneID);
 		if (itr != idToCreatedScene_.end())
 		{
-			itr->second->baseFinalize();
+			itr->second->finalize();
 		}
 	}
 
@@ -70,7 +70,7 @@ namespace game::scene
 		sceneMediator_->setSceneMoveEffectID(SceneMoveEffectID::WHITE); // テスト用
 
 		// 最初のシーン (テスト用)
-		SceneID firstSceneID = SceneID::TEST;
+		SceneID firstSceneID = SceneID::TITLE;
 
 		createScene(firstSceneID);
 		initScene(firstSceneID);
@@ -79,16 +79,18 @@ namespace game::scene
 
 	SceneManager::~SceneManager() {}
 
-	void SceneManager::step()
+	bool SceneManager::step()
 	{
 		if (sceneMediator_->updateMoveScene()) moveScene();
 		auto itr = idToCreatedScene_.find(currentSceneID_);
 		if (itr != idToCreatedScene_.end())
 		{
-			if (!sceneMediator_->isMovingScene()) itr->second->baseAction();
-			itr->second->baseUpdate();
-			itr->second->baseDraw();
+			if (!sceneMediator_->isMovingScene()) itr->second->action();
+			itr->second->update();
+			itr->second->draw();
 			sceneMediator_->drawSceneMoveEffect();
+			return true;
 		}
+		else return false;
 	}
 }

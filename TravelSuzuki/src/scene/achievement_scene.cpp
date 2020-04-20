@@ -1,6 +1,6 @@
 #include "achievement_scene.h"
 
-namespace game::scene
+namespace game::scene::achievement
 {
 	void AchievementScene::initialize()
 	{
@@ -27,7 +27,7 @@ namespace game::scene
 
 	}
 
-	AchievementScene::AchievementScene(std::shared_ptr<SceneMediator>& sceneMediator)
+	AchievementScene::AchievementScene(const std::shared_ptr<SceneMediator>& sceneMediator)
 		: BaseScene(sceneMediator)
 	{
 

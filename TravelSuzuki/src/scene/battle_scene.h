@@ -1,11 +1,11 @@
-#ifndef game_scene_h
-#define game_scene_h
+#ifndef battle_scene_h
+#define battle_scene_h
 
 #include "base_scene.h"
 
-namespace game::scene
+namespace game::scene::battle
 {
-	class GameScene : public BaseScene
+	class BattleScene : public BaseScene
 	{
 	private:
 		// シーンの初期化処理
@@ -22,10 +22,10 @@ namespace game::scene
 
 	public:
 		// コンストラクタ
-		GameScene(std::shared_ptr<SceneMediator>& sceneMediator);
+		BattleScene(const std::shared_ptr<SceneMediator>& sceneMediator);
 		// デストラクタ
-		~GameScene();
+		~BattleScene();
 	};
 }
 
-#endif // !game_scene_h
+#endif // !battle_scene_h

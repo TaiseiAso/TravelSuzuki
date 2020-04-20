@@ -1,6 +1,6 @@
 #include "result_scene.h"
 
-namespace game::scene
+namespace game::scene::result
 {
 	void ResultScene::initialize()
 	{
@@ -27,7 +27,7 @@ namespace game::scene
 
 	}
 
-	ResultScene::ResultScene(std::shared_ptr<SceneMediator>& sceneMediator)
+	ResultScene::ResultScene(const std::shared_ptr<SceneMediator>& sceneMediator)
 		: BaseScene(sceneMediator)
 	{
 

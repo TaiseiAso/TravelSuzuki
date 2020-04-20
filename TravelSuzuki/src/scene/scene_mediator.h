@@ -2,10 +2,25 @@
 #define scene_mediator_h
 
 #include <vector>
-#include "scene_enum.h"
 
 namespace game::scene
 {
+	enum class SceneID
+	{
+		TEST = -1,
+		TITLE,
+		BATTLE,
+		RESULT,
+		ACHIEVEMENT,
+		END
+	};
+
+	enum class SceneMoveEffectID
+	{
+		BLACK,
+		WHITE
+	};
+
 	class SceneMediator
 	{
 	private:
@@ -24,6 +39,14 @@ namespace game::scene
 
 		// シーン移動に関する構造体オブジェクト
 		MoveSceneData moveSceneData_;
+
+		// コピーコンストラクタを禁止する
+		SceneMediator(const SceneMediator&) = delete;
+		SceneMediator(SceneMediator&&) = delete;
+
+		// コピー代入演算子を禁止する
+		SceneMediator& operator=(const SceneMediator&) = delete;
+		SceneMediator& operator=(SceneMediator&&) = delete;
 
 		// 各種シーン演出の描画
 		void drawScreenOneColor(unsigned int color) const;
@@ -60,7 +83,7 @@ namespace game::scene
 		void moveScene(SceneID nextSceneID);
 		void moveScene(SceneID nextSceneID, const std::vector<SceneID>& createSceneIDVector, const std::vector<SceneID>& deleteSceneIDVector);
 		
-		// シーン移動を更新する
+		// シーン移動を更新する (必ずsceneManagerクラスから呼ばれる)
 		bool updateMoveScene();
 		
 		// シーン移動の演出を描画する

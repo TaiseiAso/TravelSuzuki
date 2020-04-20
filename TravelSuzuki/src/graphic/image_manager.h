@@ -63,17 +63,17 @@ namespace game::graphic
 		// すべての画像(集合画像を含む)をメモリから破棄する
 		void deleteAllImageAndGroup();
 
-		// 画像のハンドルを取得
+		// 画像のハンドルを取得 (失敗すると-1を返す)
 		int getImageHandle(std::string imageName) const;
-		// 集合画像の指定した画像のハンドルを取得
+		// 集合画像の指定した画像のハンドルを取得 (失敗すると-1を返す)
 		int getImageHandleInGroup(std::string groupName, int id) const;
-		// 集合写真をアニメーションとして描画するために画像のハンドルを取得
-		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData) const;
-		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* elapsedData, const std::vector<int>& frameVector) const;
+		// 集合写真をアニメーションとして描画するために画像のハンドルを取得 (失敗すると-1を返す)
+		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* const elapsedData) const;
+		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* const elapsedData, const std::vector<int>& frameVector) const;
 
 	protected:
 		ImageManager(); // 外部でのインスタンス作成は禁止
-		virtual ~ImageManager();
+		~ImageManager();
 	};
 }
 

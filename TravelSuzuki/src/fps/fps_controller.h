@@ -27,7 +27,7 @@ namespace game::fps
 
 	protected:
 		FPSController(); // 外部でのインスタンス作成は禁止
-		virtual ~FPSController();
+		~FPSController();
 	};
 }
 

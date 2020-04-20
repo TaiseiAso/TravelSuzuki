@@ -20,6 +20,14 @@ namespace game::scene
 		// 現在のシーンID
 		SceneID currentSceneID_;
 
+		// コピーコンストラクタを禁止する
+		SceneManager(const SceneManager&) = delete;
+		SceneManager(SceneManager&&) = delete;
+
+		// コピー代入演算子を禁止する
+		SceneManager& operator=(const SceneManager&) = delete;
+		SceneManager& operator=(SceneManager&&) = delete;
+
 		// シーンを作成する
 		void createScene(SceneID sceneID);
 		// シーンを初期化する
@@ -38,8 +46,8 @@ namespace game::scene
 		// デストラクタ
 		~SceneManager();
 
-		// ステップごとの処理
-		void step();
+		// ステップごとの処理 (終了時falseを返す)
+		bool step();
 	};
 }
 

@@ -75,7 +75,7 @@ namespace game::audio
 
 	protected:
 		MusicPlayer(); // 外部でのインスタンス作成は禁止
-		virtual ~MusicPlayer();
+		~MusicPlayer();
 	};
 }
 

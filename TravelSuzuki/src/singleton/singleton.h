@@ -14,8 +14,8 @@ private:
 	Singleton(Singleton&&) = delete;
 
 	// コピー代入演算子を禁止する
-	Singleton operator=(const Singleton&) = delete;
-	Singleton operator=(Singleton&&) = delete;
+	Singleton& operator=(const Singleton&) = delete;
+	Singleton& operator=(Singleton&&) = delete;
 
 protected:
 	Singleton() {} // 外部でのインスタンス作成は禁止

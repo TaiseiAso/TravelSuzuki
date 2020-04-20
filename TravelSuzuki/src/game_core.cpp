@@ -51,7 +51,7 @@ namespace game
 
 			ClearDrawScreen();
 			
-			sceneManager_->step();
+			if (!sceneManager_->step()) break;
 			fps::FPSController::instance().draw(); // テスト用
 			
 			ScreenFlip();

@@ -12,6 +12,14 @@ namespace game
 	private:
 		std::unique_ptr<scene::SceneManager> sceneManager_; // シーン管理
 
+		// コピーコンストラクタを禁止する
+		GameCore(const GameCore&) = delete;
+		GameCore(GameCore&&) = delete;
+
+		// コピー代入演算子を禁止する
+		GameCore& operator=(const GameCore&) = delete;
+		GameCore& operator=(GameCore&&) = delete;
+
 	public:
 		// コンストラクタ
 		GameCore();

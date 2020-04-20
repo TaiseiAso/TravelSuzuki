@@ -24,7 +24,7 @@ namespace game::input
 
 	protected:
 		InputReceiver();// 外部でのインスタンス作成は禁止
-		virtual ~InputReceiver();
+		~InputReceiver();
 	};
 }
 

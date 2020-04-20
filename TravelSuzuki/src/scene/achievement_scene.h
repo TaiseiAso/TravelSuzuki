@@ -3,7 +3,7 @@
 
 #include "base_scene.h"
 
-namespace game::scene
+namespace game::scene::achievement
 {
 	class AchievementScene : public BaseScene
 	{
@@ -22,7 +22,7 @@ namespace game::scene
 
 	public:
 		// コンストラクタ
-		AchievementScene(std::shared_ptr<SceneMediator>& sceneMediator);
+		AchievementScene(const std::shared_ptr<SceneMediator>& sceneMediator);
 		// デストラクタ
 		~AchievementScene();
 	};
