@@ -12,6 +12,9 @@ namespace game::input
 	private:
 		int pushKeyFrameArray_[256] = {}; // 全てのキーが押されているフレーム数
 
+		InputReceiver();// 外部でのインスタンス作成は禁止
+		~InputReceiver();
+
 	public:
 		// キー入力状態を更新する
 		void update();
@@ -21,10 +24,6 @@ namespace game::input
 		
 		// 指定したキーが直近に押されたかを取得する
 		bool isPushKeyNow(int keyID) const;
-
-	protected:
-		InputReceiver();// 外部でのインスタンス作成は禁止
-		~InputReceiver();
 	};
 }
 

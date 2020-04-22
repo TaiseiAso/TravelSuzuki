@@ -21,6 +21,16 @@ namespace game::audio
 		}
 	}
 
+	MusicPlayer::MusicPlayer()
+		: masterVolume_(1.f),
+		fadeVolume_(1.f)
+	{}
+
+	MusicPlayer::~MusicPlayer()
+	{
+		deleteAllMusic();
+	}
+
 	void MusicPlayer::loadMusicNameToPathDatabase(std::string databaseFilePath, bool pathFirstLine)
 	{
 		loadMusicNameToPath_.clear();
@@ -30,7 +40,7 @@ namespace game::audio
 		if (pathFirstLine) std::getline(ifs, line); // àÍçsñ⁄ÇÕîÚÇŒÇ∑
 		while (std::getline(ifs, line))
 		{
-			std::vector<std::string> strVec = StringUtil::split(line, ',');
+			std::vector<std::string> strVec = stringUtil::split(line, ',');
 			if (strVec.size() >= 2) loadMusicNameToPath_[strVec[0]] = strVec[1];
 		}
 	}
@@ -168,15 +178,5 @@ namespace game::audio
 			}
 		}
 		return false;
-	}
-
-	MusicPlayer::MusicPlayer()
-		: masterVolume_(1.f),
-		  fadeVolume_(1.f)
-	{}
-
-	MusicPlayer::~MusicPlayer()
-	{
-		deleteAllMusic();
 	}
 }

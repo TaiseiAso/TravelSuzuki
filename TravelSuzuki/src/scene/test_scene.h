@@ -25,7 +25,7 @@ namespace game::scene::test
 
 	public:
 		// コンストラクタ
-		TestScene(const std::shared_ptr<SceneMediator>& sceneMediator);
+		TestScene();
 		// デストラクタ
 		~TestScene();
 	};

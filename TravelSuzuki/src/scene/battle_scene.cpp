@@ -29,8 +29,7 @@ namespace game::scene::battle
 
 	}
 
-	BattleScene::BattleScene(const std::shared_ptr<SceneMediator>& sceneMediator)
-		: BaseScene(sceneMediator)
+	BattleScene::BattleScene()
 	{
 
 	}

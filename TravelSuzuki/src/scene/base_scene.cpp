@@ -3,9 +3,8 @@
 
 namespace game::scene
 {
-	BaseScene::BaseScene(const std::shared_ptr<SceneMediator>& sceneMediator)
-		: sceneMediator_(sceneMediator),
-		  imagehandle_(-1)
+	BaseScene::BaseScene()
+		: imagehandle_(-1)
 	{}
 
 	BaseScene::~BaseScene() {}

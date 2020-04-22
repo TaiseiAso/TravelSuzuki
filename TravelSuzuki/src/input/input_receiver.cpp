@@ -3,6 +3,9 @@
 
 namespace game::input
 {
+	InputReceiver::InputReceiver() {}
+	InputReceiver::~InputReceiver() {}
+
 	void InputReceiver::update()
 	{
 		char tmpKey[256]; // Œ»İ‚ÌƒL[‚Ì“ü—Íó‘Ô‚ğŠi”[‚·‚é
@@ -26,7 +29,4 @@ namespace game::input
 	{
 		return pushKeyFrameArray_[keyID] == 1;
 	}
-
-	InputReceiver::InputReceiver() {}
-	InputReceiver::~InputReceiver() {}
 }

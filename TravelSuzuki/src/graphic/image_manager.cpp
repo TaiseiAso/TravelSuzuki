@@ -7,6 +7,12 @@
 
 namespace game::graphic
 {
+	ImageManager::ImageManager() {}
+	ImageManager::~ImageManager()
+	{
+		deleteAllImageAndGroup();
+	}
+
 	void ImageManager::loadImageNameToPathDatabase(std::string databaseFilePath, bool passFirstLine)
 	{
 		imageNameToPath_.clear();
@@ -16,7 +22,7 @@ namespace game::graphic
 		if (passFirstLine) std::getline(ifs, line); // ˆês–Ú‚Í”ò‚Î‚·
 		while (std::getline(ifs, line))
 		{
-			std::vector<std::string> strVec = StringUtil::split(line, ',');
+			std::vector<std::string> strVec = stringUtil::split(line, ',');
 			if (strVec.size() >= 2) imageNameToPath_[strVec[0]] = strVec[1];
 		}
 	}
@@ -30,7 +36,7 @@ namespace game::graphic
 		if (passFirstLine) std::getline(ifs, line); // ˆês–Ú‚Í”ò‚Î‚·
 		while (std::getline(ifs, line))
 		{
-			std::vector<std::string> strVec = StringUtil::split(line, ',');
+			std::vector<std::string> strVec = stringUtil::split(line, ',');
 			if (strVec.size() >= 6)
 			{
 				groupNameToDivData_[strVec[0]] =
@@ -55,7 +61,7 @@ namespace game::graphic
 		if (passFirstLine) std::getline(ifs, line); // ˆês–Ú‚Í”ò‚Î‚·
 		while (std::getline(ifs, line))
 		{
-			std::vector<std::string> strVec = StringUtil::split(line, ',');
+			std::vector<std::string> strVec = stringUtil::split(line, ',');
 			if (strVec.size() >= 2)
 			{
 				std::vector<int> frameVector;
@@ -236,11 +242,5 @@ namespace game::graphic
 			}
 		}
 		return -1;
-	}
-
-	ImageManager::ImageManager() {}
-	ImageManager::~ImageManager()
-	{
-		deleteAllImageAndGroup();
 	}
 }

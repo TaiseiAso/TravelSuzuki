@@ -35,6 +35,9 @@ namespace game::audio
 		// 再生中の全ての音楽の音量を更新する
 		void updateAllPlayMusicVolume() const;
 
+		MusicPlayer(); // 外部でのインスタンス作成は禁止
+		~MusicPlayer();
+
 	public:
 		// 音楽の名前とファイルパスが対応付けられたデータベースを読み込む
 		void loadMusicNameToPathDatabase(std::string databaseFilePath, bool pathFirstLine = true);
@@ -72,10 +75,6 @@ namespace game::audio
 			return: true->破棄に成功, false->破棄しなかった
 		*/
 		bool deleteStoppingMusic(std::string playMusicName);
-
-	protected:
-		MusicPlayer(); // 外部でのインスタンス作成は禁止
-		~MusicPlayer();
 	};
 }
 

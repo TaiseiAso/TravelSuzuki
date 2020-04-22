@@ -27,8 +27,7 @@ namespace game::scene::result
 
 	}
 
-	ResultScene::ResultScene(const std::shared_ptr<SceneMediator>& sceneMediator)
-		: BaseScene(sceneMediator)
+	ResultScene::ResultScene()
 	{
 
 	}

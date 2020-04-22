@@ -2,6 +2,7 @@
 #define fps_controller_h
 
 #include "../singleton/singleton.h"
+#include "DxLib.h"
 
 namespace game::fps
 {
@@ -17,6 +18,11 @@ namespace game::fps
 		static const int N = 30; // FPS推定のために平均を取るサンプル数
 		static const int FPS = 60; // 設定したFPS
 
+		const unsigned int grayColor_ = GetColor(120, 120, 120); // 灰色
+
+		FPSController(); // 外部でのインスタンス作成は禁止
+		~FPSController();
+
 	public:
 		// 更新
 		void update();
@@ -24,10 +30,6 @@ namespace game::fps
 		void draw() const;
 		// FPS固定のため一定時間待機
 		void wait() const;
-
-	protected:
-		FPSController(); // 外部でのインスタンス作成は禁止
-		~FPSController();
 	};
 }
 

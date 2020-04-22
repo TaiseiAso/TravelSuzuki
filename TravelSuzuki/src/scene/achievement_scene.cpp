@@ -27,8 +27,7 @@ namespace game::scene::achievement
 
 	}
 
-	AchievementScene::AchievementScene(const std::shared_ptr<SceneMediator>& sceneMediator)
-		: BaseScene(sceneMediator)
+	AchievementScene::AchievementScene()
 	{
 
 	}

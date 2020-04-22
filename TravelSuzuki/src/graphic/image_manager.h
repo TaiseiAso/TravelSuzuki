@@ -36,6 +36,9 @@ namespace game::graphic
 		// メモリに読み込んだ集合画像の名前とハンドルのリストのマップ
 		std::unordered_map<std::string, std::vector<int>> groupNameToHandleVector_;
 
+		ImageManager(); // 外部でのインスタンス作成は禁止
+		~ImageManager();
+
 	public:
 		// 画像(集合画像を含む)の名前とファイルパスが対応付けられたデータベースを読み込む
 		void loadImageNameToPathDatabase(std::string databaseFilePath, bool passFirstLine = true);
@@ -70,10 +73,6 @@ namespace game::graphic
 		// 集合写真をアニメーションとして描画するために画像のハンドルを取得 (失敗すると-1を返す)
 		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* const elapsedData) const;
 		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* const elapsedData, const std::vector<int>& frameVector) const;
-
-	protected:
-		ImageManager(); // 外部でのインスタンス作成は禁止
-		~ImageManager();
 	};
 }
 

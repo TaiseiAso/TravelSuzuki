@@ -2,6 +2,8 @@
 #include "../graphic/image_manager.h"
 #include "../input/input_receiver.h"
 #include "../audio/music_player.h"
+#include "../scene/scene_manager.h"
+#include "../scene/battle_scene.h"
 
 namespace game::scene::title
 {
@@ -27,18 +29,20 @@ namespace game::scene::title
 			switch (cursor_)
 			{
 			case 0:
-				sceneMediator_->moveScene(SceneID::BATTLE, { SceneID::BATTLE }, { SceneID::TITLE });
+				SceneManager::instance().createScene<battle::BattleScene>("battle");
+				SceneManager::instance().moveScene("battle", { "title" });
 				break;
 			case 1:
-				sceneMediator_->moveScene(SceneID::ACHIEVEMENT, { SceneID::ACHIEVEMENT }, { SceneID::TITLE });
+				SceneManager::instance().createScene<battle::BattleScene>("achievement");
+				SceneManager::instance().moveScene("achievement", { "title" });
 				break;
 			case 2:
 				cursor_ = 0;
 				mode_ = Mode::FIRST;
 				break;
 			case 3:
-				sceneMediator_->setMoveSceneFrame(0);
-				sceneMediator_->moveScene(SceneID::END);
+				SceneManager::instance().setMoveSceneFrame(0);
+				SceneManager::instance().moveScene("END");
 			}
 		}
 	}
@@ -133,9 +137,8 @@ namespace game::scene::title
 		}
 	}
 
-	TitleScene::TitleScene(const std::shared_ptr<SceneMediator>& sceneMediator)
-		: BaseScene(sceneMediator),
-		  elapsedFrame_(0),
+	TitleScene::TitleScene()
+		: elapsedFrame_(0),
 		  mode_(Mode::FIRST),
 		  cursor_(0)
 	{

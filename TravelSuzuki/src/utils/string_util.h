@@ -4,11 +4,10 @@
 #include <vector>
 #include <string>
 
-class StringUtil
+namespace stringUtil
 {
-public:
 	// •¶Žš—ñ‚ðŽw’è‚µ‚½•¶Žš‚Å•ªŠ„‚µ‚½•¶Žš—ñƒŠƒXƒg‚É‚µ‚Ä•Ô‚·
-	static std::vector<std::string> split(std::string str, char del);
-};
+	std::vector<std::string> split(std::string str, char del);
+}
 
 #endif // !split_h

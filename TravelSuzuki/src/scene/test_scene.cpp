@@ -1,6 +1,8 @@
 #include "test_scene.h"
 #include "../input/input_receiver.h"
 #include "../audio/music_player.h"
+#include "../scene/scene_manager.h"
+#include "../scene/title_scene.h"
 #include "DxLib.h"
 
 namespace game::scene::test
@@ -47,7 +49,8 @@ namespace game::scene::test
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Y))
 		{
-			sceneMediator_->moveScene(SceneID::TITLE, { SceneID::TITLE }, { SceneID::TEST });
+			SceneManager::instance().createScene<title::TitleScene>("title");
+			SceneManager::instance().moveScene("title", { "test" });
 		}
 	}
 
@@ -77,12 +80,11 @@ namespace game::scene::test
 		DrawGraph(0, 300, handle, TRUE);
 
 		DrawCircle(
-			450 + (int)(sceneMediator_->getFadeRatio() * 450),
+			450 + (int)(SceneManager::instance().getFadeRatio() * 450),
 			500, 30, GetColor(255, 255, 255), 1, 1);
 	}
 
-	TestScene::TestScene(const std::shared_ptr<SceneMediator>& sceneMediator)
-		: BaseScene(sceneMediator)
+	TestScene::TestScene()
 	{
 		audio::MusicPlayer::instance().loadMusic("test");
 		graphic::ImageManager::instance().loadImage("test");

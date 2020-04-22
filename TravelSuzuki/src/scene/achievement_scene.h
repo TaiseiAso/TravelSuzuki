@@ -22,7 +22,7 @@ namespace game::scene::achievement
 
 	public:
 		// コンストラクタ
-		AchievementScene(const std::shared_ptr<SceneMediator>& sceneMediator);
+		AchievementScene();
 		// デストラクタ
 		~AchievementScene();
 	};

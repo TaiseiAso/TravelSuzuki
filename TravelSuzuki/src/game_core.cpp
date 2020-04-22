@@ -4,6 +4,7 @@
 #include "input/input_receiver.h"
 #include "audio/music_player.h"
 #include "graphic/image_manager.h"
+#include "scene/test_scene.h"
 
 namespace game
 {
@@ -21,19 +22,24 @@ namespace game
 		fps::FPSController::create();
 		input::InputReceiver::create();
 		audio::MusicPlayer::create();
-		audio::MusicPlayer::instance().loadMusicNameToPathDatabase("resource/database/music_name_to_path.csv");
 		graphic::ImageManager::create();
+
+		audio::MusicPlayer::instance().loadMusicNameToPathDatabase("resource/database/music_name_to_path.csv");
 		graphic::ImageManager::instance().loadImageNameToPathDatabase("resource/database/image_name_to_path.csv");
 		graphic::ImageManager::instance().loadGroupNameToDivDataDatabase("resource/database/group_name_to_divdata.csv");
 		graphic::ImageManager::instance().loadGroupNameToFramesDatabase("resource/database/group_name_to_frames.csv");
 
-		sceneManager_ = std::make_unique<scene::SceneManager>();
+		scene::SceneManager::create();
+		scene::SceneManager::instance().createFirstScene<scene::test::TestScene>("test");
+
+		// テスト用
+		scene::SceneManager::instance().setMoveSceneFadeColor(GetColor(255, 255, 255));
+		scene::SceneManager::instance().setMoveSceneFrame(60);
 	}
 
 	GameCore::~GameCore()
 	{
-		sceneManager_.reset();
-
+		scene::SceneManager::destroy();
 		graphic::ImageManager::destroy();
 		audio::MusicPlayer::destroy();
 		input::InputReceiver::destroy();
@@ -51,7 +57,7 @@ namespace game
 
 			ClearDrawScreen();
 			
-			if (!sceneManager_->step()) break;
+			if (!scene::SceneManager::instance().step()) break;
 			fps::FPSController::instance().draw(); // テスト用
 			
 			ScreenFlip();

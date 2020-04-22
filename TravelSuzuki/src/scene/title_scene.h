@@ -54,7 +54,7 @@ namespace game::scene::title
 
 	public:
 		// コンストラクタ
-		TitleScene(const std::shared_ptr<SceneMediator>& sceneMediator);
+		TitleScene();
 		// デストラクタ
 		~TitleScene();
 	};

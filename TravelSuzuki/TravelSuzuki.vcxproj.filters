@@ -28,6 +28,9 @@
     <Filter Include="game\graphic">
       <UniqueIdentifier>{70abd3f8-c67a-4fe0-b9db-7248694e064c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="game\text">
+      <UniqueIdentifier>{c76b0ce5-4973-4bb3-9af5-74ebdcc4c1a3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\scene\achievement_scene.cpp">
@@ -69,17 +72,14 @@
     <ClCompile Include="src\graphic\image_manager.cpp">
       <Filter>game\graphic</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene\scene_mediator.cpp">
-      <Filter>game\scene</Filter>
-    </ClCompile>
     <ClCompile Include="src\scene\test_scene.cpp">
-      <Filter>game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scene\scene_factory.cpp">
       <Filter>game\scene</Filter>
     </ClCompile>
     <ClCompile Include="src\scene\battle_scene.cpp">
       <Filter>game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\text\font_manager.cpp">
+      <Filter>game\text</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,17 +122,14 @@
     <ClInclude Include="src\graphic\image_manager.h">
       <Filter>game\graphic</Filter>
     </ClInclude>
-    <ClInclude Include="src\scene\scene_mediator.h">
-      <Filter>game\scene</Filter>
-    </ClInclude>
     <ClInclude Include="src\scene\test_scene.h">
-      <Filter>game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\scene\scene_factory.h">
       <Filter>game\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\battle_scene.h">
       <Filter>game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\text\font_manager.h">
+      <Filter>game\text</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

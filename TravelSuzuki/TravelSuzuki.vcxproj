@@ -30,11 +30,10 @@
     <ClCompile Include="src\scene\base_scene.cpp" />
     <ClCompile Include="src\scene\battle_scene.cpp" />
     <ClCompile Include="src\scene\result_scene.cpp" />
-    <ClCompile Include="src\scene\scene_factory.cpp" />
     <ClCompile Include="src\scene\scene_manager.cpp" />
-    <ClCompile Include="src\scene\scene_mediator.cpp" />
     <ClCompile Include="src\scene\test_scene.cpp" />
     <ClCompile Include="src\scene\title_scene.cpp" />
+    <ClCompile Include="src\text\font_manager.cpp" />
     <ClCompile Include="src\utils\string_util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -48,12 +47,11 @@
     <ClInclude Include="src\scene\base_scene.h" />
     <ClInclude Include="src\scene\battle_scene.h" />
     <ClInclude Include="src\scene\result_scene.h" />
-    <ClInclude Include="src\scene\scene_factory.h" />
     <ClInclude Include="src\scene\scene_manager.h" />
-    <ClInclude Include="src\scene\scene_mediator.h" />
     <ClInclude Include="src\scene\test_scene.h" />
     <ClInclude Include="src\scene\title_scene.h" />
     <ClInclude Include="src\singleton\singleton.h" />
+    <ClInclude Include="src\text\font_manager.h" />
     <ClInclude Include="src\utils\string_util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

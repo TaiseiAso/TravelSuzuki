@@ -1,96 +1,187 @@
+#include <algorithm>
 #include "scene_manager.h"
+#include "../audio/music_player.h"
+#include "DxLib.h"
 
 namespace game::scene
 {
-	void SceneManager::createScene(SceneID sceneID)
+	void SceneManager::initScene(std::string sceneName)
 	{
-		auto itr = idToCreatedScene_.find(sceneID);
-		if (itr == idToCreatedScene_.end())
-		{
-			std::unique_ptr<BaseScene> createdScene = sceneFactory_.createScene(sceneID, sceneMediator_);
-			if (createdScene) idToCreatedScene_[sceneID] = std::move(createdScene);
-		}
-	}
-
-	void SceneManager::initScene(SceneID sceneID)
-	{
-		auto itr = idToCreatedScene_.find(sceneID);
-		if (itr != idToCreatedScene_.end())
+		auto itr = nameToScene_.find(sceneName);
+		if (itr != nameToScene_.end())
 		{
 			itr->second->initialize();
 		}
 	}
 
-	void SceneManager::finalScene(SceneID sceneID)
+	void SceneManager::finalScene(std::string sceneName)
 	{
-		auto itr = idToCreatedScene_.find(sceneID);
-		if (itr != idToCreatedScene_.end())
+		auto itr = nameToScene_.find(sceneName);
+		if (itr != nameToScene_.end())
 		{
 			itr->second->finalize();
 		}
 	}
 
-	void SceneManager::deleteScene(SceneID sceneID)
+	void SceneManager::swapScene()
 	{
-		auto itr = idToCreatedScene_.find(sceneID);
-		if (itr != idToCreatedScene_.end())
+		finalScene(currentSceneName_);
+		currentSceneName_ = nextSceneName_;
+		initScene(currentSceneName_);
+		for (const std::string& deleteSceneName : deleteSceneNameVector_)
 		{
-			idToCreatedScene_.erase(itr);
+			deleteScene(deleteSceneName);
+		}
+		deleteSceneNameVector_.clear();
+		deleteSceneNameVector_.shrink_to_fit();
+	}
+
+	void SceneManager::updateMoveScene()
+	{
+		if (isMovingScene_)
+		{
+			if (moveSceneFrame_ == 0)
+			{
+				isMovingScene_ = false;
+				swapScene();
+			}
+			else if (isFadeOut_)
+			{
+				++fadeLevel_;
+				if (allowChangeVolumeFadeOut_)
+				{
+					audio::MusicPlayer::instance().setFadeVolume(
+						1.f - (float)fadeLevel_ / moveSceneFrame_
+					);
+				}
+				if (fadeLevel_ == moveSceneFrame_)
+				{
+					isFadeOut_ = false;
+					if (!allowChangeVolumeFadeIn_)
+					{
+						audio::MusicPlayer::instance().setFadeVolume(1.f);
+					}
+					swapScene();
+				}
+			}
+			else
+			{
+				--fadeLevel_;
+				if (allowChangeVolumeFadeIn_)
+				{
+					audio::MusicPlayer::instance().setFadeVolume(
+						1.f - (float)fadeLevel_ / moveSceneFrame_
+					);
+				}
+				if (fadeLevel_ == 0)
+				{
+					isMovingScene_ = false;
+				}
+			}
 		}
 	}
 
-	void SceneManager::moveScene()
+	void SceneManager::drawMoveSceneFade() const
 	{
-		SceneID nextSceneID = sceneMediator_->getNextSceneID();
-		const std::vector<SceneID>& createSceneIDVector = sceneMediator_->getCreateSceneIDVector();
-		const std::vector<SceneID>& deleteSceneIDVector = sceneMediator_->getDeleteSceneIDVector();
-
-		finalScene(currentSceneID_);
-
-		for (const SceneID& createSceneID : createSceneIDVector)
+		if (isMovingScene_ && fadeLevel_ > 0 && moveSceneFrame_ > 0)
 		{
-			createScene(createSceneID);
+			if ((isFadeOut_ && drawMoveSceneFadeOut_) || (!isFadeOut_ && drawMoveSceneFadeIn_))
+			{
+				int alpha = 255 * fadeLevel_ / moveSceneFrame_;
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, std::clamp<int>(alpha, 0, 255));
+				DrawBox(0, 0, 800, 640, moveSceneFadeColor_, TRUE);
+				SetDrawBlendMode(DX_BLENDMODE_ALPHA, 255);
+			}
 		}
-
-		currentSceneID_ = nextSceneID;
-
-		for (const SceneID& deleteSceneID : deleteSceneIDVector)
-		{
-			deleteScene(deleteSceneID);
-		}
-
-		initScene(currentSceneID_);
 	}
 
 	SceneManager::SceneManager()
-	{
-		sceneMediator_ = std::make_shared<SceneMediator>();
-		sceneMediator_->setMoveSceneFrame(60); // テスト用
-		sceneMediator_->setAllowChangeVolumeFade(true, true); // テスト用
-		sceneMediator_->setSceneMoveEffectID(SceneMoveEffectID::WHITE); // テスト用
-
-		// 最初のシーン (テスト用)
-		SceneID firstSceneID = SceneID::TITLE;
-
-		createScene(firstSceneID);
-		initScene(firstSceneID);
-		currentSceneID_ = firstSceneID;
-	}
+		: isMovingScene_(false),
+		  isFadeOut_(true),
+		  moveSceneFrame_(0),
+		  fadeLevel_(0),
+		  allowChangeVolumeFadeOut_(true),
+		  allowChangeVolumeFadeIn_(true),
+		  drawMoveSceneFadeOut_(true),
+		  drawMoveSceneFadeIn_(true),
+		  moveSceneFadeColor_(GetColor(0, 0, 0))
+	{}
 
 	SceneManager::~SceneManager() {}
 
 	bool SceneManager::step()
 	{
-		if (sceneMediator_->updateMoveScene()) moveScene();
-		auto itr = idToCreatedScene_.find(currentSceneID_);
-		if (itr != idToCreatedScene_.end())
+		updateMoveScene();
+		auto itr = nameToScene_.find(currentSceneName_);
+		if (itr != nameToScene_.end())
 		{
-			if (!sceneMediator_->isMovingScene()) itr->second->action();
+			if (!isMovingScene_) itr->second->action();
 			itr->second->update();
 			itr->second->draw();
-			sceneMediator_->drawSceneMoveEffect();
+			drawMoveSceneFade();
 			return true;
 		}
 		else return false;
+	}
+
+	bool SceneManager::isMovingScene() const
+	{
+		return isMovingScene_;
+	}
+
+	float SceneManager::getFadeRatio() const
+	{
+		if (!isMovingScene_ || moveSceneFrame_ <= 0) return 0.f;
+		float fadeRatio = (float)fadeLevel_ / moveSceneFrame_;
+		return isFadeOut_ ? fadeRatio : -fadeRatio;
+	}
+
+	void SceneManager::setMoveSceneFrame(int moveSceneFrame)
+	{
+		if (!isMovingScene_) moveSceneFrame_ = moveSceneFrame;
+	}
+
+	void SceneManager::setAllowChangeVolumeFade(bool allowChangeVolumeFadeOut, bool allowChangeVolumeFadeIn)
+	{
+		if (!isMovingScene_)
+		{
+			allowChangeVolumeFadeOut_ = allowChangeVolumeFadeOut;
+			allowChangeVolumeFadeIn_ = allowChangeVolumeFadeIn;
+		}
+	}
+
+	void SceneManager::setDrawMoveSceneFade(bool drawMoveSceneFadeOut, bool drawMoveSceneFadeIn)
+	{
+		if (!isMovingScene_)
+		{
+			drawMoveSceneFadeOut_ = drawMoveSceneFadeOut;
+			drawMoveSceneFadeIn_ = drawMoveSceneFadeIn;
+		}
+	}
+
+	void SceneManager::setMoveSceneFadeColor(unsigned int moveSceneFadeColor)
+	{
+		if (!isMovingScene_) moveSceneFadeColor_ = moveSceneFadeColor;
+	}
+
+	void SceneManager::moveScene(std::string nextSceneName, const std::vector<std::string>& deleteSceneNameVector)
+	{
+		if (moveSceneFrame_ >= 0 && !isMovingScene_)
+		{
+			isMovingScene_ = true;
+			nextSceneName_ = nextSceneName;
+			isFadeOut_ = true;
+			fadeLevel_ = 0;
+			deleteSceneNameVector_ = deleteSceneNameVector;
+		}
+	}
+
+	void SceneManager::deleteScene(std::string sceneName)
+	{
+		auto itr = nameToScene_.find(sceneName);
+		if (itr != nameToScene_.end())
+		{
+			nameToScene_.erase(itr);
+		}
 	}
 }
