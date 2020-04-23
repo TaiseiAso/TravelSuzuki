@@ -41,23 +41,25 @@ namespace game::graphic
 
 	public:
 		// 画像(集合画像を含む)の名前とファイルパスが対応付けられたデータベースを読み込む
-		void loadImageNameToPathDatabase(std::string databaseFilePath, bool passFirstLine = true);
+		void loadImageNameToPathDatabase(const std::string& databaseFilePath, bool passFirstLine = true);
 		// 集合画像の名前と画像の分割方法が対応付けられたデータベースを読み込む
-		void loadGroupNameToDivDataDatabase(std::string databaseFilePath, bool passFirstLine = true);
+		void loadGroupNameToDivDataDatabase(const std::string& databaseFilePath, bool passFirstLine = true);
 		// 集合画像の名前と分割後の画像の描画フレーム数が対応付けられたデータベースを読み込む
-		void loadGroupNameToFramesDatabase(std::string databaseFilePath, bool passFirstLine = true);
+		void loadGroupNameToFramesDatabase(const std::string& databaseFilePath, bool passFirstLine = true);
 
+		// 画像をメモリに読み込む (データベースの読み込みが前提)
+		void loadImage(const std::string& imageName);
 		// 画像をメモリに読み込む
-		void loadImage(std::string imageName);
-		void loadImage(std::string imageName, std::string imageFilePath); // 主に臨時テスト用
+		void loadImage(const std::string& imageName, const std::string& imageFilePath); // 主に臨時テスト用
+		// 集合画像をメモリに読み込む (データベースの読み込みが前提)
+		void loadGroup(const std::string& groupName);
 		// 集合画像をメモリに読み込む
-		void loadGroup(std::string groupName);
-		void loadGroup(std::string groupName, std::string imageFilePath, int allNum, int xNum, int yNum, int sizeX, int sizeY);  // 主に臨時テスト用
+		void loadGroup(const std::string& groupName, const std::string& imageFilePath, int allNum, int xNum, int yNum, int sizeX, int sizeY);  // 主に臨時テスト用
 
 		// メモリから画像を破棄する
-		void deleteImage(std::string imageName);
+		void deleteImage(const std::string& imageName);
 		// メモリから集合画像を破棄する
-		void deleteGroup(std::string groupName);
+		void deleteGroup(const std::string& groupName);
 
 		// すべての画像をメモリから破棄する
 		void deleteAllImage();
@@ -67,12 +69,13 @@ namespace game::graphic
 		void deleteAllImageAndGroup();
 
 		// 画像のハンドルを取得 (失敗すると-1を返す)
-		int getImageHandle(std::string imageName) const;
+		int getImageHandle(const std::string& imageName) const;
 		// 集合画像の指定した画像のハンドルを取得 (失敗すると-1を返す)
-		int getImageHandleInGroup(std::string groupName, int id) const;
+		int getImageHandleInGroup(const std::string& groupName, int id) const;
+		// 集合写真をアニメーションとして描画するために画像のハンドルを取得 (失敗すると-1を返す) (データベースの読み込みが前提)
+		int getImageHandleInAnime(const std::string& groupName, AnimeElapsedData* const elapsedData) const;
 		// 集合写真をアニメーションとして描画するために画像のハンドルを取得 (失敗すると-1を返す)
-		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* const elapsedData) const;
-		int getImageHandleInAnime(std::string groupName, AnimeElapsedData* const elapsedData, const std::vector<int>& frameVector) const;
+		int getImageHandleInAnime(const std::string& groupName, AnimeElapsedData* const elapsedData, const std::vector<int>& frameVector) const;
 	};
 }
 

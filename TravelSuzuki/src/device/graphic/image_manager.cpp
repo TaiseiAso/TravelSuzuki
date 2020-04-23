@@ -1,6 +1,5 @@
 #include <fstream>
 #include <sstream>
-#include <string>
 #include "image_manager.h"
 #include "utils/string_util.h"
 #include "DxLib.h"
@@ -13,7 +12,7 @@ namespace game::graphic
 		deleteAllImageAndGroup();
 	}
 
-	void ImageManager::loadImageNameToPathDatabase(std::string databaseFilePath, bool passFirstLine)
+	void ImageManager::loadImageNameToPathDatabase(const std::string& databaseFilePath, bool passFirstLine)
 	{
 		imageNameToPath_.clear();
 
@@ -27,7 +26,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageManager::loadGroupNameToDivDataDatabase(std::string databaseFilePath, bool passFirstLine)
+	void ImageManager::loadGroupNameToDivDataDatabase(const std::string& databaseFilePath, bool passFirstLine)
 	{
 		groupNameToDivData_.clear();
 
@@ -41,19 +40,14 @@ namespace game::graphic
 			{
 				groupNameToDivData_[strVec[0]] =
 				{
-					stoi(strVec[1]), stoi(strVec[2]), stoi(strVec[3]), stoi(strVec[4]), stoi(strVec[5])
+					std::stoi(strVec[1]), std::stoi(strVec[2]), std::stoi(strVec[3]), std::stoi(strVec[4]), std::stoi(strVec[5])
 				};
 			}
 		}
 	}
 
-	void ImageManager::loadGroupNameToFramesDatabase(std::string databaseFilePath, bool passFirstLine)
+	void ImageManager::loadGroupNameToFramesDatabase(const std::string& databaseFilePath, bool passFirstLine)
 	{
-		for (auto& itrGroup : groupNameToFrameVector_)
-		{
-			itrGroup.second.clear();
-			itrGroup.second.shrink_to_fit();
-		}
 		groupNameToFrameVector_.clear();
 		
 		std::ifstream ifs(databaseFilePath);
@@ -65,13 +59,13 @@ namespace game::graphic
 			if (strVec.size() >= 2)
 			{
 				std::vector<int> frameVector;
-				for (int i = 1; i < static_cast<int>(strVec.size()); ++i) frameVector.push_back(stoi(strVec[i]));
+				for (int i = 1; i < static_cast<int>(strVec.size()); ++i) frameVector.push_back(std::stoi(strVec[i]));
 				groupNameToFrameVector_[strVec[0]] = std::move(frameVector);
 			}
 		}
 	}
 
-	void ImageManager::loadImage(std::string imageName)
+	void ImageManager::loadImage(const std::string& imageName)
 	{
 		auto itrImage = imageNameToPath_.find(imageName);
 		if (itrImage != imageNameToPath_.end())
@@ -80,7 +74,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageManager::loadImage(std::string imageName, std::string imageFilePath)
+	void ImageManager::loadImage(const std::string& imageName, const std::string& imageFilePath)
 	{
 		auto itrImage = imageNameToHandle_.find(imageName);
 		if (itrImage == imageNameToHandle_.end())
@@ -93,7 +87,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageManager::loadGroup(std::string groupName)
+	void ImageManager::loadGroup(const std::string& groupName)
 	{
 		auto itrImage = imageNameToPath_.find(groupName);
 		if (itrImage != imageNameToPath_.end())
@@ -110,7 +104,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageManager::loadGroup(std::string groupName, std::string imageFilePath, int allNum, int xNum, int yNum, int sizeX, int sizeY)
+	void ImageManager::loadGroup(const std::string& groupName, const std::string& imageFilePath, int allNum, int xNum, int yNum, int sizeX, int sizeY)
 	{
 		auto itrGroup = groupNameToHandleVector_.find(groupName);
 		if (itrGroup == groupNameToHandleVector_.end())
@@ -126,7 +120,7 @@ namespace game::graphic
 		}
 	}
 
-	void ImageManager::deleteImage(std::string imageName)
+	void ImageManager::deleteImage(const std::string& imageName)
 	{
 		auto itrImage = imageNameToHandle_.find(imageName);
 		if (itrImage != imageNameToHandle_.end())
@@ -136,7 +130,7 @@ namespace game::graphic
 		}
 	}
 	
-	void ImageManager::deleteGroup(std::string groupName)
+	void ImageManager::deleteGroup(const std::string& groupName)
 	{
 		auto itrGroup = groupNameToHandleVector_.find(groupName);
 		if (itrGroup != groupNameToHandleVector_.end())
@@ -145,8 +139,6 @@ namespace game::graphic
 			{
 				DeleteGraph(imageHandle);
 			}
-			itrGroup->second.clear();
-			itrGroup->second.shrink_to_fit();
 			groupNameToHandleVector_.erase(itrGroup);
 		}
 	}
@@ -162,14 +154,12 @@ namespace game::graphic
 	
 	void ImageManager::deleteAllGroup()
 	{
-		for (auto& itrGroup : groupNameToHandleVector_)
+		for (const auto& itrGroup : groupNameToHandleVector_)
 		{
 			for (const int& imageHandle : itrGroup.second)
 			{
 				DeleteGraph(imageHandle);
 			}
-			itrGroup.second.clear();
-			itrGroup.second.shrink_to_fit();
 		}
 		groupNameToHandleVector_.clear();
 	}
@@ -180,7 +170,7 @@ namespace game::graphic
 		deleteAllGroup();
 	}
 
-	int ImageManager::getImageHandle(std::string imageName) const
+	int ImageManager::getImageHandle(const std::string& imageName) const
 	{
 		auto itrImage = imageNameToHandle_.find(imageName);
 		if (itrImage != imageNameToHandle_.end())
@@ -190,7 +180,7 @@ namespace game::graphic
 		return -1;
 	}
 
-	int ImageManager::getImageHandleInGroup(std::string groupName, int id) const
+	int ImageManager::getImageHandleInGroup(const std::string& groupName, int id) const
 	{
 		if (id >= 0)
 		{
@@ -206,7 +196,7 @@ namespace game::graphic
 		return -1;
 	}
 	
-	int ImageManager::getImageHandleInAnime(std::string groupName, AnimeElapsedData* const elapsedData) const
+	int ImageManager::getImageHandleInAnime(const std::string& groupName, AnimeElapsedData* const elapsedData) const
 	{
 		auto itrGroup = groupNameToFrameVector_.find(groupName);
 		if (itrGroup != groupNameToFrameVector_.end())
@@ -216,7 +206,7 @@ namespace game::graphic
 		return -1;
 	}
 
-	int ImageManager::getImageHandleInAnime(std::string groupName, AnimeElapsedData* const elapsedData, const std::vector<int>& frameVector) const
+	int ImageManager::getImageHandleInAnime(const std::string& groupName, AnimeElapsedData* const elapsedData, const std::vector<int>& frameVector) const
 	{
 		if (elapsedData && elapsedData->frame >= 0 && elapsedData->sheet >= 0)
 		{

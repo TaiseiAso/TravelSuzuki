@@ -2,6 +2,7 @@
 #include "device/graphic/image_manager.h"
 #include "device/input/input_receiver.h"
 #include "device/audio/music_player.h"
+#include "device/text/font_manager.h"
 #include "scene/scene_manager.h"
 #include "scene/battle/battle_scene.h"
 
@@ -51,53 +52,33 @@ namespace game::scene::title
 	{
 		// îwåiÇîíÇ≠Ç∑ÇÈ
 		DrawBox(0, 0, 800, 640, whiteColor_, TRUE);
-
-		/*
-		int up = 40 + static_cast<int>(10 * std::sin(elapsedFrame_ / 50.f));
-		int down = 640 - up;
-		int divX = 50;
-		int divX2 = divX * 2;
-		int divY = 50;
-		int up2 = up + divY;
-		int down2 = down - divY;
-		int left = elapsedFrame_ % divX2;
-
-		DrawBox(0, 0, 800, up, blueColor, TRUE);
-		DrawBox(0, down, 800, 640, greenColor, TRUE);
-
-		for (int i = -left; i < 800; i += divX2)
-		{
-			DrawTriangle(i, up, i + divX, up2, i + divX2, up, blueColor, TRUE);
-			DrawTriangle(i, down, i + divX, down2, i + divX2, down, greenColor, TRUE);
-		}
-		*/
 	}
 
 	void TitleScene::drawTitleLogo() const
 	{
 		imagehandle_ = graphic::ImageManager::instance().getImageHandle("title_logo");
-		//DrawGraph(100, 150 + static_cast<int>(20 * std::sin( elapsedFrame_ / 100.f)), imagehandle_, TRUE);
 		DrawGraph(100, 150, imagehandle_, TRUE);
 	}
 
 	void TitleScene::drawPleasePressSpaceKey() const
 	{
-		DrawString(230, 400, "PLEASE PUSH SPACE KEY", blackColor_);
+		int fontHandle = text::FontManager::instance().getFontHandle("test");
+		DrawStringToHandle(230, 400, "PLEASE PUSH SPACE KEY", blackColor_, fontHandle);
 	}
 
 	void TitleScene::drawMenu() const
 	{
-		DrawString(230, 360, "GAME START", cursor_ == 0 ? redColor_ : blackColor_);
-		DrawString(230, 410, "ACHIEVEMENT", cursor_ == 1 ? redColor_ : blackColor_);
-		DrawString(230, 460, "BACK", cursor_ == 2 ? redColor_ : blackColor_);
-		DrawString(230, 510, "EXIT", cursor_ == 3 ? redColor_ : blackColor_);
+		int fontHandle = text::FontManager::instance().getFontHandle("test");
+		DrawStringToHandle(230, 360, "GAME START ÉXÉ^Å[Ég", cursor_ == 0 ? redColor_ : blackColor_, fontHandle);
+		DrawStringToHandle(230, 410, "ACHIEVEMENT", cursor_ == 1 ? redColor_ : blackColor_, fontHandle);
+		DrawStringToHandle(230, 460, "BACK", cursor_ == 2 ? redColor_ : blackColor_, fontHandle);
+		DrawStringToHandle(230, 510, "EXIT", cursor_ == 3 ? redColor_ : blackColor_, fontHandle);
 	}
 	//////////////////////////////////////////////////////////
 
 	void TitleScene::initialize()
 	{
 		elapsedFrame_ = 0;
-		SetFontSize(30);
 	}
 
 	void TitleScene::finalize()
@@ -143,10 +124,14 @@ namespace game::scene::title
 		  cursor_(0)
 	{
 		graphic::ImageManager::instance().loadImage("title_logo");
+		text::FontManager::instance().loadFontResourceFromNameWithDatabase("Voyager Grotesque Bold");
+		text::FontManager::instance().createFont("Voyager Grotesque Bold", "test", 32, 6, DX_FONTTYPE_ANTIALIASING);
 	}
 
 	TitleScene::~TitleScene()
 	{
 		graphic::ImageManager::instance().deleteImage("title_logo");
+		text::FontManager::instance().deleteFont("Voyager Grotesque Bold");
+		text::FontManager::instance().deleteFontResourceFromNameWithDatabase("Voyager Grotesque Bold");
 	}
 }

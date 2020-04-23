@@ -38,21 +38,23 @@ namespace game::audio
 
 	public:
 		// 音楽の名前とファイルパスが対応付けられたデータベースを読み込む
-		void loadMusicNameToPathDatabase(std::string databaseFilePath, bool pathFirstLine = true);
+		void loadMusicNameToPathDatabase(std::string databaseFilePath, bool passFirstLine = true);
 		
+		// 音楽をメモリに読み込む (データベースの読み込みが前提)
+		void loadMusic(const std::string& loadMusicName);
 		// 音楽をメモリに読み込む
-		void loadMusic(std::string loadMusicName);
-		void loadMusic(std::string loadMusicName, std::string loadMusicFilePath);
+		void loadMusic(const std::string& loadMusicName, const std::string& loadMusicFilePath);
 		
 		// 音楽をメモリから破棄する
-		void deleteMusic(std::string loadMusicName);
+		void deleteMusic(const std::string& loadMusicName);
 
+		// メモリに読み込んだ音楽を再生する (あとから制御しない効果音用)
+		void playSE(const std::string& loadMusicName, int playMusicVolume) const;
 		// メモリに読み込んだ音楽を再生する
-		void playSE(std::string loadMusicName, int playMusicVolume) const;
-		void playMusic(std::string loadMusicName, std::string playMusicName, int playMusicVolume, bool isLoop = false, bool topPositionFlag = false);
+		void playMusic(const std::string& loadMusicName, const std::string& playMusicName, int playMusicVolume, bool isLoop = false, bool topPositionFlag = false);
 
 		// 再生中の音楽を停止する
-		void stopMusic(std::string playMusicName);
+		void stopMusic(const std::string& playMusicName);
 
 		// すべての音楽をメモリから破棄する
 		void deleteAllMusic();
@@ -61,7 +63,7 @@ namespace game::audio
 		void stopAllMusic();
 
 		// 再生中の音楽の音量を変更する
-		void setPlayMusicVolume(std::string playMusicName, int playMusicVolume);
+		void setPlayMusicVolume(const std::string& playMusicName, int playMusicVolume);
 
 		// マスター音量を変更する
 		void setMasterVolume(float masterVolume);
@@ -70,7 +72,7 @@ namespace game::audio
 			停止しているのにメモリに残っている音楽とそのハンドルをメモリから破棄する
 			return: true->破棄に成功, false->破棄しなかった
 		*/
-		bool deleteStoppingMusic(std::string playMusicName);
+		bool deleteStoppingMusic(const std::string& playMusicName);
 	};
 }
 

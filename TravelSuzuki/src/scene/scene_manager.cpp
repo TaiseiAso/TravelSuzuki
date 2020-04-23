@@ -4,7 +4,7 @@
 
 namespace game::scene
 {
-	void SceneManager::initScene(std::string sceneName)
+	void SceneManager::initScene(const std::string& sceneName)
 	{
 		auto itr = nameToScene_.find(sceneName);
 		if (itr != nameToScene_.end())
@@ -13,7 +13,7 @@ namespace game::scene
 		}
 	}
 
-	void SceneManager::finalScene(std::string sceneName)
+	void SceneManager::finalScene(const std::string& sceneName)
 	{
 		auto itr = nameToScene_.find(sceneName);
 		if (itr != nameToScene_.end())
@@ -136,7 +136,7 @@ namespace game::scene
 		if (!isMovingScene_) moveSceneFadeColor_ = moveSceneFadeColor;
 	}
 
-	void SceneManager::moveScene(std::string nextSceneName, const std::vector<std::string>& deleteSceneNameVector)
+	void SceneManager::moveScene(const std::string& nextSceneName, const std::vector<std::string>& deleteSceneNameVector)
 	{
 		if (moveSceneFrame_ >= 0 && !isMovingScene_)
 		{
@@ -148,7 +148,7 @@ namespace game::scene
 		}
 	}
 
-	void SceneManager::deleteScene(std::string sceneName)
+	void SceneManager::deleteScene(const std::string& sceneName)
 	{
 		auto itr = nameToScene_.find(sceneName);
 		if (itr != nameToScene_.end())

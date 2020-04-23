@@ -4,6 +4,7 @@
 #include "device/input/input_receiver.h"
 #include "device/audio/music_player.h"
 #include "device/graphic/image_manager.h"
+#include "device/text/font_manager.h"
 #include "scene/scene_manager.h"
 #include "scene/test/test_scene.h"
 
@@ -24,11 +25,13 @@ namespace game
 		input::InputReceiver::create();
 		audio::MusicPlayer::create();
 		graphic::ImageManager::create();
+		text::FontManager::create();
 
 		audio::MusicPlayer::instance().loadMusicNameToPathDatabase("resource/database/music_name_to_path.csv");
 		graphic::ImageManager::instance().loadImageNameToPathDatabase("resource/database/image_name_to_path.csv");
 		graphic::ImageManager::instance().loadGroupNameToDivDataDatabase("resource/database/group_name_to_divdata.csv");
 		graphic::ImageManager::instance().loadGroupNameToFramesDatabase("resource/database/group_name_to_frames.csv");
+		text::FontManager::instance().loadFontResourceNameToPathDatabase("resource/database/font_resource_name_to_path.csv");
 
 		scene::SceneManager::create();
 		scene::SceneManager::instance().createFirstScene<scene::test::TestScene>("test");
@@ -41,6 +44,8 @@ namespace game
 	GameCore::~GameCore()
 	{
 		scene::SceneManager::destroy();
+
+		text::FontManager::destroy();
 		graphic::ImageManager::destroy();
 		audio::MusicPlayer::destroy();
 		input::InputReceiver::destroy();

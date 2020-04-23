@@ -28,12 +28,13 @@ namespace game::scene
 		std::string currentSceneName_;
 
 		// シーンを初期化する
-		void initScene(std::string sceneName);
+		void initScene(const std::string& sceneName);
 		// シーンを終了する
-		void finalScene(std::string sceneName);
+		void finalScene(const std::string& sceneName);
 
-		// シーン移動を更新する
+		// 現在のシーンを交換する
 		void swapScene();
+		// シーン移動を更新する
 		void updateMoveScene();
 
 		// シーン移動のフェードイン/アウトを描画する
@@ -57,17 +58,19 @@ namespace game::scene
 		*/
 		float getFadeRatio() const;
 
-		// シーン移動に関する各種パラメータを設定する
+		// シーン移動に要するフレーム数を設定する
 		void setMoveSceneFrame(int moveSceneFrame);
+		// フェードアウト/インを描画するかどうかを設定する
 		void setDrawMoveSceneFade(bool drawMoveSceneFadeOut, bool drawMoveSceneFadeIn);
+		// シーン移動時のフェード色を設定する
 		void setMoveSceneFadeColor(unsigned int moveSceneFadeColor);
 
 		// シーン移動を開始する
-		void moveScene(std::string nextSceneName, const std::vector<std::string>& deleteSceneNameVector = {});
+		void moveScene(const std::string& nextSceneName, const std::vector<std::string>& deleteSceneNameVector = {});
 
 		// シーンを作成する
 		template <class U>
-		void createFirstScene(std::string sceneName)
+		void createFirstScene(const std::string& sceneName)
 		{
 			auto itr = nameToScene_.find(sceneName);
 			if (itr == nameToScene_.end())
@@ -78,7 +81,7 @@ namespace game::scene
 			}
 		}
 		template <class U>
-		void createScene(std::string sceneName)
+		void createScene(const std::string& sceneName)
 		{
 			auto itr = nameToScene_.find(sceneName);
 			if (itr == nameToScene_.end())
@@ -88,7 +91,7 @@ namespace game::scene
 
 		}
 		// シーンを破棄する
-		void deleteScene(std::string sceneName);
+		void deleteScene(const std::string& sceneName);
 	};
 }
 

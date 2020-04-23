@@ -30,13 +30,13 @@ namespace game::audio
 		deleteAllMusic();
 	}
 
-	void MusicPlayer::loadMusicNameToPathDatabase(std::string databaseFilePath, bool pathFirstLine)
+	void MusicPlayer::loadMusicNameToPathDatabase(std::string databaseFilePath, bool passFirstLine)
 	{
 		loadMusicNameToPath_.clear();
 
 		std::ifstream ifs(databaseFilePath);
 		std::string line;
-		if (pathFirstLine) std::getline(ifs, line); // àÍçsñ⁄ÇÕîÚÇŒÇ∑
+		if (passFirstLine) std::getline(ifs, line); // àÍçsñ⁄ÇÕîÚÇŒÇ∑
 		while (std::getline(ifs, line))
 		{
 			std::vector<std::string> strVec = stringUtil::split(line, ',');
@@ -44,7 +44,7 @@ namespace game::audio
 		}
 	}
 
-	void MusicPlayer::loadMusic(std::string loadMusicName)
+	void MusicPlayer::loadMusic(const std::string& loadMusicName)
 	{
 		auto itrLoad = loadMusicNameToPath_.find(loadMusicName);
 		if (itrLoad != loadMusicNameToPath_.end())
@@ -53,7 +53,7 @@ namespace game::audio
 		}
 	}
 
-	void MusicPlayer::loadMusic(std::string loadMusicName, std::string loadMusicFilePath)
+	void MusicPlayer::loadMusic(const std::string& loadMusicName, const std::string& loadMusicFilePath)
 	{
 		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
 		if (itrLoad == loadMusicNameToHandle_.end())
@@ -66,7 +66,7 @@ namespace game::audio
 		}
 	}
 
-	void MusicPlayer::deleteMusic(std::string loadMusicName)
+	void MusicPlayer::deleteMusic(const std::string& loadMusicName)
 	{
 		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
 		if (itrLoad != loadMusicNameToHandle_.end())
@@ -76,7 +76,7 @@ namespace game::audio
 		}
 	}
 
-	void MusicPlayer::playSE(std::string loadMusicName, int playMusicVolume) const
+	void MusicPlayer::playSE(const std::string& loadMusicName, int playMusicVolume) const
 	{
 		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
 		if (itrLoad != loadMusicNameToHandle_.end())
@@ -91,7 +91,7 @@ namespace game::audio
 		}
 	}
 
-	void MusicPlayer::playMusic(std::string loadMusicName, std::string playMusicName, int playMusicVolume, bool isLoop, bool topPositionFlag)
+	void MusicPlayer::playMusic(const std::string& loadMusicName, const std::string& playMusicName, int playMusicVolume, bool isLoop, bool topPositionFlag)
 	{
 		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
 		if (itrLoad != loadMusicNameToHandle_.end())
@@ -114,7 +114,7 @@ namespace game::audio
 		}
 	}
 
-	void MusicPlayer::stopMusic(std::string playMusicName)
+	void MusicPlayer::stopMusic(const std::string& playMusicName)
 	{
 		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
 		if (itrPlay != playMusicNameToHandleAndVolume_.end())
@@ -142,7 +142,7 @@ namespace game::audio
 		playMusicNameToHandleAndVolume_.clear();
 	}
 
-	void MusicPlayer::setPlayMusicVolume(std::string playMusicName, int playMusicVolume)
+	void MusicPlayer::setPlayMusicVolume(const std::string& playMusicName, int playMusicVolume)
 	{
 		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
 		if (itrPlay != playMusicNameToHandleAndVolume_.end())
@@ -158,7 +158,7 @@ namespace game::audio
 		updateAllPlayMusicVolume();
 	}
 	
-	bool MusicPlayer::deleteStoppingMusic(std::string playMusicName)
+	bool MusicPlayer::deleteStoppingMusic(const std::string& playMusicName)
 	{
 		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
 		if (itrPlay != playMusicNameToHandleAndVolume_.end())
