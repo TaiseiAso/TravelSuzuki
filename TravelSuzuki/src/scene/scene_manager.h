@@ -2,8 +2,8 @@
 #define scene_manager_h
 
 #include <unordered_map>
-#include "../singleton/singleton.h"
-#include "base_scene.h"
+#include "singleton/singleton.h"
+#include "scene/base_scene.h"
 
 namespace game::scene
 {
@@ -17,8 +17,6 @@ namespace game::scene
 		bool isFadeOut_; // フェードアウトかフェードインインかの判別
 		int moveSceneFrame_; // シーン移動に要するフレーム数
 		int fadeLevel_; // フェードのかかり具合 (最大はmoveSceneFrame)
-		bool allowChangeVolumeFadeOut_; // フェードアウト時にマスター音量を変更するかどうか
-		bool allowChangeVolumeFadeIn_; // フェードイン時にマスター音量を変更するかどうか
 		bool drawMoveSceneFadeOut_; // フェードアウトを描画するかどうか
 		bool drawMoveSceneFadeIn_; // フェードインを描画するかどうか
 		unsigned int moveSceneFadeColor_; // シーン移動時のフェード色
@@ -61,7 +59,6 @@ namespace game::scene
 
 		// シーン移動に関する各種パラメータを設定する
 		void setMoveSceneFrame(int moveSceneFrame);
-		void setAllowChangeVolumeFade(bool allowChangeVolumeFadeOut, bool allowChangeVolumeFadeIn);
 		void setDrawMoveSceneFade(bool drawMoveSceneFadeOut, bool drawMoveSceneFadeIn);
 		void setMoveSceneFadeColor(unsigned int moveSceneFadeColor);
 

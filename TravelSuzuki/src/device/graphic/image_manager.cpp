@@ -2,7 +2,7 @@
 #include <sstream>
 #include <string>
 #include "image_manager.h"
-#include "../utils/string_util.h"
+#include "utils/string_util.h"
 #include "DxLib.h"
 
 namespace game::graphic

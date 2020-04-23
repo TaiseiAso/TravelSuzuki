@@ -1,8 +1,8 @@
 #include "test_scene.h"
-#include "../input/input_receiver.h"
-#include "../audio/music_player.h"
-#include "../scene/scene_manager.h"
-#include "../scene/title_scene.h"
+#include "device/input/input_receiver.h"
+#include "device/audio/music_player.h"
+#include "scene/scene_manager.h"
+#include "scene/title/title_scene.h"
 #include "DxLib.h"
 
 namespace game::scene::test

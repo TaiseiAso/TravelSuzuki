@@ -1,10 +1,11 @@
 #include "game_core.h"
 #include "DxLib.h"
-#include "fps/fps_controller.h"
-#include "input/input_receiver.h"
-#include "audio/music_player.h"
-#include "graphic/image_manager.h"
-#include "scene/test_scene.h"
+#include "device/fps/fps_controller.h"
+#include "device/input/input_receiver.h"
+#include "device/audio/music_player.h"
+#include "device/graphic/image_manager.h"
+#include "scene/scene_manager.h"
+#include "scene/test/test_scene.h"
 
 namespace game
 {

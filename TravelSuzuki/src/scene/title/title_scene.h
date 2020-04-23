@@ -1,7 +1,7 @@
 #ifndef title_scene_h
 #define title_scene_h
 
-#include "base_scene.h"
+#include "scene/base_scene.h"
 #include "DxLib.h"
 
 namespace game::scene::title

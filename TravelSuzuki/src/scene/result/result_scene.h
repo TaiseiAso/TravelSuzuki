@@ -1,11 +1,11 @@
-#ifndef battle_scene_h
-#define battle_scene_h
+#ifndef result_scene_h
+#define result_scene_h
 
-#include "base_scene.h"
+#include "scene/base_scene.h"
 
-namespace game::scene::battle
+namespace game::scene::result
 {
-	class BattleScene : public BaseScene
+	class ResultScene : public BaseScene
 	{
 	private:
 		// シーンの初期化処理
@@ -22,10 +22,10 @@ namespace game::scene::battle
 
 	public:
 		// コンストラクタ
-		BattleScene();
+		ResultScene();
 		// デストラクタ
-		~BattleScene();
+		~ResultScene();
 	};
 }
 
-#endif // !battle_scene_h
+#endif // !result_scene_h

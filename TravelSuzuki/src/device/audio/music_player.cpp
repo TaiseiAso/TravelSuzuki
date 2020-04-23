@@ -2,14 +2,14 @@
 #include <sstream>
 #include <algorithm>
 #include "music_player.h"
-#include "../utils/string_util.h"
+#include "utils/string_util.h"
 #include "DxLib.h"
 
 namespace game::audio
 {
 	void MusicPlayer::setPlayMusicVolume(int playMusicHandle, int playMusicVolume) const
 	{
-		int volumePal = static_cast<int>(masterVolume_ * fadeVolume_ * playMusicVolume);
+		int volumePal = static_cast<int>(masterVolume_ * playMusicVolume);
 		ChangeVolumeSoundMem(std::clamp<int>(volumePal, 0, 255), playMusicHandle);
 	}
 
@@ -22,8 +22,7 @@ namespace game::audio
 	}
 
 	MusicPlayer::MusicPlayer()
-		: masterVolume_(1.f),
-		fadeVolume_(1.f)
+		: masterVolume_(1.f)
 	{}
 
 	MusicPlayer::~MusicPlayer()
@@ -156,12 +155,6 @@ namespace game::audio
 	void MusicPlayer::setMasterVolume(float masterVolume)
 	{
 		masterVolume_ = masterVolume;
-		updateAllPlayMusicVolume();
-	}
-
-	void MusicPlayer::setFadeVolume(float fadeVolume)
-	{
-		fadeVolume_ = fadeVolume;
 		updateAllPlayMusicVolume();
 	}
 	

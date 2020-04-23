@@ -2,7 +2,6 @@
 #define game_core_h
 
 #include <memory>
-#include "scene/scene_manager.h"
 
 namespace game
 {

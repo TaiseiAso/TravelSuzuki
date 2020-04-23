@@ -1,16 +1,13 @@
-#ifndef test_scene_h
-#define test_scene_h
+#ifndef battle_scene_h
+#define battle_scene_h
 
-#include "base_scene.h"
-#include "../graphic/image_manager.h"
+#include "scene/base_scene.h"
 
-namespace game::scene::test
+namespace game::scene::battle
 {
-	class TestScene : public BaseScene
+	class BattleScene : public BaseScene
 	{
 	private:
-		mutable graphic::AnimeElapsedData testElapsedData_;
-
 		// シーンの初期化処理
 		void initialize() override;
 		// シーンの終了処理
@@ -25,10 +22,10 @@ namespace game::scene::test
 
 	public:
 		// コンストラクタ
-		TestScene();
+		BattleScene();
 		// デストラクタ
-		~TestScene();
+		~BattleScene();
 	};
 }
 
-#endif // !test_scene_h
+#endif // !battle_scene_h

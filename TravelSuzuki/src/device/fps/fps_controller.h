@@ -1,7 +1,7 @@
 #ifndef fps_controller_h
 #define fps_controller_h
 
-#include "../singleton/singleton.h"
+#include "singleton/singleton.h"
 #include "DxLib.h"
 
 namespace game::fps

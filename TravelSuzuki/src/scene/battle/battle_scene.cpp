@@ -1,5 +1,5 @@
 #include "battle_scene.h"
-#include "../input/input_receiver.h"
+#include "device/input/input_receiver.h"
 #include "DxLib.h"
 
 namespace game::scene::battle

@@ -1,6 +1,5 @@
 #include <algorithm>
 #include "scene_manager.h"
-#include "../audio/music_player.h"
 #include "DxLib.h"
 
 namespace game::scene
@@ -27,13 +26,13 @@ namespace game::scene
 	{
 		finalScene(currentSceneName_);
 		currentSceneName_ = nextSceneName_;
-		initScene(currentSceneName_);
 		for (const std::string& deleteSceneName : deleteSceneNameVector_)
 		{
 			deleteScene(deleteSceneName);
 		}
 		deleteSceneNameVector_.clear();
 		deleteSceneNameVector_.shrink_to_fit();
+		initScene(currentSceneName_);
 	}
 
 	void SceneManager::updateMoveScene()
@@ -48,31 +47,15 @@ namespace game::scene
 			else if (isFadeOut_)
 			{
 				++fadeLevel_;
-				if (allowChangeVolumeFadeOut_)
-				{
-					audio::MusicPlayer::instance().setFadeVolume(
-						1.f - (float)fadeLevel_ / moveSceneFrame_
-					);
-				}
 				if (fadeLevel_ == moveSceneFrame_)
 				{
 					isFadeOut_ = false;
-					if (!allowChangeVolumeFadeIn_)
-					{
-						audio::MusicPlayer::instance().setFadeVolume(1.f);
-					}
 					swapScene();
 				}
 			}
 			else
 			{
 				--fadeLevel_;
-				if (allowChangeVolumeFadeIn_)
-				{
-					audio::MusicPlayer::instance().setFadeVolume(
-						1.f - (float)fadeLevel_ / moveSceneFrame_
-					);
-				}
 				if (fadeLevel_ == 0)
 				{
 					isMovingScene_ = false;
@@ -100,8 +83,6 @@ namespace game::scene
 		  isFadeOut_(true),
 		  moveSceneFrame_(0),
 		  fadeLevel_(0),
-		  allowChangeVolumeFadeOut_(true),
-		  allowChangeVolumeFadeIn_(true),
 		  drawMoveSceneFadeOut_(true),
 		  drawMoveSceneFadeIn_(true),
 		  moveSceneFadeColor_(GetColor(0, 0, 0))
@@ -139,15 +120,6 @@ namespace game::scene
 	void SceneManager::setMoveSceneFrame(int moveSceneFrame)
 	{
 		if (!isMovingScene_) moveSceneFrame_ = moveSceneFrame;
-	}
-
-	void SceneManager::setAllowChangeVolumeFade(bool allowChangeVolumeFadeOut, bool allowChangeVolumeFadeIn)
-	{
-		if (!isMovingScene_)
-		{
-			allowChangeVolumeFadeOut_ = allowChangeVolumeFadeOut;
-			allowChangeVolumeFadeIn_ = allowChangeVolumeFadeIn;
-		}
 	}
 
 	void SceneManager::setDrawMoveSceneFade(bool drawMoveSceneFadeOut, bool drawMoveSceneFadeIn)

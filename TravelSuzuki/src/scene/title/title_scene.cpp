@@ -1,9 +1,9 @@
 #include "title_scene.h"
-#include "../graphic/image_manager.h"
-#include "../input/input_receiver.h"
-#include "../audio/music_player.h"
-#include "../scene/scene_manager.h"
-#include "../scene/battle_scene.h"
+#include "device/graphic/image_manager.h"
+#include "device/input/input_receiver.h"
+#include "device/audio/music_player.h"
+#include "scene/scene_manager.h"
+#include "scene/battle/battle_scene.h"
 
 namespace game::scene::title
 {

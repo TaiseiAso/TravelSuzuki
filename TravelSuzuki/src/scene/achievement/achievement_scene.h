@@ -1,7 +1,7 @@
 #ifndef achievement_scene_h
 #define achievement_scene_h
 
-#include "base_scene.h"
+#include "scene/base_scene.h"
 
 namespace game::scene::achievement
 {

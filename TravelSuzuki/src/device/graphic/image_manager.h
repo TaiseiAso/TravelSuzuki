@@ -2,7 +2,7 @@
 #define image_manager_h
 
 #include <unordered_map>
-#include "../singleton/singleton.h"
+#include "singleton/singleton.h"
 
 namespace game::graphic
 {

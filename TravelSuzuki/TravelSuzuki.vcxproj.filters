@@ -4,20 +4,8 @@
     <Filter Include="game">
       <UniqueIdentifier>{26a3a6b8-3242-4d99-8470-31acb11fb918}</UniqueIdentifier>
     </Filter>
-    <Filter Include="game\effect">
-      <UniqueIdentifier>{e53f6773-c8e4-46ff-aad2-89c0f61dc781}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="game\fps">
-      <UniqueIdentifier>{579ec052-97b0-46db-a605-5def77e343a7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="game\input">
-      <UniqueIdentifier>{3ee98729-4b7c-4cbf-97e5-cf77d8df58bc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="game\scene">
       <UniqueIdentifier>{89552a45-500e-47b0-8b26-39fd96ba940e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="game\audio">
-      <UniqueIdentifier>{9abf57c3-c64f-4010-b815-ebc63e4b9948}</UniqueIdentifier>
     </Filter>
     <Filter Include="game\singleton">
       <UniqueIdentifier>{0ef40f81-873d-444c-b67d-30bffcb5b725}</UniqueIdentifier>
@@ -25,37 +13,49 @@
     <Filter Include="game\utils">
       <UniqueIdentifier>{4f43163a-2c2f-47e0-98c2-a4452e96a13f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="game\graphic">
+    <Filter Include="game\scene\test">
+      <UniqueIdentifier>{1872c241-cd9a-4da5-ac92-28e13bb78c37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\scene\title">
+      <UniqueIdentifier>{e5a2beae-ec27-430a-a1f2-5c54823cac15}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\scene\battle">
+      <UniqueIdentifier>{41504660-65c4-4d51-b872-38810d8ccaf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\scene\result">
+      <UniqueIdentifier>{86906f3b-276d-4d46-8df0-b51956377f1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\scene\achievement">
+      <UniqueIdentifier>{3152bc86-a0ee-4af2-85b5-a6042129c689}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\device">
+      <UniqueIdentifier>{4aba9689-60c6-4da3-8a6c-b049d308f4be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\device\input">
+      <UniqueIdentifier>{3ee98729-4b7c-4cbf-97e5-cf77d8df58bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\device\graphic">
       <UniqueIdentifier>{70abd3f8-c67a-4fe0-b9db-7248694e064c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="game\text">
+    <Filter Include="game\device\fps">
+      <UniqueIdentifier>{579ec052-97b0-46db-a605-5def77e343a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\device\effect">
+      <UniqueIdentifier>{e53f6773-c8e4-46ff-aad2-89c0f61dc781}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\device\audio">
+      <UniqueIdentifier>{9abf57c3-c64f-4010-b815-ebc63e4b9948}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\device\text">
       <UniqueIdentifier>{c76b0ce5-4973-4bb3-9af5-74ebdcc4c1a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\scene\achievement_scene.cpp">
-      <Filter>game\scene</Filter>
-    </ClCompile>
     <ClCompile Include="src\scene\base_scene.cpp">
-      <Filter>game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scene\result_scene.cpp">
-      <Filter>game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\scene\title_scene.cpp">
       <Filter>game\scene</Filter>
     </ClCompile>
     <ClCompile Include="src\scene\scene_manager.cpp">
       <Filter>game\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="src\fps\fps_controller.cpp">
-      <Filter>game\fps</Filter>
-    </ClCompile>
-    <ClCompile Include="src\effect\effect_maker.cpp">
-      <Filter>game\effect</Filter>
-    </ClCompile>
-    <ClCompile Include="src\input\input_receiver.cpp">
-      <Filter>game\input</Filter>
     </ClCompile>
     <ClCompile Include="src\game_core.cpp">
       <Filter>game</Filter>
@@ -66,46 +66,46 @@
     <ClCompile Include="src\utils\string_util.cpp">
       <Filter>game\utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\audio\music_player.cpp">
-      <Filter>game\audio</Filter>
+    <ClCompile Include="src\device\audio\music_player.cpp">
+      <Filter>game\device\audio</Filter>
     </ClCompile>
-    <ClCompile Include="src\graphic\image_manager.cpp">
-      <Filter>game\graphic</Filter>
+    <ClCompile Include="src\device\effect\effect_maker.cpp">
+      <Filter>game\device\effect</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene\test_scene.cpp">
-      <Filter>game\scene</Filter>
+    <ClCompile Include="src\device\fps\fps_controller.cpp">
+      <Filter>game\device\fps</Filter>
     </ClCompile>
-    <ClCompile Include="src\scene\battle_scene.cpp">
-      <Filter>game\scene</Filter>
+    <ClCompile Include="src\device\graphic\image_manager.cpp">
+      <Filter>game\device\graphic</Filter>
     </ClCompile>
-    <ClCompile Include="src\text\font_manager.cpp">
-      <Filter>game\text</Filter>
+    <ClCompile Include="src\device\input\input_receiver.cpp">
+      <Filter>game\device\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\device\text\font_manager.cpp">
+      <Filter>game\device\text</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\achievement\achievement_scene.cpp">
+      <Filter>game\scene\achievement</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\battle\battle_scene.cpp">
+      <Filter>game\scene\battle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\result\result_scene.cpp">
+      <Filter>game\scene\result</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\test\test_scene.cpp">
+      <Filter>game\scene\test</Filter>
+    </ClCompile>
+    <ClCompile Include="src\scene\title\title_scene.cpp">
+      <Filter>game\scene\title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\scene\achievement_scene.h">
-      <Filter>game\scene</Filter>
-    </ClInclude>
     <ClInclude Include="src\scene\base_scene.h">
-      <Filter>game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\scene\result_scene.h">
       <Filter>game\scene</Filter>
     </ClInclude>
     <ClInclude Include="src\scene\scene_manager.h">
       <Filter>game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\scene\title_scene.h">
-      <Filter>game\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="src\effect\effect_maker.h">
-      <Filter>game\effect</Filter>
-    </ClInclude>
-    <ClInclude Include="src\fps\fps_controller.h">
-      <Filter>game\fps</Filter>
-    </ClInclude>
-    <ClInclude Include="src\input\input_receiver.h">
-      <Filter>game\input</Filter>
     </ClInclude>
     <ClInclude Include="src\game_core.h">
       <Filter>game</Filter>
@@ -116,20 +116,38 @@
     <ClInclude Include="src\utils\string_util.h">
       <Filter>game\utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\audio\music_player.h">
-      <Filter>game\audio</Filter>
+    <ClInclude Include="src\device\audio\music_player.h">
+      <Filter>game\device\audio</Filter>
     </ClInclude>
-    <ClInclude Include="src\graphic\image_manager.h">
-      <Filter>game\graphic</Filter>
+    <ClInclude Include="src\device\effect\effect_maker.h">
+      <Filter>game\device\effect</Filter>
     </ClInclude>
-    <ClInclude Include="src\scene\test_scene.h">
-      <Filter>game\scene</Filter>
+    <ClInclude Include="src\device\fps\fps_controller.h">
+      <Filter>game\device\fps</Filter>
     </ClInclude>
-    <ClInclude Include="src\scene\battle_scene.h">
-      <Filter>game\scene</Filter>
+    <ClInclude Include="src\device\graphic\image_manager.h">
+      <Filter>game\device\graphic</Filter>
     </ClInclude>
-    <ClInclude Include="src\text\font_manager.h">
-      <Filter>game\text</Filter>
+    <ClInclude Include="src\device\input\input_receiver.h">
+      <Filter>game\device\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\device\text\font_manager.h">
+      <Filter>game\device\text</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\achievement\achievement_scene.h">
+      <Filter>game\scene\achievement</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\battle\battle_scene.h">
+      <Filter>game\scene\battle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\result\result_scene.h">
+      <Filter>game\scene\result</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\test\test_scene.h">
+      <Filter>game\scene\test</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\title\title_scene.h">
+      <Filter>game\scene\title</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

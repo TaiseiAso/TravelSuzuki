@@ -1,7 +1,7 @@
 #ifndef effect_maker_h
 #define effect_maker_h
 
-#include "../singleton/singleton.h"
+#include "singleton/singleton.h"
 
 namespace game::effect
 {

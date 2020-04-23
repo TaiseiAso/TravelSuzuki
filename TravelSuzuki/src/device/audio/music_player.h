@@ -2,7 +2,7 @@
 #define music_player_h
 
 #include <unordered_map>
-#include "../singleton/singleton.h"
+#include "singleton/singleton.h"
 
 namespace game::audio
 {
@@ -27,8 +27,6 @@ namespace game::audio
 
 		// 全体の音量比率
 		float masterVolume_;
-		// 主にフェードインアウト中の音量比率
-		float fadeVolume_;
 
 		// 再生中の音楽の音量を変更する
 		void setPlayMusicVolume(int playMusicHandle, int playMusicVolume) const;
@@ -67,8 +65,6 @@ namespace game::audio
 
 		// マスター音量を変更する
 		void setMasterVolume(float masterVolume);
-		// フェード音量を変更する
-		void setFadeVolume(float fadeVolume);
 
 		/*
 			停止しているのにメモリに残っている音楽とそのハンドルをメモリから破棄する
