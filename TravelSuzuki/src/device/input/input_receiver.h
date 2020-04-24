@@ -24,6 +24,9 @@ namespace game::input
 		
 		// 指定したキーが直近に押されたかを取得する
 		bool isPushKeyNow(int keyID) const;
+
+		// 指定したキーが現在押されているかを取得する
+		bool isPushingKey(int keyID) const;
 	};
 }
 

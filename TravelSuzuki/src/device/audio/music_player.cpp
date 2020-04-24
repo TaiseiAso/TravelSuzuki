@@ -1,15 +1,20 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <cmath>
 #include "music_player.h"
 #include "utils/string_util.h"
 #include "DxLib.h"
 
 namespace game::audio
 {
-	void MusicPlayer::setPlayMusicVolume(int playMusicHandle, int playMusicVolume) const
+	void MusicPlayer::setPlayMusicVolume(int playMusicHandle, float playMusicVolume, float playMusicDistance) const
 	{
-		int volumePal = static_cast<int>(masterVolume_ * playMusicVolume);
+		float volume
+			= (volumeAttenuationCoefficient_ > 0.f && playMusicDistance > 0.f)
+			? playMusicVolume / std::powf(playMusicDistance / volumeAttenuationCoefficient_ + 1.f, 2.f)
+			: playMusicVolume;
+		int volumePal = static_cast<int>(std::roundf(masterVolume_ * volume));
 		ChangeVolumeSoundMem(std::clamp<int>(volumePal, 0, 255), playMusicHandle);
 	}
 
@@ -17,12 +22,13 @@ namespace game::audio
 	{
 		for (const auto& itrPlay : playMusicNameToHandleAndVolume_)
 		{
-			setPlayMusicVolume(itrPlay.second.handle, itrPlay.second.volume);
+			setPlayMusicVolume(itrPlay.second.handle, itrPlay.second.volume, itrPlay.second.distance);
 		}
 	}
 
 	MusicPlayer::MusicPlayer()
-		: masterVolume_(1.f)
+		: masterVolume_(1.f),
+		  volumeAttenuationCoefficient_(-1)
 	{}
 
 	MusicPlayer::~MusicPlayer()
@@ -76,7 +82,7 @@ namespace game::audio
 		}
 	}
 
-	void MusicPlayer::playSE(const std::string& loadMusicName, int playMusicVolume) const
+	void MusicPlayer::playSE(const std::string& loadMusicName, float playMusicVolume, float playMusicDistance) const
 	{
 		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
 		if (itrLoad != loadMusicNameToHandle_.end())
@@ -85,13 +91,13 @@ namespace game::audio
 			if (playMusicHandle != -1)
 			{
 				SetPlayFinishDeleteSoundMem(TRUE, playMusicHandle);
-				setPlayMusicVolume(playMusicHandle, playMusicVolume);
+				setPlayMusicVolume(playMusicHandle, playMusicVolume, playMusicDistance);
 				PlaySoundMem(playMusicHandle, DX_PLAYTYPE_BACK, FALSE);
 			}
 		}
 	}
 
-	void MusicPlayer::playMusic(const std::string& loadMusicName, const std::string& playMusicName, int playMusicVolume, bool isLoop, bool topPositionFlag)
+	void MusicPlayer::playMusic(const std::string& loadMusicName, const std::string& playMusicName, float playMusicVolume, bool isLoop, bool topPositionFlag, float playMusicDistance)
 	{
 		auto itrLoad = loadMusicNameToHandle_.find(loadMusicName);
 		if (itrLoad != loadMusicNameToHandle_.end())
@@ -102,8 +108,8 @@ namespace game::audio
 				int playMusicHandle = DuplicateSoundMem(itrLoad->second);
 				if (playMusicHandle != -1)
 				{
-					playMusicNameToHandleAndVolume_[playMusicName] = MusicHandleAndVolume{ playMusicHandle, playMusicVolume };
-					setPlayMusicVolume(playMusicHandle, playMusicVolume);
+					playMusicNameToHandleAndVolume_[playMusicName] = MusicHandleAndVolume{ playMusicHandle, playMusicVolume, playMusicDistance };
+					setPlayMusicVolume(playMusicHandle, playMusicVolume, playMusicDistance);
 					PlaySoundMem(
 						playMusicHandle,
 						isLoop ? DX_PLAYTYPE_LOOP : DX_PLAYTYPE_BACK,
@@ -142,20 +148,46 @@ namespace game::audio
 		playMusicNameToHandleAndVolume_.clear();
 	}
 
-	void MusicPlayer::setPlayMusicVolume(const std::string& playMusicName, int playMusicVolume)
+	void MusicPlayer::setPlayMusicVolume(const std::string& playMusicName, float playMusicVolume)
 	{
 		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
 		if (itrPlay != playMusicNameToHandleAndVolume_.end())
 		{
 			itrPlay->second.volume = playMusicVolume;
-			setPlayMusicVolume(itrPlay->second.handle, playMusicVolume);
+			setPlayMusicVolume(itrPlay->second.handle, playMusicVolume, itrPlay->second.distance);
+		}
+	}
+
+	void MusicPlayer::setPlayMusicDistance(const std::string& playMusicName, float playMusicDistance)
+	{
+		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
+		if (itrPlay != playMusicNameToHandleAndVolume_.end())
+		{
+			itrPlay->second.distance = playMusicDistance;
+			setPlayMusicVolume(itrPlay->second.handle, itrPlay->second.volume, playMusicDistance);
 		}
 	}
 
 	void MusicPlayer::setMasterVolume(float masterVolume)
 	{
-		masterVolume_ = masterVolume;
+		masterVolume_ = std::clamp<float>(masterVolume, 0.f, 1.f);
 		updateAllPlayMusicVolume();
+	}
+
+	float MusicPlayer::getMasterVolume() const
+	{
+		return masterVolume_;
+	}
+
+	void MusicPlayer::setVolumeAttenuationCoefficient(float volumeAttenuationCoefficient)
+	{
+		volumeAttenuationCoefficient_ = volumeAttenuationCoefficient;
+		updateAllPlayMusicVolume();
+	}
+
+	float MusicPlayer::getVolumeAttenuationCoefficient() const
+	{
+		return volumeAttenuationCoefficient_;
 	}
 	
 	bool MusicPlayer::deleteStoppingMusic(const std::string& playMusicName)
@@ -171,5 +203,41 @@ namespace game::audio
 			}
 		}
 		return false;
+	}
+
+	void MusicPlayer::startFadeMusicVolume(const std::string& playMusicName, float targetVolume, int fadeFrame)
+	{
+		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
+		if (itrPlay != playMusicNameToHandleAndVolume_.end())
+		{
+			playMusicNameToVolumeFadeData_[playMusicName] = 
+			{
+				fadeFrame,
+				(targetVolume - itrPlay->second.volume) / fadeFrame
+			};
+		}
+	}
+
+	void MusicPlayer::updateFadeMusicVolume()
+	{
+		for (auto itrFade = playMusicNameToVolumeFadeData_.begin(); itrFade != playMusicNameToVolumeFadeData_.end();)
+		{
+			auto itrPlay = playMusicNameToHandleAndVolume_.find(itrFade->first);
+			if (itrPlay != playMusicNameToHandleAndVolume_.end())
+			{
+				itrPlay->second.volume += itrFade->second.deltaVolumeFade;
+				setPlayMusicVolume(itrPlay->second.handle, itrPlay->second.volume, itrPlay->second.distance);
+
+				if (--itrFade->second.fadeFrame == 0)
+				{
+					itrFade = playMusicNameToVolumeFadeData_.erase(itrFade);
+				}
+				else ++itrFade;
+			}
+			else
+			{
+				itrFade = playMusicNameToVolumeFadeData_.erase(itrFade);
+			}
+		}
 	}
 }

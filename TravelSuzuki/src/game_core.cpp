@@ -60,6 +60,7 @@ namespace game
 		{
 			fps::FPSController::instance().update();
 			input::InputReceiver::instance().update();
+			audio::MusicPlayer::instance().updateFadeMusicVolume();
 
 			ClearDrawScreen();
 			

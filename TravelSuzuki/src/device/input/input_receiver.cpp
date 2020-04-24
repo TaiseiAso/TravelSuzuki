@@ -29,4 +29,9 @@ namespace game::input
 	{
 		return pushKeyFrameArray_[keyID] == 1;
 	}
+
+	bool InputReceiver::isPushingKey(int keyID) const
+	{
+		return pushKeyFrameArray_[keyID] > 0;
+	}
 }

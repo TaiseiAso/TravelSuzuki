@@ -52,6 +52,19 @@ namespace game::scene::test
 			SceneManager::instance().createScene<title::TitleScene>("title");
 			SceneManager::instance().moveScene("title", { "test" });
 		}
+		else if (input::InputReceiver::instance().isPushingKey(KEY_INPUT_U))
+		{
+			if (++elapsedFrame_ == INT_MAX) elapsedFrame_ = 0;
+			audio::MusicPlayer::instance().setPlayMusicDistance("test1", 200 * std::abs(std::sinf(elapsedFrame_ / 30.f)));
+		}
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_I))
+		{
+			audio::MusicPlayer::instance().startFadeMusicVolume("test1", 100, 60);
+		}
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_O))
+		{
+			audio::MusicPlayer::instance().startFadeMusicVolume("test1", 255, 60);
+		}
 	}
 
 	void TestScene::update()
@@ -82,15 +95,22 @@ namespace game::scene::test
 		DrawCircle(
 			450 + (int)(SceneManager::instance().getFadeRatio() * 450),
 			500, 30, GetColor(255, 255, 255), 1, 1);
+
+		DrawCircle(
+			400 + (int)(200 * std::sinf(elapsedFrame_ / 30.f)),
+			200, 30, GetColor(0, 255, 255), 1, 1);
 	}
 
 	TestScene::TestScene()
+		: elapsedFrame_(0)
 	{
 		audio::MusicPlayer::instance().loadMusic("test");
 		graphic::ImageManager::instance().loadImage("test");
 		graphic::ImageManager::instance().loadGroup("test");
 
 		testElapsedData_ = { 0, 0 };
+
+		audio::MusicPlayer::instance().setVolumeAttenuationCoefficient(200.f);
 	}
 
 	TestScene::~TestScene()

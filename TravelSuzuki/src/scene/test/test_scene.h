@@ -11,6 +11,8 @@ namespace game::scene::test
 	private:
 		mutable graphic::AnimeElapsedData testElapsedData_;
 
+		int elapsedFrame_; // 経過フレーム数
+
 		// シーンの初期化処理
 		void initialize() override;
 		// シーンの終了処理

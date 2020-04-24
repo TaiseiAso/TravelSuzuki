@@ -2,7 +2,7 @@
 #define font_manager_h
 
 #include <unordered_map>
-#include <set>
+#include <unordered_set>
 #include "singleton/singleton.h"
 
 namespace game::text
@@ -16,7 +16,7 @@ namespace game::text
 		std::unordered_map<std::string, std::string> fontResourceNameToPath_;
 
 		// メモリに読み込んだフォントのファイルパスのセット
-		std::set<std::string> loadFontResourcePathSet_;
+		std::unordered_set<std::string> loadFontResourcePathSet_;
 
 		// 作成したフォントの識別名とハンドルのマップ
 		std::unordered_map<std::string, int> createFontNameToHandle_;
@@ -41,7 +41,7 @@ namespace game::text
 		// 作成済みのフォントを全てメモリから破棄する
 		void deleteAllFont();
 
-		// フォントの名前からフォントリソースをメモリから破棄する(データベースの読み込みが前提)
+		// フォントの名前からフォントリソースをメモリから破棄する (データベースの読み込みが前提)
 		void deleteFontResourceFromNameWithDatabase(const std::string& fontResourceName);
 		// フォントのファイルパスからフォントリソースをメモリから破棄する
 		void deleteFontResourceFromPath(const std::string& fontResourcePath);

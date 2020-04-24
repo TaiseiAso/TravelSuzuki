@@ -105,10 +105,10 @@ namespace game::text
 
 	int FontManager::getFontHandle(const std::string& createFontName) const
 	{
-		auto itrCreate = createFontNameToHandle_.find(createFontName);
-		if (itrCreate != createFontNameToHandle_.end())
+		auto itr = createFontNameToHandle_.find(createFontName);
+		if (itr != createFontNameToHandle_.end())
 		{
-			return itrCreate->second;
+			return itr->second;
 		}
 		return -1;
 	}
