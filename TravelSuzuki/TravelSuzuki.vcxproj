@@ -20,13 +20,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\device\audio\music_player.cpp" />
-    <ClCompile Include="src\device\effect\effect_maker.cpp" />
     <ClCompile Include="src\device\fps\fps_controller.cpp" />
     <ClCompile Include="src\device\graphic\image_manager.cpp" />
     <ClCompile Include="src\device\input\input_receiver.cpp" />
     <ClCompile Include="src\device\text\font_manager.cpp" />
     <ClCompile Include="src\game_core.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\object\block\block.cpp" />
+    <ClCompile Include="src\object\block\block_factory.cpp" />
+    <ClCompile Include="src\object\character\character.cpp" />
+    <ClCompile Include="src\object\character\enemy\enemy.cpp" />
+    <ClCompile Include="src\object\character\npc\npc.cpp" />
+    <ClCompile Include="src\object\character\player\player.cpp" />
+    <ClCompile Include="src\object\effect\effect_maker.cpp" />
+    <ClCompile Include="src\object\field\field.cpp" />
+    <ClCompile Include="src\object\item\item.cpp" />
+    <ClCompile Include="src\object\item\item_factory.cpp" />
     <ClCompile Include="src\scene\achievement\achievement_scene.cpp" />
     <ClCompile Include="src\scene\base_scene.cpp" />
     <ClCompile Include="src\scene\battle\battle_scene.cpp" />
@@ -38,12 +47,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\device\audio\music_player.h" />
-    <ClInclude Include="src\device\effect\effect_maker.h" />
     <ClInclude Include="src\device\fps\fps_controller.h" />
     <ClInclude Include="src\device\graphic\image_manager.h" />
     <ClInclude Include="src\device\input\input_receiver.h" />
     <ClInclude Include="src\device\text\font_manager.h" />
     <ClInclude Include="src\game_core.h" />
+    <ClInclude Include="src\object\block\block.h" />
+    <ClInclude Include="src\object\block\block_factory.h" />
+    <ClInclude Include="src\object\character\character.h" />
+    <ClInclude Include="src\object\character\enemy\enemy.h" />
+    <ClInclude Include="src\object\character\npc\npc.h" />
+    <ClInclude Include="src\object\character\player\player.h" />
+    <ClInclude Include="src\object\effect\effect_maker.h" />
+    <ClInclude Include="src\object\field\field.h" />
+    <ClInclude Include="src\object\item\item.h" />
+    <ClInclude Include="src\object\item\item_factory.h" />
     <ClInclude Include="src\scene\achievement\achievement_scene.h" />
     <ClInclude Include="src\scene\base_scene.h" />
     <ClInclude Include="src\scene\battle\battle_scene.h" />

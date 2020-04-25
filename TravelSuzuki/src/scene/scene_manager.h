@@ -88,8 +88,8 @@ namespace game::scene
 			{
 				nameToScene_[sceneName] = std::make_unique<U>();
 			}
-
 		}
+
 		// ƒV[ƒ“‚ğ”jŠü‚·‚é
 		void deleteScene(const std::string& sceneName);
 	};

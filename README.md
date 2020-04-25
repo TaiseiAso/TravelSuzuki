@@ -1,5 +1,5 @@
 # Travel Suzuki
-Windows10用アクションゲーム "Travel Suzuki" の開発レポジトリです。
+Windows10用アクションゲーム "Travel Suzuki" の開発レポジトリです。  
 [English](./README_en.md)
 
 ## ダウンロード
@@ -12,9 +12,18 @@ Windows10用アクションゲーム "Travel Suzuki" の開発レポジトリで
 - Windows10 (x64)
 - Visual Studio 2019
 - C++
-- Dxライブラリ
+- DXライブラリ
+
+## 参考 (順不同)
+- Visual Studio Community 2019 を使用した場合のＤＸライブラリの使い方 (https://dxlib.xsrv.jp/use/dxuse_vscom2019.html)
+- ＤＸライブラリ　関数リファレンスページ (https://dxlib.xsrv.jp/dxfunc.html)
+- C++ スマートポインタのパターン (https://qiita.com/kojiohta/items/596802df9cfa881ad9c4)
+- C++日本語リファレンス (https://cpprefjp.github.io/reference.html)
+- ゲームプログラマのためのデザインパターン（シングルトン） (https://qiita.com/narumi_/items/b205e59e7fc81695f380)
+- シーン遷移 (https://qiita.com/o_joh4869/items/a0d23fb26897762c1990)
+- 2D横スクロールアクションゲームのクラス構成 (https://nompor.com/2018/05/24/post-3826/)
 
 ## ライセンス
-Copyright (c) 2020 Taisei Aso
-MITライセンスのもとで配布されます。
+Copyright (c) 2020 Taisei Aso  
+MITライセンスのもとで配布されます。  
 https://github.com/TaiseiAso/TravelSuzuki/blob/master/LICENSE

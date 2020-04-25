@@ -40,14 +40,38 @@
     <Filter Include="game\device\fps">
       <UniqueIdentifier>{579ec052-97b0-46db-a605-5def77e343a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="game\device\effect">
-      <UniqueIdentifier>{e53f6773-c8e4-46ff-aad2-89c0f61dc781}</UniqueIdentifier>
-    </Filter>
     <Filter Include="game\device\audio">
       <UniqueIdentifier>{9abf57c3-c64f-4010-b815-ebc63e4b9948}</UniqueIdentifier>
     </Filter>
     <Filter Include="game\device\text">
       <UniqueIdentifier>{c76b0ce5-4973-4bb3-9af5-74ebdcc4c1a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object">
+      <UniqueIdentifier>{8f84194b-612f-4aa4-bdd6-803c96a9c11a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object\character">
+      <UniqueIdentifier>{765fb5ff-c6a2-46b1-ab97-e004e048bcb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object\character\npc">
+      <UniqueIdentifier>{c6e69da3-73aa-43bb-b0a9-6144dc3503c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object\character\enemy">
+      <UniqueIdentifier>{775fba62-c55a-4742-8957-ff6be9e95195}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object\character\player">
+      <UniqueIdentifier>{291a713f-bfa5-4149-bdc3-cf1832f969a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object\field">
+      <UniqueIdentifier>{2a2cf11d-6075-4cb2-bf17-b2fc653f83b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object\block">
+      <UniqueIdentifier>{49dd2da2-8f03-4983-9c28-4266e399b26a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object\item">
+      <UniqueIdentifier>{bbc49477-10d7-4c8d-8604-e1949e935ed5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\object\effect">
+      <UniqueIdentifier>{59535831-226a-41b9-95c4-4fa7c18a460d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,9 +92,6 @@
     </ClCompile>
     <ClCompile Include="src\device\audio\music_player.cpp">
       <Filter>game\device\audio</Filter>
-    </ClCompile>
-    <ClCompile Include="src\device\effect\effect_maker.cpp">
-      <Filter>game\device\effect</Filter>
     </ClCompile>
     <ClCompile Include="src\device\fps\fps_controller.cpp">
       <Filter>game\device\fps</Filter>
@@ -99,6 +120,36 @@
     <ClCompile Include="src\scene\title\title_scene.cpp">
       <Filter>game\scene\title</Filter>
     </ClCompile>
+    <ClCompile Include="src\object\character\character.cpp">
+      <Filter>game\object\character</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\character\player\player.cpp">
+      <Filter>game\object\character\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\character\enemy\enemy.cpp">
+      <Filter>game\object\character\enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\character\npc\npc.cpp">
+      <Filter>game\object\character\npc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\field\field.cpp">
+      <Filter>game\object\field</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\block\block.cpp">
+      <Filter>game\object\block</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\item\item.cpp">
+      <Filter>game\object\item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\block\block_factory.cpp">
+      <Filter>game\object\block</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\item\item_factory.cpp">
+      <Filter>game\object\item</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object\effect\effect_maker.cpp">
+      <Filter>game\object\effect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\scene\base_scene.h">
@@ -118,9 +169,6 @@
     </ClInclude>
     <ClInclude Include="src\device\audio\music_player.h">
       <Filter>game\device\audio</Filter>
-    </ClInclude>
-    <ClInclude Include="src\device\effect\effect_maker.h">
-      <Filter>game\device\effect</Filter>
     </ClInclude>
     <ClInclude Include="src\device\fps\fps_controller.h">
       <Filter>game\device\fps</Filter>
@@ -148,6 +196,36 @@
     </ClInclude>
     <ClInclude Include="src\scene\title\title_scene.h">
       <Filter>game\scene\title</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\character\character.h">
+      <Filter>game\object\character</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\character\player\player.h">
+      <Filter>game\object\character\player</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\character\enemy\enemy.h">
+      <Filter>game\object\character\enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\character\npc\npc.h">
+      <Filter>game\object\character\npc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\field\field.h">
+      <Filter>game\object\field</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\block\block.h">
+      <Filter>game\object\block</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\item\item.h">
+      <Filter>game\object\item</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\block\block_factory.h">
+      <Filter>game\object\block</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\item\item_factory.h">
+      <Filter>game\object\item</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object\effect\effect_maker.h">
+      <Filter>game\object\effect</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
