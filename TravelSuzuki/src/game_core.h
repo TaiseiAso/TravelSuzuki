@@ -2,6 +2,7 @@
 #define game_core_h
 
 #include <memory>
+#include "device/fps/fps_controller.h"
 
 namespace game
 {
@@ -9,6 +10,9 @@ namespace game
 	class GameCore
 	{
 	private:
+		// FPSを調整するコントローラ
+		std::unique_ptr<fps::FPSController> fpsController_;
+
 		// コピーコンストラクタを禁止する
 		GameCore(const GameCore&) = delete;
 		GameCore(GameCore&&) = delete;

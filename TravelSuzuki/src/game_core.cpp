@@ -1,6 +1,5 @@
 #include "game_core.h"
 #include "DxLib.h"
-#include "device/fps/fps_controller.h"
 #include "device/input/input_receiver.h"
 #include "device/audio/music_player.h"
 #include "device/graphic/image_manager.h"
@@ -11,6 +10,7 @@
 namespace game
 {
 	GameCore::GameCore()
+		: fpsController_(std::make_unique<fps::FPSController>())
 	{
 		SetOutApplicationLogValidFlag(FALSE); //Log.txtを生成しないように設定
 		SetMainWindowText("Travel Suzuki"); // タイトルを設定
@@ -21,7 +21,6 @@ namespace game
 
 		SetDrawScreen(DX_SCREEN_BACK); // 描画先を裏画面にする
 
-		fps::FPSController::create();
 		input::InputReceiver::create();
 		audio::MusicPlayer::create();
 		graphic::ImageManager::create();
@@ -49,7 +48,6 @@ namespace game
 		graphic::ImageManager::destroy();
 		audio::MusicPlayer::destroy();
 		input::InputReceiver::destroy();
-		fps::FPSController::destroy();
 
 		DxLib_End(); // DXライブラリ終了処理
 	}
@@ -58,18 +56,18 @@ namespace game
 	{
 		while (!ProcessMessage())
 		{
-			fps::FPSController::instance().update();
+			fpsController_->update();
 			input::InputReceiver::instance().update();
 			audio::MusicPlayer::instance().updateFadeMusicVolume();
 
 			ClearDrawScreen();
 			
 			if (!scene::SceneManager::instance().step()) break;
-			fps::FPSController::instance().draw(); // テスト用
+			fpsController_->draw(); // テスト用
 			
 			ScreenFlip();
 			
-			fps::FPSController::instance().wait();
+			fpsController_->wait();
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace game::audio
 	{
 		float volume
 			= (volumeAttenuationCoefficient_ > 0.f && playMusicDistance > 0.f)
-			? playMusicVolume / std::powf(playMusicDistance / volumeAttenuationCoefficient_ + 1.f, 2.f)
+			? playMusicVolume / std::powf(playMusicDistance * volumeAttenuationCoefficient_ + 1.f, 2.f)
 			: playMusicVolume;
 		int volumePal = static_cast<int>(std::roundf(masterVolume_ * volume));
 		ChangeVolumeSoundMem(std::clamp<int>(volumePal, 0, 255), playMusicHandle);
@@ -28,7 +28,7 @@ namespace game::audio
 
 	MusicPlayer::MusicPlayer()
 		: masterVolume_(1.f),
-		  volumeAttenuationCoefficient_(-1)
+		  volumeAttenuationCoefficient_(-1.f)
 	{}
 
 	MusicPlayer::~MusicPlayer()
@@ -205,7 +205,7 @@ namespace game::audio
 		return false;
 	}
 
-	void MusicPlayer::startFadeMusicVolume(const std::string& playMusicName, float targetVolume, int fadeFrame)
+	void MusicPlayer::startFadeMusicVolume(const std::string& playMusicName, float targetVolume, int fadeFrame, bool stopWhenFadeEnd)
 	{
 		auto itrPlay = playMusicNameToHandleAndVolume_.find(playMusicName);
 		if (itrPlay != playMusicNameToHandleAndVolume_.end())
@@ -213,7 +213,8 @@ namespace game::audio
 			playMusicNameToVolumeFadeData_[playMusicName] = 
 			{
 				fadeFrame,
-				(targetVolume - itrPlay->second.volume) / fadeFrame
+				(targetVolume - itrPlay->second.volume) / fadeFrame,
+				stopWhenFadeEnd
 			};
 		}
 	}
@@ -230,6 +231,12 @@ namespace game::audio
 
 				if (--itrFade->second.fadeFrame == 0)
 				{
+					if (itrFade->second.stopWhenFadeEnd)
+					{
+						StopSoundMem(itrPlay->second.handle);
+						DeleteSoundMem(itrPlay->second.handle);
+						playMusicNameToHandleAndVolume_.erase(itrPlay);
+					}
 					itrFade = playMusicNameToVolumeFadeData_.erase(itrFade);
 				}
 				else ++itrFade;

@@ -20,6 +20,7 @@ namespace game::audio
 		typedef struct {
 			int fadeFrame; // フェードにかかるフレーム数
 			float deltaVolumeFade; // 1フレームで変化する音量
+			bool stopWhenFadeEnd; // フェード終了後に音楽を停止するか
 		} MusicVolumeFadeData;
 
 		// メモリに読み込む音楽の名前とファイルパスのマップ
@@ -37,7 +38,7 @@ namespace game::audio
 		// 全体の音量比率 (-1から1の間の値)
 		float masterVolume_;
 
-		// 音源とリスナーの距離による音量減衰の係数 (大きいほど減衰しにくい) (0以下なら減衰しない)
+		// 音源とリスナーの距離による音量減衰の係数 (大きいほど減衰しやすい) (0以下なら減衰しない)
 		float volumeAttenuationCoefficient_;
 
 		// 再生中の音楽の音量を変更する
@@ -96,7 +97,7 @@ namespace game::audio
 		bool deleteStoppingMusic(const std::string& playMusicName);
 
 		// 再生中の音楽の音量のフェードを開始する
-		void startFadeMusicVolume(const std::string& playMusicName, float targetVolume, int fadeFrame);
+		void startFadeMusicVolume(const std::string& playMusicName, float targetVolume, int fadeFrame, bool stopWhenFadeEnd = false);
 
 		// 再生中でかつフェード中の音楽の音量を更新する
 		void updateFadeMusicVolume();

@@ -21,7 +21,7 @@ namespace game::scene::test
 	{
 		if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_P))
 		{
-			audio::MusicPlayer::instance().playMusic("test", "test1", 255, true, true);
+			audio::MusicPlayer::instance().playMusic("test_", "test1", 255, true, true);
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_S))
 		{
@@ -59,11 +59,19 @@ namespace game::scene::test
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_I))
 		{
-			audio::MusicPlayer::instance().startFadeMusicVolume("test1", 100, 60);
+			audio::MusicPlayer::instance().startFadeMusicVolume("test1", 100, 60, true);
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_O))
 		{
 			audio::MusicPlayer::instance().startFadeMusicVolume("test1", 255, 60);
+		}
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Z))
+		{
+			audio::MusicPlayer::instance().playMusic("test", "test2", 255, true, true);
+		}
+		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_X))
+		{
+			audio::MusicPlayer::instance().stopMusic("test2");
 		}
 	}
 
@@ -105,17 +113,19 @@ namespace game::scene::test
 		: elapsedFrame_(0)
 	{
 		audio::MusicPlayer::instance().loadMusic("test");
+		audio::MusicPlayer::instance().loadMusic("test_");
 		graphic::ImageManager::instance().loadImage("test");
 		graphic::ImageManager::instance().loadGroup("test");
 
 		testElapsedData_ = { 0, 0 };
 
-		audio::MusicPlayer::instance().setVolumeAttenuationCoefficient(200.f);
+		audio::MusicPlayer::instance().setVolumeAttenuationCoefficient(0.005f);
 	}
 
 	TestScene::~TestScene()
 	{
 		audio::MusicPlayer::instance().deleteMusic("test");
+		audio::MusicPlayer::instance().deleteMusic("test_");
 		graphic::ImageManager::instance().deleteImage("test");
 		graphic::ImageManager::instance().deleteGroup("test");
 	}

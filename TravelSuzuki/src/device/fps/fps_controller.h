@@ -1,15 +1,12 @@
 #ifndef fps_controller_h
 #define fps_controller_h
 
-#include "singleton/singleton.h"
 #include "DxLib.h"
 
 namespace game::fps
 {
-	class FPSController : public Singleton<FPSController>
+	class FPSController
 	{
-		friend class Singleton<FPSController>; // Singleton でのインスタンス作成は許可
-
 	private:
 		int startTime_; // 測定開始時刻
 		int count_; // カウンタ
@@ -20,10 +17,12 @@ namespace game::fps
 
 		const unsigned int grayColor_ = GetColor(120, 120, 120); // 灰色
 
-		FPSController(); // 外部でのインスタンス作成は禁止
+	public:
+		// コンストラクタ
+		FPSController();
+		// デストラクタ
 		~FPSController();
 
-	public:
 		// 更新
 		void update();
 		// テスト用にFPS描画

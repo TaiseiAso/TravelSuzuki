@@ -2,7 +2,7 @@
 
 namespace stringUtil
 {
-    std::vector<std::string> split(std::string str, char del) {
+    std::vector<std::string> split(const std::string& str, char del) {
         int first = 0;
         int last = str.find_first_of(del);
 
