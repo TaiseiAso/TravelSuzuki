@@ -12,15 +12,14 @@ namespace game::audio
 
 	private:
 		typedef struct {
-			int handle; // 再生する音楽のハンドル
 			float volume; // 音楽の再生音量
 			float distance; // 音源とリスナーの距離 (0以下なら距離を無視して音量減衰しない)
-		} MusicHandleAndVolume;
+		} MusicVolumeAndDistance;
 
 		typedef struct {
 			int fadeFrame; // フェードにかかるフレーム数
 			float deltaVolumeFade; // 1フレームで変化する音量
-			bool stopWhenFadeEnd; // フェード終了後に音楽を停止するか
+			bool stopWhenFadeFinish; // フェード終了後に音楽を停止するか
 		} MusicVolumeFadeData;
 
 		// メモリに読み込む音楽の名前とファイルパスのマップ
@@ -29,11 +28,11 @@ namespace game::audio
 		// メモリに読み込んだ音楽の名前とハンドルのマップ
 		std::unordered_map<std::string, int> loadMusicNameToHandle_;
 
-		// 再生している音楽の識別名と<複製されたハンドル, 再生音量>の構造体のマップ
-		std::unordered_map<std::string, MusicHandleAndVolume> playMusicNameToHandleAndVolume_;
+		// 再生している音楽のハンドルと<再生音量, リスナーとの距離>の構造体のマップ
+		std::unordered_map<int, MusicVolumeAndDistance> playMusicHandleToVolumeAndDistance_;
 
 		// 再生している音楽の音量を変化させるための情報セット
-		std::unordered_map<std::string, MusicVolumeFadeData> playMusicNameToVolumeFadeData_;
+		std::unordered_map<int, MusicVolumeFadeData> playMusicHandleToVolumeFadeData_;
 
 		// 全体の音量比率 (-1から1の間の値)
 		float masterVolume_;
@@ -63,22 +62,19 @@ namespace game::audio
 
 		// メモリに読み込んだ音楽を再生する (あとから制御しない効果音用)
 		void playSE(const std::string& loadMusicName, float playMusicVolume, float playMusicDistance = 0.f) const;
-		// メモリに読み込んだ音楽を再生する
-		void playMusic(const std::string& loadMusicName, const std::string& playMusicName, float playMusicVolume, bool isLoop, bool topPositionFlag, float playMusicDistance = 0.f);
+		// メモリに読み込んだ音楽を再生する (ハンドルを返す) (失敗すると-1を返す)
+		int playMusic(const std::string& loadMusicName, float playMusicVolume, float playMusicDistance = 0.f, bool isLoop = true, bool topPositionFlag = true);
 
 		// 再生中の音楽を停止する
-		void stopMusic(const std::string& playMusicName);
+		void stopMusic(int* const playMusicHandle);
 
 		// すべての音楽をメモリから破棄する
 		void deleteAllMusic();
 
-		// すべての再生中の音楽を停止する
-		void stopAllMusic();
-
 		// 再生中の音楽の音量を変更する
-		void setPlayMusicVolume(const std::string& playMusicName, float playMusicVolume);
+		void setPlayMusicVolume(int playMusicHandle, float playMusicVolume);
 		// 再生中の音楽のリスナーとの距離を変更する
-		void setPlayMusicDistance(const std::string& playMusicName, float playMusicDistance);
+		void setPlayMusicDistance(int playMusicHandle, float playMusicDistance);
 
 		// マスター音量を変更する (-1から1の間の値)
 		void setMasterVolume(float masterVolume);
@@ -90,17 +86,14 @@ namespace game::audio
 		// 音源とリスナーの距離による音量減衰の係数を取得する
 		float getVolumeAttenuationCoefficient() const;
 
-		/*
-			停止しているのにメモリに残っている音楽とそのハンドルをメモリから破棄する
-			return: true->破棄に成功, false->破棄しなかった
-		*/
-		bool deleteStoppingMusic(const std::string& playMusicName);
+		// 終了しているのに停止していない音楽を停止する
+		void stopFinishedMusic(int* const playMusicHandle);
 
 		// 再生中の音楽の音量のフェードを開始する
-		void startFadeMusicVolume(const std::string& playMusicName, float targetVolume, int fadeFrame, bool stopWhenFadeEnd = false);
+		void startFadeMusicVolume(int playMusicHandle, float targetVolume, int fadeFrame, bool stopWhenFadeFinish = false);
 
 		// 再生中でかつフェード中の音楽の音量を更新する
-		void updateFadeMusicVolume();
+		void update();
 	};
 }
 

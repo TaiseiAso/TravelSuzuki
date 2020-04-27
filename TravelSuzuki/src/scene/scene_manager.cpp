@@ -4,19 +4,19 @@
 
 namespace game::scene
 {
-	void SceneManager::initScene(const std::string& sceneName)
+	void SceneManager::initScene(SCENE_ID sceneID)
 	{
-		auto itr = nameToScene_.find(sceneName);
-		if (itr != nameToScene_.end())
+		auto itr = idToScene_.find(sceneID);
+		if (itr != idToScene_.end())
 		{
 			itr->second->initialize();
 		}
 	}
 
-	void SceneManager::finalScene(const std::string& sceneName)
+	void SceneManager::finalScene(SCENE_ID sceneID)
 	{
-		auto itr = nameToScene_.find(sceneName);
-		if (itr != nameToScene_.end())
+		auto itr = idToScene_.find(sceneID);
+		if (itr != idToScene_.end())
 		{
 			itr->second->finalize();
 		}
@@ -24,15 +24,22 @@ namespace game::scene
 
 	void SceneManager::swapScene()
 	{
-		finalScene(currentSceneName_);
-		currentSceneName_ = nextSceneName_;
-		for (const std::string& deleteSceneName : deleteSceneNameVector_)
+		// ‚±‚±‚Å‚•‰‰×ˆ—‚ª—\‘z‚³‚ê‚é
+		finalScene(currentSceneID_);
+		currentSceneID_ = nextSceneID_;
+		for (const SCENE_ID& createSceneID : createSceneIDVector_)
 		{
-			deleteScene(deleteSceneName);
+			createScene(createSceneID);
 		}
-		deleteSceneNameVector_.clear();
-		deleteSceneNameVector_.shrink_to_fit();
-		initScene(currentSceneName_);
+		for (const SCENE_ID& deleteSceneID : deleteSceneIDVector_)
+		{
+			deleteScene(deleteSceneID);
+		}
+		createSceneIDVector_.clear();
+		createSceneIDVector_.shrink_to_fit();
+		deleteSceneIDVector_.clear();
+		deleteSceneIDVector_.shrink_to_fit();
+		initScene(currentSceneID_);
 	}
 
 	void SceneManager::updateMoveScene()
@@ -80,12 +87,14 @@ namespace game::scene
 
 	SceneManager::SceneManager()
 		: isMovingScene_(false),
+		  nextSceneID_(SCENE_ID::end),
 		  isFadeOut_(true),
 		  moveSceneFrame_(0),
 		  fadeLevel_(0),
 		  drawMoveSceneFadeOut_(true),
 		  drawMoveSceneFadeIn_(true),
-		  moveSceneFadeColor_(GetColor(0, 0, 0))
+		  moveSceneFadeColor_(GetColor(0, 0, 0)),
+		  currentSceneID_(SCENE_ID::end)
 	{}
 
 	SceneManager::~SceneManager() {}
@@ -93,8 +102,8 @@ namespace game::scene
 	bool SceneManager::step()
 	{
 		updateMoveScene();
-		auto itr = nameToScene_.find(currentSceneName_);
-		if (itr != nameToScene_.end())
+		auto itr = idToScene_.find(currentSceneID_);
+		if (itr != idToScene_.end())
 		{
 			if (!isMovingScene_) itr->second->action();
 			itr->second->update();
@@ -136,24 +145,45 @@ namespace game::scene
 		if (!isMovingScene_) moveSceneFadeColor_ = moveSceneFadeColor;
 	}
 
-	void SceneManager::moveScene(const std::string& nextSceneName, const std::vector<std::string>& deleteSceneNameVector)
+	void SceneManager::moveScene(SCENE_ID sceneID, const std::vector<SCENE_ID>& createSceneIDVector, const std::vector<SCENE_ID>& deleteSceneIDVector)
 	{
 		if (moveSceneFrame_ >= 0 && !isMovingScene_)
 		{
 			isMovingScene_ = true;
-			nextSceneName_ = nextSceneName;
+			nextSceneID_ = sceneID;
 			isFadeOut_ = true;
 			fadeLevel_ = 0;
-			deleteSceneNameVector_ = deleteSceneNameVector;
+			createSceneIDVector_ = createSceneIDVector;
+			deleteSceneIDVector_ = deleteSceneIDVector;
 		}
 	}
 
-	void SceneManager::deleteScene(const std::string& sceneName)
+	void SceneManager::createFirstScene(SCENE_ID sceneID)
 	{
-		auto itr = nameToScene_.find(sceneName);
-		if (itr != nameToScene_.end())
+		if (createScene(sceneID))
 		{
-			nameToScene_.erase(itr);
+			idToScene_[sceneID]->initialize();
+			currentSceneID_ = sceneID;
+		}
+	}
+	
+	bool SceneManager::createScene(SCENE_ID sceneID)
+	{
+		auto itr = idToScene_.find(sceneID);
+		if (itr == idToScene_.end())
+		{
+			idToScene_[sceneID] = sceneFactory_.create(sceneID);
+			return true;
+		}
+		return false;
+	}
+
+	void SceneManager::deleteScene(SCENE_ID sceneID)
+	{
+		auto itr = idToScene_.find(sceneID);
+		if (itr != idToScene_.end())
+		{
+			idToScene_.erase(itr);
 		}
 	}
 }

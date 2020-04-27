@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 #include "singleton/singleton.h"
-#include "scene/base_scene.h"
+#include "scene_factory.h"
 
 namespace game::scene
 {
@@ -13,24 +13,28 @@ namespace game::scene
 
 	private:
 		bool isMovingScene_; // シーンを移動中かどうか
-		std::string nextSceneName_; // 移動先のシーン名
+		SCENE_ID nextSceneID_; // 移動先のシーンID
 		bool isFadeOut_; // フェードアウトかフェードインインかの判別
 		int moveSceneFrame_; // シーン移動に要するフレーム数
 		int fadeLevel_; // フェードのかかり具合 (最大はmoveSceneFrame)
 		bool drawMoveSceneFadeOut_; // フェードアウトを描画するかどうか
 		bool drawMoveSceneFadeIn_; // フェードインを描画するかどうか
 		unsigned int moveSceneFadeColor_; // シーン移動時のフェード色
-		std::vector<std::string> deleteSceneNameVector_; // シーン移動時に破棄するシーン名のリスト
+		std::vector<SCENE_ID> createSceneIDVector_; // シーン移動時に作成するシーンIDのリスト
+		std::vector<SCENE_ID> deleteSceneIDVector_; // シーン移動時に破棄するシーンIDのリスト
 
-		// シーン名と作成したシーンのマップ
-		std::unordered_map<std::string, std::unique_ptr<BaseScene>> nameToScene_;
-		// 現在のシーン名
-		std::string currentSceneName_;
+		// シーンIDと作成したシーンのマップ
+		std::unordered_map<SCENE_ID, std::unique_ptr<BaseScene>> idToScene_;
+		// 現在のシーンID
+		SCENE_ID currentSceneID_;
+
+		// シーンファクトリ
+		SceneFactory sceneFactory_;
 
 		// シーンを初期化する
-		void initScene(const std::string& sceneName);
+		void initScene(SCENE_ID sceneID);
 		// シーンを終了する
-		void finalScene(const std::string& sceneName);
+		void finalScene(SCENE_ID sceneID);
 
 		// 現在のシーンを交換する
 		void swapScene();
@@ -66,32 +70,15 @@ namespace game::scene
 		void setMoveSceneFadeColor(unsigned int moveSceneFadeColor);
 
 		// シーン移動を開始する
-		void moveScene(const std::string& nextSceneName, const std::vector<std::string>& deleteSceneNameVector = {});
+		void moveScene(SCENE_ID sceneID, const std::vector<SCENE_ID>& createSceneIDVector = {}, const std::vector<SCENE_ID>& deleteSceneIDVector = {});
 
-		// シーンを作成する
-		template <class U>
-		void createFirstScene(const std::string& sceneName)
-		{
-			auto itr = nameToScene_.find(sceneName);
-			if (itr == nameToScene_.end())
-			{
-				nameToScene_[sceneName] = std::make_unique<U>();
-				nameToScene_[sceneName]->initialize();
-				currentSceneName_ = sceneName;
-			}
-		}
-		template <class U>
-		void createScene(const std::string& sceneName)
-		{
-			auto itr = nameToScene_.find(sceneName);
-			if (itr == nameToScene_.end())
-			{
-				nameToScene_[sceneName] = std::make_unique<U>();
-			}
-		}
+		// 最初のシーンを作成する
+		void createFirstScene(SCENE_ID sceneID);
+		// シーンを作成する (作成したらtrueを返す)
+		bool createScene(SCENE_ID sceneID);
 
 		// シーンを破棄する
-		void deleteScene(const std::string& sceneName);
+		void deleteScene(SCENE_ID sceneID);
 	};
 }
 

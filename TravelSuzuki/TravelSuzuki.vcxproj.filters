@@ -150,6 +150,9 @@
     <ClCompile Include="src\object\effect\effect_maker.cpp">
       <Filter>game\object\effect</Filter>
     </ClCompile>
+    <ClCompile Include="src\scene\scene_factory.cpp">
+      <Filter>game\scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\scene\base_scene.h">
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="src\object\effect\effect_maker.h">
       <Filter>game\object\effect</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scene\scene_factory.h">
+      <Filter>game\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,6 +40,7 @@
     <ClCompile Include="src\scene\base_scene.cpp" />
     <ClCompile Include="src\scene\battle\battle_scene.cpp" />
     <ClCompile Include="src\scene\result\result_scene.cpp" />
+    <ClCompile Include="src\scene\scene_factory.cpp" />
     <ClCompile Include="src\scene\scene_manager.cpp" />
     <ClCompile Include="src\scene\test\test_scene.cpp" />
     <ClCompile Include="src\scene\title\title_scene.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="src\scene\base_scene.h" />
     <ClInclude Include="src\scene\battle\battle_scene.h" />
     <ClInclude Include="src\scene\result\result_scene.h" />
+    <ClInclude Include="src\scene\scene_factory.h" />
     <ClInclude Include="src\scene\scene_manager.h" />
     <ClInclude Include="src\scene\test\test_scene.h" />
     <ClInclude Include="src\scene\title\title_scene.h" />

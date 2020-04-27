@@ -2,7 +2,6 @@
 #include "device/input/input_receiver.h"
 #include "device/audio/music_player.h"
 #include "scene/scene_manager.h"
-#include "scene/title/title_scene.h"
 #include "DxLib.h"
 
 namespace game::scene::test
@@ -14,26 +13,26 @@ namespace game::scene::test
 
 	void TestScene::finalize()
 	{
-		audio::MusicPlayer::instance().stopMusic("test1");
+		//audio::MusicPlayer::instance().stopMusic("test1");
 	}
 
 	void TestScene::action()
 	{
 		if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_P))
 		{
-			audio::MusicPlayer::instance().playMusic("test_", "test1", 255, true, true);
+			testMusicHandle1_ = audio::MusicPlayer::instance().playMusic("test_", 255.f);
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_S))
 		{
-			audio::MusicPlayer::instance().stopMusic("test1");
+			audio::MusicPlayer::instance().stopMusic(&testMusicHandle1_);
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Q))
 		{
-			audio::MusicPlayer::instance().setPlayMusicVolume("test1", 120);
+			audio::MusicPlayer::instance().setPlayMusicVolume(testMusicHandle1_, 120);
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_W))
 		{
-			audio::MusicPlayer::instance().setPlayMusicVolume("test1", 255);
+			audio::MusicPlayer::instance().setPlayMusicVolume(testMusicHandle1_, 255);
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_E))
 		{
@@ -49,29 +48,28 @@ namespace game::scene::test
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Y))
 		{
-			SceneManager::instance().createScene<title::TitleScene>("title");
-			SceneManager::instance().moveScene("title", { "test" });
+			SceneManager::instance().moveScene(SCENE_ID::title, { SCENE_ID::title }, { SCENE_ID::test });
 		}
 		else if (input::InputReceiver::instance().isPushingKey(KEY_INPUT_U))
 		{
 			if (++elapsedFrame_ == INT_MAX) elapsedFrame_ = 0;
-			audio::MusicPlayer::instance().setPlayMusicDistance("test1", 200 * std::abs(std::sinf(elapsedFrame_ / 30.f)));
+			audio::MusicPlayer::instance().setPlayMusicDistance(testMusicHandle1_, 200 * std::abs(std::sinf(elapsedFrame_ / 30.f)));
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_I))
 		{
-			audio::MusicPlayer::instance().startFadeMusicVolume("test1", 100, 60, true);
+			audio::MusicPlayer::instance().startFadeMusicVolume(testMusicHandle1_, 100, 60, true);
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_O))
 		{
-			audio::MusicPlayer::instance().startFadeMusicVolume("test1", 255, 60);
+			audio::MusicPlayer::instance().startFadeMusicVolume(testMusicHandle1_, 255, 60);
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_Z))
 		{
-			audio::MusicPlayer::instance().playMusic("test", "test2", 255, true, true);
+			testMusicHandle2_ = audio::MusicPlayer::instance().playMusic("test", 255.f);
 		}
 		else if (input::InputReceiver::instance().isPushKeyNow(KEY_INPUT_X))
 		{
-			audio::MusicPlayer::instance().stopMusic("test2");
+			audio::MusicPlayer::instance().stopMusic(&testMusicHandle2_);
 		}
 	}
 
@@ -110,7 +108,9 @@ namespace game::scene::test
 	}
 
 	TestScene::TestScene()
-		: elapsedFrame_(0)
+		: elapsedFrame_(0),
+		  testMusicHandle1_(-1),
+		  testMusicHandle2_(-1)
 	{
 		audio::MusicPlayer::instance().loadMusic("test");
 		audio::MusicPlayer::instance().loadMusic("test_");

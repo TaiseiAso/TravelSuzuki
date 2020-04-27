@@ -33,7 +33,7 @@ namespace game::text
 		// フォントのファイルパスからフォントリソースをメモリに読み込む
 		void loadFontResourceFromPath(const std::string& fontResourcePath);
 
-		// 任意のサイズ, 太さ, タイプのフォントを作成しメモリに読み込む
+		// 任意のサイズ, 太さ, タイプのフォントを作成しメモリに読み込む (ハンドルを返す) (既に作成済みならそのハンドルを返す)
 		void createFont(const std::string& fontResorceName, const std::string& createFontName, int size, int thick, int fontType);
 
 		// 作成済みのフォントをメモリから破棄する

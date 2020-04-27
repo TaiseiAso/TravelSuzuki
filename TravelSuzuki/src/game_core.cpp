@@ -5,13 +5,12 @@
 #include "device/graphic/image_manager.h"
 #include "device/text/font_manager.h"
 #include "scene/scene_manager.h"
-#include "scene/test/test_scene.h"
 
 namespace game
 {
 	GameCore::GameCore()
-		: fpsController_(std::make_unique<fps::FPSController>())
 	{
+		SetAlwaysRunFlag(TRUE); // ウィンドウが非アクティブ状態のときも処理を続行する
 		SetOutApplicationLogValidFlag(FALSE); //Log.txtを生成しないように設定
 		SetMainWindowText("Travel Suzuki"); // タイトルを設定
 		ChangeWindowMode(TRUE); // ウィンドウモードに設定
@@ -33,7 +32,7 @@ namespace game
 		text::FontManager::instance().loadFontResourceNameToPathDatabase("resource/database/font_resource_name_to_path.csv");
 
 		scene::SceneManager::create();
-		scene::SceneManager::instance().createFirstScene<scene::test::TestScene>("test");
+		scene::SceneManager::instance().createFirstScene(scene::SCENE_ID::test);
 
 		// テスト用
 		scene::SceneManager::instance().setMoveSceneFadeColor(GetColor(255, 255, 255));
@@ -56,18 +55,18 @@ namespace game
 	{
 		while (!ProcessMessage())
 		{
-			fpsController_->update();
+			fpsController_.update();
 			input::InputReceiver::instance().update();
-			audio::MusicPlayer::instance().updateFadeMusicVolume();
+			audio::MusicPlayer::instance().update();
 
 			ClearDrawScreen();
 			
 			if (!scene::SceneManager::instance().step()) break;
-			fpsController_->draw(); // テスト用
+			fpsController_.draw(); // テスト用
 			
 			ScreenFlip();
 			
-			fpsController_->wait();
+			fpsController_.wait();
 		}
 	}
 }

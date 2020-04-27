@@ -13,6 +13,9 @@ namespace game::scene::test
 
 		int elapsedFrame_; // 経過フレーム数
 
+		int testMusicHandle1_;
+		int testMusicHandle2_;
+
 		// シーンの初期化処理
 		void initialize() override;
 		// シーンの終了処理

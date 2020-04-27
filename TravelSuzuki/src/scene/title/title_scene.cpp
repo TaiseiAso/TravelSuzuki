@@ -4,7 +4,6 @@
 #include "device/audio/music_player.h"
 #include "device/text/font_manager.h"
 #include "scene/scene_manager.h"
-#include "scene/battle/battle_scene.h"
 
 namespace game::scene::title
 {
@@ -30,12 +29,10 @@ namespace game::scene::title
 			switch (cursor_)
 			{
 			case 0:
-				SceneManager::instance().createScene<battle::BattleScene>("battle");
-				SceneManager::instance().moveScene("battle", { "title" });
+				SceneManager::instance().moveScene(SCENE_ID::battle, { SCENE_ID::battle }, { SCENE_ID::title });
 				break;
 			case 1:
-				SceneManager::instance().createScene<battle::BattleScene>("achievement");
-				SceneManager::instance().moveScene("achievement", { "title" });
+				SceneManager::instance().moveScene(SCENE_ID::battle, { SCENE_ID::battle }, { SCENE_ID::title });
 				break;
 			case 2:
 				cursor_ = 0;
@@ -43,7 +40,7 @@ namespace game::scene::title
 				break;
 			case 3:
 				SceneManager::instance().setMoveSceneFrame(0);
-				SceneManager::instance().moveScene("END");
+				SceneManager::instance().moveScene(SCENE_ID::end);
 			}
 		}
 	}
