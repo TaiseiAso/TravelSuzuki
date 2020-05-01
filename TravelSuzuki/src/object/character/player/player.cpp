@@ -1,6 +1,6 @@
 #include "player.h"
 
-namespace game::character::player
+namespace game::object::character::player
 {
 
 }

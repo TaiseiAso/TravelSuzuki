@@ -45,7 +45,7 @@ namespace game::audio
 		if (passFirstLine) std::getline(ifs, line); // ˆês–Ú‚Í”ò‚Î‚·
 		while (std::getline(ifs, line))
 		{
-			std::vector<std::string> strVec = stringUtil::split(line, ',');
+			std::vector<std::string> strVec = util::split(line, ',');
 			if (strVec.size() >= 2) loadMusicNameToPath_[strVec[0]] = strVec[1];
 		}
 	}

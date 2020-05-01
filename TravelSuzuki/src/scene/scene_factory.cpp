@@ -13,8 +13,8 @@ namespace game::scene
 		case SCENE_ID::title:
 			createdScene = std::make_unique<title::TitleScene>();
 			break;
-		case SCENE_ID::battle:
-			createdScene = std::make_unique<battle::BattleScene>();
+		case SCENE_ID::stageTest:
+			createdScene = std::make_unique<stage::stageTest::StageTestScene>();
 			break;
 		default:
 			createdScene = nullptr;

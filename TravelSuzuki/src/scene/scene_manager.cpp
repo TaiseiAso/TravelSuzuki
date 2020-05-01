@@ -94,7 +94,8 @@ namespace game::scene
 		  drawMoveSceneFadeOut_(true),
 		  drawMoveSceneFadeIn_(true),
 		  moveSceneFadeColor_(GetColor(0, 0, 0)),
-		  currentSceneID_(SCENE_ID::end)
+		  currentSceneID_(SCENE_ID::end),
+		  sceneFactory_(std::make_unique<SceneFactory>())
 	{}
 
 	SceneManager::~SceneManager() {}
@@ -172,7 +173,7 @@ namespace game::scene
 		auto itr = idToScene_.find(sceneID);
 		if (itr == idToScene_.end())
 		{
-			idToScene_[sceneID] = sceneFactory_.create(sceneID);
+			idToScene_[sceneID] = sceneFactory_->create(sceneID);
 			return true;
 		}
 		return false;

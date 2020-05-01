@@ -2,7 +2,7 @@
 #define music_player_h
 
 #include <unordered_map>
-#include "singleton/singleton.h"
+#include "pattern/singleton.h"
 
 namespace game::audio
 {
@@ -11,16 +11,16 @@ namespace game::audio
 		friend class Singleton<MusicPlayer>; // Singleton でのインスタンス作成は許可
 
 	private:
-		typedef struct {
+		struct MusicVolumeAndDistance {
 			float volume; // 音楽の再生音量
 			float distance; // 音源とリスナーの距離 (0以下なら距離を無視して音量減衰しない)
-		} MusicVolumeAndDistance;
+		};
 
-		typedef struct {
+		struct MusicVolumeFadeData {
 			int fadeFrame; // フェードにかかるフレーム数
 			float deltaVolumeFade; // 1フレームで変化する音量
 			bool stopWhenFadeFinish; // フェード終了後に音楽を停止するか
-		} MusicVolumeFadeData;
+		};
 
 		// メモリに読み込む音楽の名前とファイルパスのマップ
 		std::unordered_map<std::string, std::string> loadMusicNameToPath_;
@@ -40,7 +40,7 @@ namespace game::audio
 		// 音源とリスナーの距離による音量減衰の係数 (大きいほど減衰しやすい) (0以下なら減衰しない)
 		float volumeAttenuationCoefficient_;
 
-		// 再生中の音楽の音量を変更する
+		// 再生中の音楽の音量を更新する
 		void setPlayMusicVolume(int playMusicHandle, float playMusicVolume, float playMusicDistance) const;
 		// 再生中の全ての音楽の音量を更新する
 		void updateAllPlayMusicVolume() const;

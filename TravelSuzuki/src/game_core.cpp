@@ -5,10 +5,12 @@
 #include "device/graphic/image_manager.h"
 #include "device/text/font_manager.h"
 #include "scene/scene_manager.h"
+#include "game_manager.h"
 
 namespace game
 {
 	GameCore::GameCore()
+		: fpsController_(std::make_unique<fps::FPSController>())
 	{
 		SetAlwaysRunFlag(TRUE); // ウィンドウが非アクティブ状態のときも処理を続行する
 		SetOutApplicationLogValidFlag(FALSE); //Log.txtを生成しないように設定
@@ -29,7 +31,9 @@ namespace game
 		graphic::ImageManager::instance().loadImageNameToPathDatabase("resource/database/image_name_to_path.csv");
 		graphic::ImageManager::instance().loadGroupNameToDivDataDatabase("resource/database/group_name_to_divdata.csv");
 		graphic::ImageManager::instance().loadGroupNameToFramesDatabase("resource/database/group_name_to_frames.csv");
+		
 		text::FontManager::instance().loadFontResourceNameToPathDatabase("resource/database/font_resource_name_to_path.csv");
+		text::FontManager::instance().loadFontResourceFromNameWithDatabase("Voyager Grotesque Bold");
 
 		scene::SceneManager::create();
 		scene::SceneManager::instance().createFirstScene(scene::SCENE_ID::test);
@@ -37,12 +41,14 @@ namespace game
 		// テスト用
 		scene::SceneManager::instance().setMoveSceneFadeColor(GetColor(255, 255, 255));
 		scene::SceneManager::instance().setMoveSceneFrame(60);
+
+		GameManager::create();
 	}
 
 	GameCore::~GameCore()
 	{
+		GameManager::destroy();
 		scene::SceneManager::destroy();
-
 		text::FontManager::destroy();
 		graphic::ImageManager::destroy();
 		audio::MusicPlayer::destroy();
@@ -55,18 +61,18 @@ namespace game
 	{
 		while (!ProcessMessage())
 		{
-			fpsController_.update();
+			fpsController_->update();
 			input::InputReceiver::instance().update();
 			audio::MusicPlayer::instance().update();
 
 			ClearDrawScreen();
 			
 			if (!scene::SceneManager::instance().step()) break;
-			fpsController_.draw(); // テスト用
+			fpsController_->draw(); // テスト用
 			
 			ScreenFlip();
 			
-			fpsController_.wait();
+			fpsController_->wait();
 		}
 	}
 }

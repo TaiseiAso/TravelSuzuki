@@ -11,7 +11,7 @@ namespace game
 	{
 	private:
 		// FPSを調整するコントローラ
-		fps::FPSController fpsController_;
+		std::unique_ptr<fps::FPSController> fpsController_;
 
 		// コピーコンストラクタを禁止する
 		GameCore(const GameCore&) = delete;

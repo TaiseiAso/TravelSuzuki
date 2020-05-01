@@ -1,7 +1,7 @@
 #ifndef input_receiver_h
 #define input_receiver_h
 
-#include "singleton/singleton.h"
+#include "pattern/singleton.h"
 
 namespace game::input
 {

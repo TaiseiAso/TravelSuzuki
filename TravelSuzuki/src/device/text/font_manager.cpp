@@ -9,6 +9,7 @@ namespace game::text
 	FontManager::FontManager() {}
 	FontManager::~FontManager() {
 		deleteAllFont();
+		deleteAllFontResource();
 	}
 
 	void FontManager::loadFontResourceNameToPathDatabase(const std::string& databaseFilePath, bool passFirstLine)
@@ -20,7 +21,7 @@ namespace game::text
 		if (passFirstLine) std::getline(ifs, line); // ˆês–Ú‚Í”ò‚Î‚·
 		while (std::getline(ifs, line))
 		{
-			std::vector<std::string> strVec = stringUtil::split(line, ',');
+			std::vector<std::string> strVec = util::split(line, ',');
 			if (strVec.size() >= 2) fontResourceNameToPath_[strVec[0]] = strVec[1];
 		}
 	}

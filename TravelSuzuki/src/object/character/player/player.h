@@ -3,7 +3,7 @@
 
 #include "../character.h"
 
-namespace game::character::player
+namespace game::object::character::player
 {
 	class Player : public Character
 	{

@@ -1,6 +1,6 @@
 #include "string_util.h"
 
-namespace stringUtil
+namespace util
 {
     std::vector<std::string> split(const std::string& str, char del) {
         int first = 0;

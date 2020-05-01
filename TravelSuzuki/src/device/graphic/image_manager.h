@@ -2,27 +2,27 @@
 #define image_manager_h
 
 #include <unordered_map>
-#include "singleton/singleton.h"
+#include "pattern/singleton.h"
 
 namespace game::graphic
 {
-	typedef struct {
+	struct AnimeElapsedData {
 		int frame; // ある画像における経過フレーム数
 		int sheet; // アニメの表示画像番号
-	} AnimeElapsedData;
+	};
 
 	class ImageManager : public Singleton<ImageManager>
 	{
 		friend class Singleton<ImageManager>; // Singleton でのインスタンス作成は許可
 
 	private:
-		typedef struct {
+		struct ImageDivData {
 			int allNum; // 画像の分割総数
 			int xNum; // 画像の横に対する分割数
 			int yNum; // 画像の縦に対する分割数
 			int sizeX; // 分割後の画像の横のサイズ
 			int sizeY; // 分割後の画像の縦のサイズ
-		} ImageDivData;
+		};
 
 		// メモリに読み込む画像の名前とファイルパスのマップ
 		std::unordered_map<std::string, std::string> imageNameToPath_;

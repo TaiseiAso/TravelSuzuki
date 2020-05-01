@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 #include <unordered_set>
-#include "singleton/singleton.h"
+#include "pattern/singleton.h"
 
 namespace game::text
 {

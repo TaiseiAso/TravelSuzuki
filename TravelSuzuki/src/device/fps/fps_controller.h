@@ -13,11 +13,12 @@ namespace game::fps
 		float fps_; // 現在の推定FPS
 
 		static const int N = 30; // FPS推定のために平均を取るサンプル数
-		static const int FPS = 60; // 設定したFPS
 
 		const unsigned int grayColor_ = GetColor(120, 120, 120); // 灰色
 
 	public:
+		static const int FPS = 60; // 設定したFPS
+
 		// コンストラクタ
 		FPSController();
 		// デストラクタ

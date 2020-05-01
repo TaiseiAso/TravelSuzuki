@@ -29,10 +29,10 @@ namespace game::scene::title
 			switch (cursor_)
 			{
 			case 0:
-				SceneManager::instance().moveScene(SCENE_ID::battle, { SCENE_ID::battle }, { SCENE_ID::title });
+				SceneManager::instance().moveScene(SCENE_ID::stageTest, { SCENE_ID::stageTest }, { SCENE_ID::title });
 				break;
 			case 1:
-				SceneManager::instance().moveScene(SCENE_ID::battle, { SCENE_ID::battle }, { SCENE_ID::title });
+				SceneManager::instance().moveScene(SCENE_ID::stageTest, { SCENE_ID::stageTest }, { SCENE_ID::title });
 				break;
 			case 2:
 				cursor_ = 0;
@@ -128,7 +128,5 @@ namespace game::scene::title
 	TitleScene::~TitleScene()
 	{
 		graphic::ImageManager::instance().deleteImage("title_logo");
-		text::FontManager::instance().deleteFont("Voyager Grotesque Bold");
-		text::FontManager::instance().deleteFontResourceFromNameWithDatabase("Voyager Grotesque Bold");
 	}
 }

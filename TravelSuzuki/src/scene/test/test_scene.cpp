@@ -119,7 +119,7 @@ namespace game::scene::test
 
 		testElapsedData_ = { 0, 0 };
 
-		audio::MusicPlayer::instance().setVolumeAttenuationCoefficient(0.005f);
+		audio::MusicPlayer::instance().setVolumeAttenuationCoefficient(0.002f);
 	}
 
 	TestScene::~TestScene()

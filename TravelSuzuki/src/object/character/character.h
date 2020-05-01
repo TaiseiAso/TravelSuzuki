@@ -1,9 +1,11 @@
 #ifndef character_h
 #define character_h
 
-namespace game::character
+#include "../object.h"
+
+namespace game::object::character
 {
-	class Character
+	class Character : public Object
 	{
 
 	};

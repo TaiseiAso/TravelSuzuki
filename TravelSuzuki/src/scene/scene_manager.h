@@ -1,8 +1,9 @@
 #ifndef scene_manager_h
 #define scene_manager_h
 
+#include <memory>
 #include <unordered_map>
-#include "singleton/singleton.h"
+#include "pattern/singleton.h"
 #include "scene_factory.h"
 
 namespace game::scene
@@ -29,7 +30,7 @@ namespace game::scene
 		SCENE_ID currentSceneID_;
 
 		// シーンファクトリ
-		SceneFactory sceneFactory_;
+		std::unique_ptr<SceneFactory> sceneFactory_;
 
 		// シーンを初期化する
 		void initScene(SCENE_ID sceneID);
